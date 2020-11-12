@@ -17,6 +17,7 @@ class Constants:
     PATH_DYNAMIC_KEY = KeyQueryFactory(lambda sub_state, key: key)
 
     WINDOW_MINSIZE = (270,80)
+    DIVIDER_SIZE = 2
 
     BASE_FONT = ("Verdana", 10)
     HEADER_FONT = ("Verdana", 10, "bold")
@@ -167,7 +168,7 @@ class GUI:
             logging.warning("Unable to load application state from file: {0}".format(ex))
 
     def _save_state(self):
-        with open(Constants.STATE_FILENAME, 'w') as data_file:
+        with open(Constants.STATE_FILENAME, "w") as data_file:
             data_file.write(json.dumps(self.state.get()))
 
 class Dashboard(FrameHandler):
@@ -200,16 +201,17 @@ class Dashboard(FrameHandler):
             self._frame.destroy()
         self._frame = Frame(parent)
 
+        row_index = 0
+
         # Dividers
-        self._frame.grid_columnconfigure(1, minsize=2)
-        self._frame.grid_columnconfigure(7, minsize=2)
-        self._frame.grid_rowconfigure(1, minsize=4)
+        self._frame.grid_columnconfigure(1, minsize=Constants.DIVIDER_SIZE)
+        self._frame.grid_columnconfigure(7, minsize=Constants.DIVIDER_SIZE)
+        self._frame.grid_rowconfigure(1, minsize=Constants.DIVIDER_SIZE)
 
         # Header
-        row_index = 0
-        
         Label(self._frame, textvariable=self.weekday_datetime__variable, font=Constants.HEADER_FONT).grid(
             row=row_index, column=0)
+        row_index += 1
     
         # Variables
         current_datetime = datetime.now()
@@ -224,10 +226,7 @@ class Dashboard(FrameHandler):
             if workout_type_details["archived"]:  # Ignore workout types that have been archived
                 continue
 
-            row_index += 2
-
-            # Dividers
-            self._frame.grid_rowconfigure(row_index, minsize=2)
+            row_index += 1
 
             # Get data for current workout type from state
             workout_name = workout_type_details["name"]
@@ -259,6 +258,26 @@ class Dashboard(FrameHandler):
                 Label(self._frame, text="{0}\n\n{1} repetitions of the above completes a single set.".format(workout_desc, workout_reps), font=Constants.SMALL_ITALICS_FONT, borderwidth=1, relief="sunken").grid(
                     row=row_index, column=0)
 
+        row_index += 1
+        
+        # Dividers
+        self._frame.grid_rowconfigure(row_index, minsize=Constants.DIVIDER_SIZE)
+        row_index += 1
+
+        # Timer
+        Label(self._frame, text="Timer", font=Constants.BASE_FONT).grid(
+                row=row_index, column=0)
+        if self._timer.is_running:
+            Button(self._frame, text="Stop", command=lambda: self._toggle_timer("stop"), font=Constants.BASE_FONT).grid(
+                row=row_index, column=2, columnspan=2)
+        else:
+            Button(self._frame, text="Start", command=lambda: self._toggle_timer("start"), font=Constants.BASE_FONT).grid(
+                row=row_index, column=2, columnspan=2)
+        Label(self._frame, textvariable=self.timer__variable, font=Constants.BASE_FONT).grid(
+            row=row_index, column=4)
+        Button(self._frame, text="Reset", command=lambda: self._toggle_timer("reset"), font=Constants.BASE_FONT).grid(
+                row=row_index, column=5, columnspan=2)
+
         return self._frame
 
     def _increment_workout_sets_completed(self, workout_type_id, date_string_key, increment_amount):  # Increment amount can be negative
@@ -273,6 +292,18 @@ class Dashboard(FrameHandler):
             self.show_workout_descriptions.remove(workout_type_id)
         else:
             self.show_workout_descriptions.add(workout_type_id)
+
+        self._trigger_render()
+
+    def _toggle_timer(self, method_key):
+        if method_key == "start":
+            self._timer.start()
+        elif method_key == "stop":
+            self._timer.stop()
+        elif method_key == "reset":
+            self._timer.reset()
+        else:
+            raise ValueError
 
         self._trigger_render()
 
