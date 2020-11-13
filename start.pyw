@@ -1,5 +1,5 @@
-from gui import GUI, Dashboard
+from tracker import Tracker, Actuals
 
-GUI(subhandlers=[Dashboard])
+Tracker(boards=[Actuals])
 
 raise SystemExit
