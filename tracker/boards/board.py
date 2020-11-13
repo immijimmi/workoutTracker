@@ -4,7 +4,8 @@ from abc import ABC
 class Board(ABC):
     def __init__(self, state, root_render_method):
         self.state = state
-        self._trigger_render = root_render_method  # Should be used when render needs to happen immediately, e.g. on button click
+        # Should be used when render needs to happen immediately, e.g. on button click
+        self._trigger_render = root_render_method
 
         self._frame = None
 

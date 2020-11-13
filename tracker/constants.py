@@ -15,3 +15,10 @@ class Constants:
     SMALL_ITALICS_FONT = ("Verdana", 9, "normal", "italic")
 
     FRAME_UPDATE_DELAY = 250
+
+    COLOURS = {
+        "orange": "#FF893F",
+        "yellow": "#FFD800",
+        "blue": "#4C67FF",
+        "green": "#00B211"
+        }

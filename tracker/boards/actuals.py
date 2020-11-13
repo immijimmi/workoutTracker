@@ -74,40 +74,49 @@ class Actuals(Board):
             workout_sets_actual = self.state.registered_get("workout_type_sets_completed_single_date",
                                                             [current_date_string, workout_type_id])
 
+            if workout_sets_actual > workout_sets_scheduled:
+                status_colour = TrackerConstants.COLOURS["green"]
+            elif workout_sets_actual == workout_sets_scheduled:
+                status_colour = TrackerConstants.COLOURS["blue"]
+            elif workout_sets_actual > 0:
+                status_colour = TrackerConstants.COLOURS["yellow"]
+            else:
+                status_colour = TrackerConstants.COLOURS["orange"]  # Default
+
             # Generate workout type UI elements
-            Label(self._frame, text=workout_name, font=TrackerConstants.BASE_FONT).grid(
-                row=row_index, column=0)
+            Label(self._frame, text=workout_name, font=TrackerConstants.BASE_FONT
+                  ).grid(row=row_index, column=0)
             Button(self._frame, text="-5",
                    command=partial(self._increment_workout_sets_completed, workout_type_id, current_date_string, -5),
-                   font=TrackerConstants.BASE_FONT).grid(
-                row=row_index, column=2)
+                   font=TrackerConstants.BASE_FONT
+                   ).grid(row=row_index, column=2)
             Button(self._frame, text="-",
                    command=partial(self._increment_workout_sets_completed, workout_type_id, current_date_string, -1),
-                   font=TrackerConstants.BASE_FONT).grid(
-                row=row_index, column=3)
+                   font=TrackerConstants.BASE_FONT
+                   ).grid(row=row_index, column=3)
             Label(self._frame, text="{0}/{1} sets".format(workout_sets_actual, workout_sets_scheduled),
-                  font=TrackerConstants.BASE_FONT).grid(
-                row=row_index, column=4)
+                  bg=status_colour, font=TrackerConstants.BASE_FONT
+                  ).grid(row=row_index, column=4)
             Button(self._frame, text="+",
                    command=partial(self._increment_workout_sets_completed, workout_type_id, current_date_string, 1),
-                   font=TrackerConstants.BASE_FONT).grid(
-                row=row_index, column=5)
+                   font=TrackerConstants.BASE_FONT
+                   ).grid(row=row_index, column=5)
             Button(self._frame, text="+5",
                    command=partial(self._increment_workout_sets_completed, workout_type_id, current_date_string, 5),
-                   font=TrackerConstants.BASE_FONT).grid(
-                row=row_index, column=6)
+                   font=TrackerConstants.BASE_FONT
+                   ).grid(row=row_index, column=6)
             Button(self._frame, text="Desc", command=partial(self._toggle_workout_desc, workout_type_id),
-                   font=TrackerConstants.BASE_FONT).grid(
-                row=row_index, column=8)
+                   font=TrackerConstants.BASE_FONT
+                   ).grid(row=row_index, column=8)
 
             if workout_type_id in self.show_workout_descriptions:
                 row_index += 1
 
                 Label(self._frame,
-                      text="{0}\n\n{1} repetitions of the above completes a single set.".format(workout_desc,
-                                                                                                workout_reps),
-                      font=TrackerConstants.SMALL_ITALICS_FONT, borderwidth=1, relief="sunken").grid(
-                    row=row_index, column=0)
+                      text="{0}\n\n{1} repetitions of the above completes a single set.".format(
+                          workout_desc, workout_reps),
+                      font=TrackerConstants.SMALL_ITALICS_FONT, borderwidth=1, relief="sunken"
+                      ).grid(row=row_index, column=0)
 
         row_index += 1
 
@@ -116,24 +125,24 @@ class Actuals(Board):
         row_index += 1
 
         # Timer
-        Label(self._frame, text="Timer", font=TrackerConstants.BASE_FONT).grid(
-            row=row_index, column=0)
+        Label(self._frame, text="Timer", font=TrackerConstants.BASE_FONT
+              ).grid(row=row_index, column=0)
         if self._timer.is_running:
-            Button(self._frame, text="Stop", command=lambda: self._toggle_timer("stop"), font=TrackerConstants.BASE_FONT).grid(
-                row=row_index, column=2, columnspan=2)
+            Button(self._frame, text="Stop", command=lambda: self._toggle_timer("stop"), font=TrackerConstants.BASE_FONT
+                   ).grid(row=row_index, column=2, columnspan=2)
         else:
             Button(self._frame, text="Start", command=lambda: self._toggle_timer("start"),
-                   font=TrackerConstants.BASE_FONT).grid(
-                row=row_index, column=2, columnspan=2)
-        Label(self._frame, textvariable=self.timer__variable, font=TrackerConstants.BASE_FONT).grid(
-            row=row_index, column=4)
-        Button(self._frame, text="Reset", command=lambda: self._toggle_timer("reset"), font=TrackerConstants.BASE_FONT).grid(
-            row=row_index, column=5, columnspan=2)
+                   font=TrackerConstants.BASE_FONT
+                   ).grid(row=row_index, column=2, columnspan=2)
+        Label(self._frame, textvariable=self.timer__variable, font=TrackerConstants.BASE_FONT
+              ).grid(row=row_index, column=4)
+        Button(self._frame, text="Reset", command=lambda: self._toggle_timer("reset"), font=TrackerConstants.BASE_FONT
+               ).grid(row=row_index, column=5, columnspan=2)
 
         return self._frame
 
-    def _increment_workout_sets_completed(self, workout_type_id, date_string_key,
-                                          increment_amount):  # Increment amount can be negative
+    # Increment amount can be negative
+    def _increment_workout_sets_completed(self, workout_type_id, date_string_key, increment_amount):
         workout_sets_actual = self.state.registered_get("workout_type_sets_completed_single_date",
                                                         [date_string_key, workout_type_id])
         workout_sets_actual = max(workout_sets_actual + increment_amount, 0)

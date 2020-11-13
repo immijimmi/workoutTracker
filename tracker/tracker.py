@@ -10,7 +10,7 @@ from .constants import Constants
 
 
 class Tracker:
-    def __init__(self, boards=[]):
+    def __init__(self, boards=()):
         self._window = Tk()
         self._window.title("Workout Logger")
         self._window.minsize(*Constants.WINDOW_MINSIZE)
@@ -21,7 +21,8 @@ class Tracker:
         self.state.add_listener("set", lambda metadata: self._save_state())
         """
         Render on state set disabled for the time being due to a bug that it appears to cause in managedState.
-        In the meantime, render method will injected into boards so that they can manually trigger it in methods that edit the state.
+        In the meantime, render method will injected into boards so that they can manually trigger it
+        in methods that edit the state.
         """
         # self.state.add_listener("set", lambda metadata: self._render())
 
