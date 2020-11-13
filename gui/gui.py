@@ -17,7 +17,7 @@ class Constants:
     PATH_DYNAMIC_KEY = KeyQueryFactory(lambda sub_state, key: key)
 
     WINDOW_MINSIZE = (270,80)
-    DIVIDER_SIZE = 2
+    DIVIDER_SIZE = 3
 
     BASE_FONT = ("Verdana", 10)
     HEADER_FONT = ("Verdana", 10, "bold")
@@ -320,7 +320,3 @@ class Dashboard(FrameHandler):
             "workout_type_sets_completed_single_date",
             ["workout_log", Constants.PATH_DYNAMIC_KEY, Constants.PATH_DYNAMIC_KEY],
             [{}, {}, 0])
-
-
-if __name__ == "__main__":
-    GUI(subhandlers=[Dashboard])
