@@ -119,7 +119,7 @@ class Actuals(Board):
         for workout_type_id in workout_types:
             # Get data for current workout type from state
             workout_type_details = self.state.registered_get("workout_type_details", [workout_type_id])
-            if workout_type_details["archived"]:  # Ignore workout types that have been archived
+            if workout_type_details["disabled"]:  # Ignore workout types that have been disabled
                 continue
 
             workout_name = workout_type_details["name"]

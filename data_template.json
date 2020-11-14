@@ -1,1 +1,36 @@
-{"workout_types": {"0": {"archived": false, "name": "Test Workout", "desc": "Test Workout Description", "single_set_repetitions": 9001}}, "workout_schedules": {"Mon": {"0": 1}, "Tue": {"0": 3}, "Wed": {"0": 3}, "Thu": {"0": 7}, "Fri": {}, "Sat": {"0": 4}, "Sun": {"0": 2}}, "workout_log": {"2020/11/10": {"0": 1}}}
+{
+  "workout_types": {
+    "0": {
+      "disabled": false,
+      "name": "Test Workout",
+      "desc": "Test Workout Description",
+      "single_set_repetitions": 9001
+    }
+  },
+  "workout_schedules": {
+    "Mon": {
+      "0": 1
+    },
+    "Tue": {
+      "0": 3
+    },
+    "Wed": {
+      "0": 3
+    },
+    "Thu": {
+      "0": 7
+    },
+    "Fri": {},
+    "Sat": {
+      "0": 4
+    },
+    "Sun": {
+      "0": 2
+    }
+  },
+  "workout_log": {
+    "2020/11/10": {
+      "0": 1
+    }
+  }
+}
