@@ -1,14 +1,19 @@
 from managedState.registrar import KeyQueryFactory
 
+from datetime import date
+
 
 class Constants:
     STATE_FILENAME = "data.json"
     ICON_FILENAME = "blank_icon.ico"
 
+    DATE_KEY_FORMAT = "%Y/%m/%d"
+
+    MIN_DATE = date(2020, 1, 1)
+
     PATH_DYNAMIC_KEY = KeyQueryFactory(lambda sub_state, key: key)
 
-    WINDOW_MINSIZE = (270, 80)
-    DIVIDER_SIZE = 3
+    DIVIDER_SIZE = 4
 
     BASE_FONT = ("Verdana", 10)
     HEADER_FONT = ("Verdana", 10, "bold")
@@ -17,8 +22,9 @@ class Constants:
     FRAME_UPDATE_DELAY = 250
 
     COLOURS = {
-        "orange": "#FF893F",
+        "orange": "#FF9859",
         "yellow": "#FFD800",
-        "blue": "#4C67FF",
-        "green": "#00B211"
+        "blue": "#667FFF",
+        "green": "#00B211",
+        "grey": "#CCCCCC"
         }

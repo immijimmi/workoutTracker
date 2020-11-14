@@ -26,3 +26,15 @@ class Board(ABC):
         The parent board should then be responsible for slotting the returned frame into its parent element.
         """
         raise NotImplementedError
+
+    def _increment_class_var(self, var_name, increment_amount, max_value=None, min_value=None):
+        new_value = getattr(self, var_name) + increment_amount
+
+        if max_value is not None:
+            new_value = min(max_value, new_value)
+        if min_value is not None:
+            new_value = max(min_value, new_value)
+
+        setattr(self, var_name, new_value)
+
+        self._trigger_render()

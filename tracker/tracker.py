@@ -13,7 +13,6 @@ class Tracker:
     def __init__(self, boards=()):
         self._window = Tk()
         self._window.title("Workout Logger")
-        self._window.minsize(*Constants.WINDOW_MINSIZE)
         self._window.iconbitmap(Constants.ICON_FILENAME)
 
         self.state = State(extensions=[Registrar, Listeners])
