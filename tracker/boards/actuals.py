@@ -47,7 +47,7 @@ class Actuals(Board):
         self._frame.grid_columnconfigure(1, minsize=240)
         self._frame.grid_columnconfigure(6, minsize=80)
 
-        render_today = self._historical_actuals_date == self._current_datetime.date()
+        is_rendering_today = self._historical_actuals_date == self._current_datetime.date()
 
         # Header Row
         row_index = 0
@@ -60,7 +60,7 @@ class Actuals(Board):
                ).grid(row=row_index, column=0)
         Label(self._frame,
               textvariable=(
-                  self.weekday_datetime__variable if render_today else self._historical_actuals_date__variable),
+                  self.weekday_datetime__variable if is_rendering_today else self._historical_actuals_date__variable),
               font=TrackerConstants.BASE_FONT
               ).grid(row=row_index, column=1)
         Button(self._frame, text=">",
@@ -71,7 +71,7 @@ class Actuals(Board):
                ).grid(row=row_index, column=2)
         row_index += 1
 
-        if render_today:
+        if is_rendering_today:
             self._render_current_actuals(row_index)
         else:
             self._render_historical_actuals(row_index)
