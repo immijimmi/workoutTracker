@@ -17,6 +17,7 @@ class Tracker:
 
         self.state = State(extensions=[Registrar, Listeners])
         self._load_state()
+        self._register_paths()
         self.state.add_listener("set", lambda metadata: self._save_state())
         """
         Render on state set disabled for the time being due to a bug that it appears to cause in managedState.
@@ -68,3 +69,16 @@ class Tracker:
     def _save_state(self):
         with open(Constants.STATE_FILENAME, "w") as data_file:
             data_file.write(json.dumps(self.state.get()))
+
+    def _register_paths(self):
+        self.state.register("workout_types", ["workout_types"], [{}])
+        self.state.register("workout_type_details", ["workout_types", Constants.PATH_DYNAMIC_KEY], [{}, {}])
+
+        self.state.register(
+            "scheduled_sets_single_entry",
+            ["workout_schedules", Constants.PATH_DYNAMIC_KEY, Constants.PATH_DYNAMIC_KEY],
+            [{}, {}, 0])
+        self.state.register(
+            "completed_sets_single_entry",
+            ["workout_log", Constants.PATH_DYNAMIC_KEY, Constants.PATH_DYNAMIC_KEY],
+            [{}, {}, 0])

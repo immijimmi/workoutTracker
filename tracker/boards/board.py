@@ -4,6 +4,8 @@ from abc import ABC
 class Board(ABC):
     def __init__(self, state, root_render_method):
         self.state = state
+        self._register_paths()
+
         # Should be used when render needs to happen immediately, e.g. on button click
         self._trigger_render = root_render_method
 
@@ -12,8 +14,8 @@ class Board(ABC):
     @property
     def is_needs_render(self):
         """
-        Whenever this property returns True, continue under the assumption that
-        the render will then be carried out as a result.
+        Whenever this property is accessed and returns True, a render should be triggered
+        before the next time it is accessed.
         """
         raise NotImplementedError
 
@@ -27,6 +29,13 @@ class Board(ABC):
         """
         raise NotImplementedError
 
+    def _register_paths(self):
+        """
+        Any keys registered in subclasses should be prefixed with the class name
+        in the format: "class__key_string"
+        """
+        pass
+
     def _increment_class_var(self, var_name, increment_amount, max_value=None, min_value=None):
         new_value = getattr(self, var_name) + increment_amount
 
@@ -38,3 +47,4 @@ class Board(ABC):
         setattr(self, var_name, new_value)
 
         self._trigger_render()
+

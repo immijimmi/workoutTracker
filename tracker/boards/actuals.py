@@ -10,9 +10,6 @@ from .board import Board
 class Actuals(Board):
     def __init__(self, state, root_render_method):
         super().__init__(state, root_render_method)
-
-        self._register_paths()
-
         self._timer = Timer()
         self._date_ticker = DateTicker()
 
@@ -34,7 +31,8 @@ class Actuals(Board):
 
         self.weekday_datetime__variable.set(self._current_datetime.strftime("%a %Y/%m/%d %H:%M:%S"))
         self.timer__variable.set(self._timer.elapsed_string)
-        self._historical_actuals_date__variable.set(self._historical_actuals_date.strftime("%a %Y/%m/%d (Retrospective)"))
+        self._historical_actuals_date__variable.set(
+            self._historical_actuals_date.strftime("%a %Y/%m/%d (Retrospective)"))
 
     def render(self, parent):
         if self._frame:
@@ -88,12 +86,12 @@ class Actuals(Board):
 
         # Workout Types
         for workout_type_id in workout_types:
-            workout_type_details = self.state.registered_get("workout_type", [workout_type_id])
+            workout_type_details = self.state.registered_get("workout_type_details", [workout_type_id])
             workout_name = workout_type_details["name"]
 
-            workout_sets_scheduled = self.state.registered_get("workout_type_sets_scheduled_single_weekday",
+            workout_sets_scheduled = self.state.registered_get("scheduled_sets_single_entry",
                                                                [historical_actuals_weekday_string, workout_type_id])
-            workout_sets_actual = self.state.registered_get("workout_type_sets_completed_single_date",
+            workout_sets_actual = self.state.registered_get("completed_sets_single_entry",
                                                             [historical_actuals_date_string, workout_type_id])
 
             if workout_sets_scheduled == 0 and workout_sets_actual == 0:
@@ -120,7 +118,7 @@ class Actuals(Board):
         # Workout Types
         for workout_type_id in workout_types:
             # Get data for current workout type from state
-            workout_type_details = self.state.registered_get("workout_type", [workout_type_id])
+            workout_type_details = self.state.registered_get("workout_type_details", [workout_type_id])
             if workout_type_details["archived"]:  # Ignore workout types that have been archived
                 continue
 
@@ -128,9 +126,9 @@ class Actuals(Board):
             workout_desc = workout_type_details["desc"]
             workout_reps = workout_type_details["single_set_repetitions"]
 
-            workout_sets_scheduled = self.state.registered_get("workout_type_sets_scheduled_single_weekday",
+            workout_sets_scheduled = self.state.registered_get("scheduled_sets_single_entry",
                                                                [current_weekday_string, workout_type_id])
-            workout_sets_actual = self.state.registered_get("workout_type_sets_completed_single_date",
+            workout_sets_actual = self.state.registered_get("completed_sets_single_entry",
                                                             [current_date_string, workout_type_id])
 
             status_colour = Actuals._determine_workout_status_color(workout_sets_scheduled, workout_sets_actual)
@@ -194,11 +192,11 @@ class Actuals(Board):
                ).grid(row=row_index, column=7, columnspan=2)
 
     def _increment_workout_sets_completed(self, workout_type_id, date_string_key, increment_amount):
-        workout_sets_actual = self.state.registered_get("workout_type_sets_completed_single_date",
+        workout_sets_actual = self.state.registered_get("completed_sets_single_entry",
                                                         [date_string_key, workout_type_id])
         workout_sets_actual = max(workout_sets_actual + increment_amount, 0)
 
-        self.state.registered_set(workout_sets_actual, "workout_type_sets_completed_single_date",
+        self.state.registered_set(workout_sets_actual, "completed_sets_single_entry",
                                   [date_string_key, workout_type_id])
         self._trigger_render()
 
@@ -223,18 +221,7 @@ class Actuals(Board):
         self._trigger_render()
 
     def _register_paths(self):
-        self.state.register("workout_types", ["workout_types"], [{}])
-        self.state.register("workout_type", ["workout_types", TrackerConstants.PATH_DYNAMIC_KEY], [{}, {}])
-
-        self.state.register(
-            "workout_type_sets_scheduled_single_weekday",
-            ["workout_schedules", TrackerConstants.PATH_DYNAMIC_KEY, TrackerConstants.PATH_DYNAMIC_KEY],
-            [{}, {}, 0])
-
-        self.state.register(
-            "workout_type_sets_completed_single_date",
-            ["workout_log", TrackerConstants.PATH_DYNAMIC_KEY, TrackerConstants.PATH_DYNAMIC_KEY],
-            [{}, {}, 0])
+        pass
 
     @staticmethod
     def _determine_workout_status_color(scheduled_sets, actual_sets):
