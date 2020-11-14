@@ -14,6 +14,7 @@ class Constants:
     PATH_DYNAMIC_KEY = KeyQueryFactory(lambda sub_state, key: key)
 
     DIVIDER_SIZE = 4
+    SUNKEN_BORDER_WIDTH = 2
 
     BASE_FONT = ("Verdana", 10)
     HEADER_FONT = ("Verdana", 10, "bold")

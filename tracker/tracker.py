@@ -14,6 +14,7 @@ class Tracker:
         self._window = Tk()
         self._window.title("Workout Logger")
         self._window.iconbitmap(Constants.ICON_FILENAME)
+        self._window.resizable(False, False)
 
         self.state = State(extensions=[Registrar, Listeners])
         self._load_state()
