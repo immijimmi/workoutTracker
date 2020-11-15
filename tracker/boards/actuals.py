@@ -39,7 +39,6 @@ class Actuals(WorkoutBoard):
             self._frame.destroy()
         self._frame = Frame(parent)
 
-        # Dividers
         self._frame.grid_columnconfigure(3, minsize=TrackerConstants.DIVIDER_SIZE)
         self._frame.grid_columnconfigure(9, minsize=TrackerConstants.DIVIDER_SIZE)
         self._frame.grid_rowconfigure(1, minsize=TrackerConstants.DIVIDER_SIZE)
@@ -172,7 +171,6 @@ class Actuals(WorkoutBoard):
         Button(self._frame, text="Reset", command=lambda: self._toggle_timer("reset"), font=TrackerConstants.BASE_FONT
                ).grid(row=row_index, column=7, columnspan=2)
 
-        # Finalisation
         return self._frame
 
     def _toggle_workout_desc(self, workout_type_id):
