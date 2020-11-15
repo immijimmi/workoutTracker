@@ -4,10 +4,10 @@ from tkinter import Frame, Label, Button, StringVar
 
 from ..constants import Constants as TrackerConstants
 from ..classes import Timer, DateTicker
-from .board import Board
+from .board import WorkoutBoard
 
 
-class Actuals(Board):
+class Actuals(WorkoutBoard):
     def __init__(self, state, root_render_method):
         super().__init__(state, root_render_method)
         self._timer = Timer()
@@ -174,15 +174,6 @@ class Actuals(Board):
 
         # Finalisation
         return self._frame
-
-    def _increment_workout_sets_completed(self, workout_type_id, date_string_key, increment_amount):
-        workout_sets_actual = self.state.registered_get("completed_sets_single_entry",
-                                                        [date_string_key, workout_type_id])
-        workout_sets_actual = max(workout_sets_actual + increment_amount, 0)
-
-        self.state.registered_set(workout_sets_actual, "completed_sets_single_entry",
-                                  [date_string_key, workout_type_id])
-        self._trigger_render()
 
     def _toggle_workout_desc(self, workout_type_id):
         if workout_type_id in self._show_workout_descriptions:

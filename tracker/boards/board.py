@@ -48,3 +48,25 @@ class Board(ABC):
 
         self._trigger_render()
 
+
+class WorkoutBoard(ABC, Board):
+    def __init__(self, state, root_render_method):
+        super().__init(state, root_render_method)
+
+    def _increment_workout_sets_scheduled(self, workout_type_id, weekday_string, increment_amount):
+        workout_sets_scheduled = self.state.registered_get("scheduled_sets_single_entry",
+                                                        [weekday_string, workout_type_id])
+        workout_sets_scheduled = max(workout_sets_scheduled + increment_amount, 0)
+
+        self.state.registered_set(workout_sets_scheduled, "scheduled_sets_single_entry",
+                                  [weekday_string, workout_type_id])
+        self._trigger_render()
+
+    def _increment_workout_sets_completed(self, workout_type_id, date_string_key, increment_amount):
+        workout_sets_actual = self.state.registered_get("completed_sets_single_entry",
+                                                        [date_string_key, workout_type_id])
+        workout_sets_actual = max(workout_sets_actual + increment_amount, 0)
+
+        self.state.registered_set(workout_sets_actual, "completed_sets_single_entry",
+                                  [date_string_key, workout_type_id])
+        self._trigger_render()
