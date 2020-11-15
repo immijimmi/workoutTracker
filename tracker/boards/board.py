@@ -49,9 +49,9 @@ class Board(ABC):
         self._trigger_render()
 
 
-class WorkoutBoard(ABC, Board):
+class WorkoutBoard(Board, ABC):
     def __init__(self, state, root_render_method):
-        super().__init(state, root_render_method)
+        super().__init__(state, root_render_method)
 
     def _increment_workout_sets_scheduled(self, workout_type_id, weekday_string, increment_amount):
         workout_sets_scheduled = self.state.registered_get("scheduled_sets_single_entry",
