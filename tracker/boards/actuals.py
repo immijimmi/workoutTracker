@@ -94,9 +94,10 @@ class Actuals(Board):
                                                                [weekday_string, workout_type_id])
             workout_sets_actual = self.state.registered_get("completed_sets_single_entry",
                                                             [date_string, workout_type_id])
+            is_workout_disabled = self.state.registered_get("is_workout_disabled", [workout_type_id])
 
             if is_rendering_today:  # If displaying today
-                if workout_type_details["disabled"]:
+                if is_workout_disabled:
                     continue  # Ignore workout types that have been disabled
             else:  # If displaying a previous date
                 if workout_sets_scheduled == 0 and workout_sets_actual == 0:

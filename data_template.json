@@ -1,7 +1,6 @@
 {
   "workout_types": {
     "0": {
-      "disabled": false,
       "name": "Test Workout",
       "desc": "Test Workout Description",
       "single_set_repetitions": 9001
