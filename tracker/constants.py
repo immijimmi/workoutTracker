@@ -10,6 +10,7 @@ class Constants:
     DATE_KEY_FORMAT = "%Y/%m/%d"
 
     MIN_DATE = date(2020, 1, 1)
+    WEEKDAY_KEY_STRINGS = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
 
     PATH_DYNAMIC_KEY = KeyQueryFactory(lambda sub_state, key: key)
 

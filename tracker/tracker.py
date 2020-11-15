@@ -53,11 +53,14 @@ class Tracker:
         self._frame = Frame(self._window)
 
         self._update()
-        
-        for board in self._boards:
-            board.render(self._frame).pack()
 
+        self._arrange_boards((board.render(self._frame) for board in self._boards))
         self._frame.pack()
+
+    @staticmethod
+    def _arrange_boards(rendered_boards):
+        for board in rendered_boards:
+            board.pack()
 
     def _load_state(self):
         try:

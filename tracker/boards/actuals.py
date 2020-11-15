@@ -37,7 +37,7 @@ class Actuals(WorkoutBoard):
     def render(self, parent):
         if self._frame:
             self._frame.destroy()
-        self._frame = Frame(parent)
+        self._frame = Frame(parent, borderwidth=TrackerConstants.SUNKEN_BORDER_WIDTH, relief="sunken")
 
         self._frame.grid_columnconfigure(3, minsize=TrackerConstants.DIVIDER_SIZE)
         self._frame.grid_columnconfigure(9, minsize=TrackerConstants.DIVIDER_SIZE)
@@ -106,7 +106,7 @@ class Actuals(WorkoutBoard):
             workout_desc = workout_type_details["desc"]
             workout_reps = workout_type_details["single_set_repetitions"]
 
-            status_colour = Actuals._determine_workout_status_color(workout_sets_scheduled, workout_sets_actual)
+            status_colour = self._determine_workout_status_color(workout_sets_scheduled, workout_sets_actual)
 
             # Generate workout type UI elements
             row_index += 1
