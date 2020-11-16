@@ -1,5 +1,5 @@
-from tracker import Tracker, Actuals, Schedule
+from tracker import Tracker
 
-Tracker(boards=[Actuals, Schedule])
+Tracker()
 
 raise SystemExit

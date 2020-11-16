@@ -4,11 +4,7 @@ from datetime import date
 
 
 class Constants:
-    STATE_FILENAME = "data.json"
-    ICON_FILENAME = "blank_icon.ico"
-
     DATE_KEY_FORMAT = "%Y/%m/%d"
-
     MIN_DATE = date(2020, 1, 1)
     WEEKDAY_KEY_STRINGS = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
 
