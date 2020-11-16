@@ -118,25 +118,29 @@ class Actuals(WorkoutBoard):
 
             Label(self.frame, text=workout_name, font=TrackerConstants.BASE_FONT
                   ).grid(row=row_index, column=1)
-            Label(self.frame, text="{0}/{1} sets".format(workout_sets_actual, workout_sets_scheduled),
+            Label(self.frame, text="{0}/{1} sets".format(int(workout_sets_actual/workout_reps), workout_sets_scheduled),
                   bg=status_colour, font=TrackerConstants.BASE_FONT
                   ).grid(row=row_index, column=6)
 
             if is_rendering_today:
                 Button(self.frame, text="-5",
-                       command=partial(self._increment_workout_sets_completed, workout_type_id, date_string, -5),
+                       command=partial(
+                           self._increment_workout_sets_completed, workout_type_id, date_string, (workout_reps*-5)),
                        font=TrackerConstants.BASE_FONT
                        ).grid(row=row_index, column=4)
                 Button(self.frame, text="-",
-                       command=partial(self._increment_workout_sets_completed, workout_type_id, date_string, -1),
+                       command=partial(
+                           self._increment_workout_sets_completed, workout_type_id, date_string, (workout_reps*-1)),
                        font=TrackerConstants.BASE_FONT
                        ).grid(row=row_index, column=5)
                 Button(self.frame, text="+",
-                       command=partial(self._increment_workout_sets_completed, workout_type_id, date_string, 1),
+                       command=partial(
+                           self._increment_workout_sets_completed, workout_type_id, date_string, (workout_reps*1)),
                        font=TrackerConstants.BASE_FONT
                        ).grid(row=row_index, column=7)
                 Button(self.frame, text="+5",
-                       command=partial(self._increment_workout_sets_completed, workout_type_id, date_string, 5),
+                       command=partial(
+                           self._increment_workout_sets_completed, workout_type_id, date_string, (workout_reps*5)),
                        font=TrackerConstants.BASE_FONT
                        ).grid(row=row_index, column=8)
 
