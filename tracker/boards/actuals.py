@@ -8,8 +8,8 @@ from .board import WorkoutBoard
 
 
 class Actuals(WorkoutBoard):
-    def __init__(self, state, root_render_method):
-        super().__init__(state, root_render_method)
+    def __init__(self, parent, root_render_method):
+        super().__init__(parent, root_render_method)
         self._timer = Timer()
         self._date_ticker = DateTicker()
 
@@ -17,8 +17,8 @@ class Actuals(WorkoutBoard):
         self._show_workout_descriptions = set()
         self._historical_actuals_date = self._latest_datetime.date()
 
-        self.weekday_datetime__variable = StringVar()
-        self.timer__variable = StringVar()
+        self._weekday_datetime__variable = StringVar()
+        self._timer__variable = StringVar()
         self._historical_actuals_date__variable = StringVar()
 
     @property
@@ -34,28 +34,28 @@ class Actuals(WorkoutBoard):
     def update(self):
         self._latest_datetime = datetime.now()
 
-        self.weekday_datetime__variable.set(self._latest_datetime.strftime("%a %Y/%m/%d %H:%M:%S"))
-        self.timer__variable.set(self._timer.elapsed_string)
+        self._weekday_datetime__variable.set(self._latest_datetime.strftime("%a %Y/%m/%d %H:%M:%S"))
+        self._timer__variable.set(self._timer.elapsed_string)
         self._historical_actuals_date__variable.set(
             self._historical_actuals_date.strftime("%a %Y/%m/%d (Retrospective)"))
 
-    def render(self, parent):
-        if self._frame:
-            self._frame.destroy()
-        self._frame = Frame(parent, borderwidth=TrackerConstants.SUNKEN_BORDER_WIDTH, relief="sunken")
+    def render(self):
+        if self.frame:
+            self.frame.destroy()
+        self.frame = Frame(self.parent.frame, borderwidth=TrackerConstants.SUNKEN_BORDER_WIDTH, relief="sunken")
 
-        self._frame.grid_columnconfigure(3, minsize=TrackerConstants.DIVIDER_SIZE)
-        self._frame.grid_columnconfigure(9, minsize=TrackerConstants.DIVIDER_SIZE)
-        self._frame.grid_rowconfigure(1, minsize=TrackerConstants.DIVIDER_SIZE)
+        self.frame.grid_columnconfigure(3, minsize=TrackerConstants.DIVIDER_SIZE)
+        self.frame.grid_columnconfigure(9, minsize=TrackerConstants.DIVIDER_SIZE)
+        self.frame.grid_rowconfigure(1, minsize=TrackerConstants.DIVIDER_SIZE)
 
         # Calibrated to ensure the board width does not change when switching date, with minimal spacing
-        self._frame.grid_columnconfigure(1, minsize=235)
-        self._frame.grid_columnconfigure(6, minsize=77)
+        self.frame.grid_columnconfigure(1, minsize=235)
+        self.frame.grid_columnconfigure(6, minsize=77)
 
-        self._frame.grid_columnconfigure(4, minsize=29)
-        self._frame.grid_columnconfigure(5, minsize=21)
-        self._frame.grid_columnconfigure(7, minsize=21)
-        self._frame.grid_columnconfigure(8, minsize=29)
+        self.frame.grid_columnconfigure(4, minsize=29)
+        self.frame.grid_columnconfigure(5, minsize=21)
+        self.frame.grid_columnconfigure(7, minsize=21)
+        self.frame.grid_columnconfigure(8, minsize=29)
 
         # Variables
         row_index = 0
@@ -71,7 +71,7 @@ class Actuals(WorkoutBoard):
         workout_types = self.state.registered_get("workout_types")
 
         if is_rendering_today:
-            header_date_var = self.weekday_datetime__variable
+            header_date_var = self._weekday_datetime__variable
 
             weekday_string = self._latest_datetime.strftime("%a")
             date_string = self._latest_datetime.strftime(TrackerConstants.DATE_KEY_FORMAT)
@@ -82,11 +82,11 @@ class Actuals(WorkoutBoard):
             date_string = self._historical_actuals_date.strftime(TrackerConstants.DATE_KEY_FORMAT)
 
         # Header Row
-        Button(self._frame, text="<", command=lambda_decrement_date, font=TrackerConstants.BASE_FONT
+        Button(self.frame, text="<", command=lambda_decrement_date, font=TrackerConstants.BASE_FONT
                ).grid(row=row_index, column=0)
-        Label(self._frame, textvariable=header_date_var, font=TrackerConstants.BASE_FONT
+        Label(self.frame, textvariable=header_date_var, font=TrackerConstants.BASE_FONT
               ).grid(row=row_index, column=1)
-        Button(self._frame, text=">", command=lambda_increment_date, font=TrackerConstants.BASE_FONT
+        Button(self.frame, text=">", command=lambda_increment_date, font=TrackerConstants.BASE_FONT
                ).grid(row=row_index, column=2)
         row_index += 1
 
@@ -116,39 +116,39 @@ class Actuals(WorkoutBoard):
             # Generate workout type UI elements
             row_index += 1
 
-            Label(self._frame, text=workout_name, font=TrackerConstants.BASE_FONT
+            Label(self.frame, text=workout_name, font=TrackerConstants.BASE_FONT
                   ).grid(row=row_index, column=1)
-            Label(self._frame, text="{0}/{1} sets".format(workout_sets_actual, workout_sets_scheduled),
+            Label(self.frame, text="{0}/{1} sets".format(workout_sets_actual, workout_sets_scheduled),
                   bg=status_colour, font=TrackerConstants.BASE_FONT
                   ).grid(row=row_index, column=6)
 
             if is_rendering_today:
-                Button(self._frame, text="-5",
+                Button(self.frame, text="-5",
                        command=partial(self._increment_workout_sets_completed, workout_type_id, date_string, -5),
                        font=TrackerConstants.BASE_FONT
                        ).grid(row=row_index, column=4)
-                Button(self._frame, text="-",
+                Button(self.frame, text="-",
                        command=partial(self._increment_workout_sets_completed, workout_type_id, date_string, -1),
                        font=TrackerConstants.BASE_FONT
                        ).grid(row=row_index, column=5)
-                Button(self._frame, text="+",
+                Button(self.frame, text="+",
                        command=partial(self._increment_workout_sets_completed, workout_type_id, date_string, 1),
                        font=TrackerConstants.BASE_FONT
                        ).grid(row=row_index, column=7)
-                Button(self._frame, text="+5",
+                Button(self.frame, text="+5",
                        command=partial(self._increment_workout_sets_completed, workout_type_id, date_string, 5),
                        font=TrackerConstants.BASE_FONT
                        ).grid(row=row_index, column=8)
 
             # Description
-            Button(self._frame, text="Desc", command=partial(self._toggle_workout_desc, workout_type_id),
+            Button(self.frame, text="Desc", command=partial(self._toggle_workout_desc, workout_type_id),
                    font=TrackerConstants.BASE_FONT
                    ).grid(row=row_index, column=10)
 
             if workout_type_id in self._show_workout_descriptions:
                 row_index += 1
 
-                Label(self._frame,
+                Label(self.frame,
                       text="{0}\n\n{1} repetitions of the above completes a single set.".format(
                           workout_desc, workout_reps),
                       font=TrackerConstants.SMALL_ITALICS_FONT,
@@ -158,25 +158,25 @@ class Actuals(WorkoutBoard):
         # Timer
         row_index += 1
 
-        self._frame.grid_rowconfigure(row_index, minsize=TrackerConstants.DIVIDER_SIZE)
+        self.frame.grid_rowconfigure(row_index, minsize=TrackerConstants.DIVIDER_SIZE)
         row_index += 1
 
-        Label(self._frame, text="Timer", font=TrackerConstants.BASE_FONT
+        Label(self.frame, text="Timer", font=TrackerConstants.BASE_FONT
               ).grid(row=row_index, column=1)
-        Label(self._frame, textvariable=self.timer__variable, font=TrackerConstants.BASE_FONT
+        Label(self.frame, textvariable=self._timer__variable, font=TrackerConstants.BASE_FONT
               ).grid(row=row_index, column=6)
 
         if self._timer.is_running:
-            Button(self._frame, text="Stop", command=lambda: self._toggle_timer("stop"), font=TrackerConstants.BASE_FONT
+            Button(self.frame, text="Stop", command=lambda: self._toggle_timer("stop"), font=TrackerConstants.BASE_FONT
                    ).grid(row=row_index, column=4, columnspan=2)
         else:
-            Button(self._frame, text="Start", command=lambda: self._toggle_timer("start"),
+            Button(self.frame, text="Start", command=lambda: self._toggle_timer("start"),
                    font=TrackerConstants.BASE_FONT
                    ).grid(row=row_index, column=4, columnspan=2)
-        Button(self._frame, text="Reset", command=lambda: self._toggle_timer("reset"), font=TrackerConstants.BASE_FONT
+        Button(self.frame, text="Reset", command=lambda: self._toggle_timer("reset"), font=TrackerConstants.BASE_FONT
                ).grid(row=row_index, column=7, columnspan=2)
 
-        return self._frame
+        return self.frame
 
     def _toggle_workout_desc(self, workout_type_id):
         if workout_type_id in self._show_workout_descriptions:

@@ -12,6 +12,7 @@ class Constants:
 
     DIVIDER_SIZE = 4
     SUNKEN_BORDER_WIDTH = 2
+    WINDOW_MINSIZE = (150, 30)
 
     BASE_FONT = ("Verdana", 10)
     HEADER_FONT = ("Verdana", 10, "bold")

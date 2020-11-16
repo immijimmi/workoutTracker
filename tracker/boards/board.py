@@ -2,14 +2,16 @@ from abc import ABC
 
 
 class Board(ABC):
-    def __init__(self, state, root_render_method):
-        self.state = state
+    def __init__(self, parent, root_render_method):
+        self.parent = parent
+
+        self.state = self.parent.state
         self._register_paths()
 
         # Should be used when render needs to happen immediately, e.g. on button click
         self._trigger_render = root_render_method
 
-        self._frame = None
+        self.frame = None
 
     @property
     def is_needs_render(self):
@@ -22,7 +24,7 @@ class Board(ABC):
     def update(self):
         raise NotImplementedError
 
-    def render(self, parent):
+    def render(self):
         """
         All _render methods should return the rendered frame.
         The parent board should then be responsible for slotting the returned frame into its parent element.
@@ -50,8 +52,8 @@ class Board(ABC):
 
 
 class WorkoutBoard(Board, ABC):
-    def __init__(self, state, root_render_method):
-        super().__init__(state, root_render_method)
+    def __init__(self, parent, root_render_method):
+        super().__init__(parent, root_render_method)
 
     def _increment_workout_sets_scheduled(self, workout_type_id, weekday_string, increment_amount):
         workout_sets_scheduled = self.state.registered_get("scheduled_sets_single_entry",
