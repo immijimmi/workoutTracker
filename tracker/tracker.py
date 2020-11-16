@@ -60,9 +60,14 @@ class Tracker:
 
     def _arrange_boards(self):
         board_frames = {board_coords: self._boards[board_coords].render(self._frame) for board_coords in self._boards}
+        for frame in board_frames.values():
+            frame.update()  # Must be called beforehand to pull the updated dimensions
 
         column_widths = []
+        row_heights = []
+
         column_count = max((coords[0] for coords in self._boards))+1
+        row_count = max((coords[1] for coords in self._boards))+1
 
         # Calculate the width of each column by getting the width of the widest frame in that column
         for column_index in range(column_count):
@@ -73,10 +78,22 @@ class Tracker:
             for column_frame_coords in column_frames_coords:
                 column_frame = board_frames[column_frame_coords]
 
-                column_frame.update()  # Must be called beforehand to pull the updated width value
                 column_width = max(column_width, column_frame.winfo_reqwidth())
 
             column_widths.append(column_width)
+
+        # Likewise, get the tallest frame's height for each row
+        for row_index in range(row_count):
+            row_height = 0
+
+            row_frames_coords = filter(lambda coords: coords[1] == row_index, board_frames.keys())
+
+            for row_frame_coords in row_frames_coords:
+                row_frame = board_frames[row_frame_coords]
+
+                row_height = max(row_height, row_frame.winfo_reqheight())
+
+            row_heights.append(row_height)
 
         # Set all frames to the width of the widest frame in their column
         # This is done by adding a new column to that frame with the extra required pixel width
@@ -91,6 +108,19 @@ class Tracker:
                 if current_column_width < column_width:
                     subcolumns_count = column_frame.grid_size()[0]
                     column_frame.grid_columnconfigure(subcolumns_count, minsize=column_width-current_column_width)
+
+        # Likewise again for rows
+        for row_index, row_height in enumerate(row_heights):
+            row_frames_coords = filter(lambda coords: coords[1] == row_index, board_frames.keys())
+
+            for row_frame_coords in row_frames_coords:
+                row_frame = board_frames[row_frame_coords]
+
+                current_row_height = row_frame.winfo_reqheight()
+
+                if current_row_height < row_height:
+                    subrows_count = row_frame.grid_size()[1]
+                    row_frame.grid_rowconfigure(subrows_count, minsize=row_height-current_row_height)
 
         for frame_coords in board_frames:
             frame = board_frames[frame_coords]
