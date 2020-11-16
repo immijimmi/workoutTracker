@@ -13,9 +13,9 @@ class Actuals(WorkoutBoard):
         self._timer = Timer()
         self._date_ticker = DateTicker()
 
-        self._current_datetime = datetime.now()
+        self._latest_datetime = datetime.now()
         self._show_workout_descriptions = set()
-        self._historical_actuals_date = self._current_datetime.date()
+        self._historical_actuals_date = self._latest_datetime.date()
 
         self.weekday_datetime__variable = StringVar()
         self.timer__variable = StringVar()
@@ -24,12 +24,17 @@ class Actuals(WorkoutBoard):
     @property
     def is_needs_render(self):
         if self._date_ticker.is_tomorrow:
+            # If Actuals was displaying the current date, it should continue to do
+            current_date = datetime.now().date()
+            if self._historical_actuals_date + timedelta(days=1) == current_date:
+                self._historical_actuals_date = self._latest_datetime.date()
+
             return True
 
     def update(self):
-        self._current_datetime = datetime.now()
+        self._latest_datetime = datetime.now()
 
-        self.weekday_datetime__variable.set(self._current_datetime.strftime("%a %Y/%m/%d %H:%M:%S"))
+        self.weekday_datetime__variable.set(self._latest_datetime.strftime("%a %Y/%m/%d %H:%M:%S"))
         self.timer__variable.set(self._timer.elapsed_string)
         self._historical_actuals_date__variable.set(
             self._historical_actuals_date.strftime("%a %Y/%m/%d (Retrospective)"))
@@ -54,22 +59,22 @@ class Actuals(WorkoutBoard):
 
         # Variables
         row_index = 0
-        is_rendering_today = self._historical_actuals_date == self._current_datetime.date()
+        is_rendering_today = self._historical_actuals_date == self._latest_datetime.date()
 
         lambda_increment_date = lambda: self._increment_class_var(
             "_historical_actuals_date", timedelta(days=1),
-            min_value=TrackerConstants.MIN_DATE, max_value=self._current_datetime.date())
+            min_value=TrackerConstants.MIN_DATE, max_value=self._latest_datetime.date())
         lambda_decrement_date = lambda: self._increment_class_var(
             "_historical_actuals_date", timedelta(days=-1),
-            min_value=TrackerConstants.MIN_DATE, max_value=self._current_datetime.date())
+            min_value=TrackerConstants.MIN_DATE, max_value=self._latest_datetime.date())
 
         workout_types = self.state.registered_get("workout_types")
 
         if is_rendering_today:
             header_date_var = self.weekday_datetime__variable
 
-            weekday_string = self._current_datetime.strftime("%a")
-            date_string = self._current_datetime.strftime(TrackerConstants.DATE_KEY_FORMAT)
+            weekday_string = self._latest_datetime.strftime("%a")
+            date_string = self._latest_datetime.strftime(TrackerConstants.DATE_KEY_FORMAT)
         else:
             header_date_var = self._historical_actuals_date__variable
 
@@ -95,10 +100,10 @@ class Actuals(WorkoutBoard):
                                                             [date_string, workout_type_id])
             is_workout_disabled = self.state.registered_get("is_workout_disabled", [workout_type_id])
 
-            if is_rendering_today:  # If displaying today
+            if is_rendering_today:
                 if is_workout_disabled:
                     continue  # Ignore workout types that have been disabled
-            else:  # If displaying a previous date
+            else:
                 if workout_sets_scheduled == 0 and workout_sets_actual == 0:
                     continue  # Ignore workout types that were not scheduled nor performed on this date
 
