@@ -141,6 +141,6 @@ class Tracker:
             ["workout_schedules", Constants.PATH_DYNAMIC_KEY, Constants.PATH_DYNAMIC_KEY],
             [{}, {}, 0])
         self.state.register(
-            "completed_sets_single_entry",
+            "completed_reps_single_entry",
             ["workout_log", Constants.PATH_DYNAMIC_KEY, Constants.PATH_DYNAMIC_KEY],
             [{}, {}, 0])

@@ -64,11 +64,11 @@ class WorkoutBoard(Board, ABC):
                                   [weekday_string, workout_type_id])
         self._trigger_render()
 
-    def _increment_workout_sets_completed(self, workout_type_id, date_string_key, increment_amount):
-        workout_sets_actual = self.state.registered_get("completed_sets_single_entry",
+    def _increment_workout_reps_completed(self, workout_type_id, date_string_key, increment_amount):
+        workout_reps_actual = self.state.registered_get("completed_reps_single_entry",
                                                         [date_string_key, workout_type_id])
-        workout_sets_actual = max(workout_sets_actual + increment_amount, 0)
+        workout_reps_actual = max(workout_reps_actual + increment_amount, 0)
 
-        self.state.registered_set(workout_sets_actual, "completed_sets_single_entry",
+        self.state.registered_set(workout_reps_actual, "completed_reps_single_entry",
                                   [date_string_key, workout_type_id])
         self._trigger_render()

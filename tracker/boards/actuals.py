@@ -96,7 +96,7 @@ class Actuals(WorkoutBoard):
             workout_type_details = self.state.registered_get("workout_type_details", [workout_type_id])
             workout_sets_scheduled = self.state.registered_get("scheduled_sets_single_entry",
                                                                [weekday_string, workout_type_id])
-            workout_sets_actual = self.state.registered_get("completed_sets_single_entry",
+            workout_reps_actual = self.state.registered_get("completed_reps_single_entry",
                                                             [date_string, workout_type_id])
             is_workout_disabled = self.state.registered_get("is_workout_disabled", [workout_type_id])
 
@@ -104,12 +104,13 @@ class Actuals(WorkoutBoard):
                 if is_workout_disabled:
                     continue  # Ignore workout types that have been disabled
             else:
-                if workout_sets_scheduled == 0 and workout_sets_actual == 0:
+                if workout_sets_scheduled == 0 and workout_reps_actual == 0:
                     continue  # Ignore workout types that were not scheduled nor performed on this date
 
             workout_name = workout_type_details["name"]
             workout_desc = workout_type_details["desc"]
             workout_reps = workout_type_details["single_set_repetitions"]
+            workout_sets_actual = int(workout_reps_actual/workout_reps)
 
             status_colour = self._determine_workout_status_color(workout_sets_scheduled, workout_sets_actual)
 
@@ -118,29 +119,29 @@ class Actuals(WorkoutBoard):
 
             Label(self.frame, text=workout_name, font=TrackerConstants.BASE_FONT
                   ).grid(row=row_index, column=1)
-            Label(self.frame, text="{0}/{1} sets".format(int(workout_sets_actual/workout_reps), workout_sets_scheduled),
+            Label(self.frame, text="{0}/{1} sets".format(workout_sets_actual, workout_sets_scheduled),
                   bg=status_colour, font=TrackerConstants.BASE_FONT
                   ).grid(row=row_index, column=6)
 
             if is_rendering_today:
                 Button(self.frame, text="-5",
                        command=partial(
-                           self._increment_workout_sets_completed, workout_type_id, date_string, (workout_reps*-5)),
+                           self._increment_workout_reps_completed, workout_type_id, date_string, (workout_reps*-5)),
                        font=TrackerConstants.BASE_FONT
                        ).grid(row=row_index, column=4)
                 Button(self.frame, text="-",
                        command=partial(
-                           self._increment_workout_sets_completed, workout_type_id, date_string, (workout_reps*-1)),
+                           self._increment_workout_reps_completed, workout_type_id, date_string, (workout_reps*-1)),
                        font=TrackerConstants.BASE_FONT
                        ).grid(row=row_index, column=5)
                 Button(self.frame, text="+",
                        command=partial(
-                           self._increment_workout_sets_completed, workout_type_id, date_string, (workout_reps*1)),
+                           self._increment_workout_reps_completed, workout_type_id, date_string, (workout_reps*1)),
                        font=TrackerConstants.BASE_FONT
                        ).grid(row=row_index, column=7)
                 Button(self.frame, text="+5",
                        command=partial(
-                           self._increment_workout_sets_completed, workout_type_id, date_string, (workout_reps*5)),
+                           self._increment_workout_reps_completed, workout_type_id, date_string, (workout_reps*5)),
                        font=TrackerConstants.BASE_FONT
                        ).grid(row=row_index, column=8)
 
