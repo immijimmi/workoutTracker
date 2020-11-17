@@ -173,13 +173,13 @@ class Actuals(WorkoutBoard):
 
         if self._timer.is_running:
             Button(self.frame, text="Stop", command=lambda: self._toggle_timer("stop"), font=TrackerConstants.BASE_FONT
-                   ).grid(row=row_index, column=4, columnspan=2)
+                   ).grid(row=row_index, column=7, columnspan=2)
         else:
             Button(self.frame, text="Start", command=lambda: self._toggle_timer("start"),
                    font=TrackerConstants.BASE_FONT
-                   ).grid(row=row_index, column=4, columnspan=2)
+                   ).grid(row=row_index, column=7, columnspan=2)
         Button(self.frame, text="Reset", command=lambda: self._toggle_timer("reset"), font=TrackerConstants.BASE_FONT
-               ).grid(row=row_index, column=7, columnspan=2)
+               ).grid(row=row_index, column=4, columnspan=2)
 
         return self.frame
 
