@@ -9,11 +9,9 @@ class Schedule(WorkoutBoard):
     def __init__(self, parent, root_render_method):
         super().__init__(parent, root_render_method)
 
-        self._register_paths()
-
     @property
     def is_needs_render(self):
-        pass
+        return False
 
     def update(self):
         pass
@@ -50,7 +48,7 @@ class Schedule(WorkoutBoard):
 
             row_index += 1
             Label(self.frame, text=workout_name, font=TrackerConstants.BASE_FONT
-                  ).grid(row=row_index, column=0)
+                  ).grid(row=row_index)
 
             for weekday_index, weekday_string in enumerate(TrackerConstants.WEEKDAY_KEY_STRINGS):
                 workout_sets_scheduled = self.state.registered_get("scheduled_sets_single_entry",

@@ -31,8 +31,14 @@ class Tracker:
 
         self.frame = None
 
-        self.boards = [board(self, self._render) for board in Config.BOARDS]
+        self.boards = []
         self.visible_boards = set()
+        for board_class in Config.BOARDS:
+            board = board_class(self, self._render)
+            self.boards.append(board)
+
+            if board_class in Config.INITIAL_BOARDS_VISIBLE:
+                self.visible_boards.add(board)
 
         self._render()
         self._window.mainloop()

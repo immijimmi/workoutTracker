@@ -83,7 +83,7 @@ class Actuals(WorkoutBoard):
 
         # Header Row
         Button(self.frame, text="<", command=lambda_decrement_date, font=TrackerConstants.BASE_FONT
-               ).grid(row=row_index, column=0)
+               ).grid(row=row_index)
         Label(self.frame, textvariable=header_date_var, font=TrackerConstants.BASE_FONT
               ).grid(row=row_index, column=1)
         Button(self.frame, text=">", command=lambda_increment_date, font=TrackerConstants.BASE_FONT
