@@ -30,16 +30,20 @@ class BoardController(Board):
 
         row_index += 1
         self.frame.grid_rowconfigure(row_index, minsize=TrackerConstants.DIVIDER_SIZE)
+        self.frame.grid_columnconfigure(1, minsize=TrackerConstants.DIVIDER_SIZE)
 
         row_index += 1
-        Label(self.frame, text="Visibility", font=TrackerConstants.BASE_FONT
-              ).grid(row=row_index)
-        self.frame.grid_columnconfigure(1, minsize=TrackerConstants.DIVIDER_SIZE)
         for board_index, board in enumerate(other_boards):
-            Button(self.frame, text=type(board).__name__,
+            board_is_visible = board in self.parent.visible_boards
+
+            Label(self.frame, text=type(board).__name__, font=TrackerConstants.BASE_FONT
+                  ).grid(row=row_index)
+            Button(self.frame, text="Hide" if board_is_visible else "View",
                    command=partial(self._toggle_board_visibility, board),
                    font=TrackerConstants.BASE_FONT
-                   ).grid(row=row_index, column=board_index+2)
+                   ).grid(row=row_index, column=2)
+
+            row_index += 1
 
         return self.frame
 

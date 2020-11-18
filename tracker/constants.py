@@ -11,7 +11,6 @@ class Constants:
     PATH_DYNAMIC_KEY = KeyQueryFactory(lambda sub_state, key: key)
 
     DIVIDER_SIZE = 4
-    WINDOW_MINSIZE = (180, 30)
     SUNKEN_WIDTH__LIGHT = 1
     RIDGE_WIDTH__NORMAL = 2
 
