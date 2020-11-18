@@ -41,7 +41,7 @@ class BoardController(Board):
             Button(self.frame, text="Hide" if board_is_visible else "View",
                    command=partial(self._toggle_board_visibility, board),
                    font=TrackerConstants.BASE_FONT
-                   ).grid(row=row_index, column=2)
+                   ).grid(row=row_index, column=2, sticky="nswe")
 
             row_index += 1
 
