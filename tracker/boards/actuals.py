@@ -27,7 +27,7 @@ class Actuals(WorkoutBoard):
             # If Actuals was displaying the current date, it should continue to do
             current_date = datetime.now().date()
             if self._historical_actuals_date + timedelta(days=1) == current_date:
-                self._historical_actuals_date = self._latest_datetime.date()
+                self._historical_actuals_date = current_date
 
             return True
 
