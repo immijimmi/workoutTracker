@@ -31,6 +31,7 @@ class BoardController(Board):
         row_index += 1
         self.frame.grid_rowconfigure(row_index, minsize=TrackerConstants.DIVIDER_SIZE)
         self.frame.grid_columnconfigure(1, minsize=TrackerConstants.DIVIDER_SIZE)
+        self.frame.grid_columnconfigure(0, minsize=100)
 
         row_index += 1
         for board_index, board in enumerate(other_boards):
