@@ -14,6 +14,10 @@ class Board(ABC):
         self.frame = None
 
     @property
+    def display_name(self):
+        raise NotImplementedError
+
+    @property
     def is_needs_render(self):
         """
         Whenever this property is accessed and returns True, a render should be triggered

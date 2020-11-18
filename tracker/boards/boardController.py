@@ -10,6 +10,10 @@ class BoardController(Board):
         super().__init__(parent, root_render_method)
 
     @property
+    def display_name(self):
+        return "Boards"
+
+    @property
     def is_needs_render(self):
         return False
 
@@ -25,7 +29,7 @@ class BoardController(Board):
 
         # Header
         row_index = 0
-        Label(self.frame, text="Boards", font=TrackerConstants.BASE_FONT
+        Label(self.frame, text=self.display_name, font=TrackerConstants.BASE_FONT
               ).grid(columnspan=len(other_boards)+2)
 
         row_index += 1
@@ -37,7 +41,7 @@ class BoardController(Board):
         for board_index, board in enumerate(other_boards):
             board_is_visible = board in self.parent.visible_boards
 
-            Label(self.frame, text=type(board).__name__, font=TrackerConstants.BASE_FONT
+            Label(self.frame, text=board.display_name, font=TrackerConstants.BASE_FONT
                   ).grid(row=row_index)
             Button(self.frame, text="Hide" if board_is_visible else "View",
                    command=partial(self._toggle_board_visibility, board),

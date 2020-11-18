@@ -10,6 +10,10 @@ class Schedule(WorkoutBoard):
         super().__init__(parent, root_render_method)
 
     @property
+    def display_name(self):
+        return "Schedule"
+
+    @property
     def is_needs_render(self):
         return False
 

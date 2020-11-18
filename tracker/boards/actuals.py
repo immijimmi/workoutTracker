@@ -22,6 +22,10 @@ class Actuals(WorkoutBoard):
         self._historical_actuals_date__variable = StringVar()
 
     @property
+    def display_name(self):
+        return "Actuals"
+
+    @property
     def is_needs_render(self):
         if self._date_ticker.is_tomorrow:
             # If Actuals was displaying the current date, it should continue to do
