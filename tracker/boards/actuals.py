@@ -69,10 +69,10 @@ class Actuals(WorkoutBoard):
         row_index = 0
         is_rendering_today = self._historical_actuals_date == self._latest_datetime.date()
 
-        lambda_increment_date = lambda: self._increment_class_var(
+        lambda_increment_date = lambda: self._increment_self_var(
             "_historical_actuals_date", timedelta(days=1),
             min_value=TrackerConstants.MIN_DATE, max_value=self._latest_datetime.date())
-        lambda_decrement_date = lambda: self._increment_class_var(
+        lambda_decrement_date = lambda: self._increment_self_var(
             "_historical_actuals_date", timedelta(days=-1),
             min_value=TrackerConstants.MIN_DATE, max_value=self._latest_datetime.date())
 

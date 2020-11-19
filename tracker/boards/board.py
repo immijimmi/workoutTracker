@@ -54,7 +54,14 @@ class Board(ABC):
         for index in self._frame_stretch["columns"]:
             self.frame.grid_columnconfigure(index, weight=1)
 
-    def _increment_class_var(self, var_name, increment_amount, max_value=None, min_value=None):
+    def _set_self_var(self, var_name, func):
+        new_value = func(getattr(self, var_name))
+
+        setattr(self, var_name, new_value)
+
+        self._trigger_render()
+
+    def _increment_self_var(self, var_name, increment_amount, max_value=None, min_value=None):
         new_value = getattr(self, var_name) + increment_amount
 
         if max_value is not None:

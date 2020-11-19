@@ -12,6 +12,7 @@ class Tips(WorkoutBoard):
         super().__init__(parent, root_render_method)
 
         self._frame_stretch["columns"].append(1)
+        self._frame_stretch["rows"].append(0)
 
         self._tips = self.state.registered_get("workout_tips")
         shuffle(self._tips)
@@ -40,14 +41,14 @@ class Tips(WorkoutBoard):
         tip_index_max = len(self._tips)-1
 
         Button(self.frame, text="<",
-               command=lambda: self._increment_class_var("_tip_index", -1, max_value=tip_index_max, min_value=0),
+               command=lambda: self._increment_self_var("_tip_index", -1, max_value=tip_index_max, min_value=0),
                font=TrackerConstants.BASE_FONT, state="disabled" if self._tip_index == 0 else "normal"
                ).grid(sticky="nswe")
         Label(self.frame, textvariable=self._tip__var, font=TrackerConstants.SMALL_ITALICS_FONT,
               borderwidth=TrackerConstants.RIDGE_WIDTH__NORMAL, relief="ridge"
               ).grid(row=0, column=1, sticky="nswe")
         Button(self.frame, text=">",
-               command=lambda: self._increment_class_var("_tip_index", 1, max_value=tip_index_max, min_value=0),
+               command=lambda: self._increment_self_var("_tip_index", 1, max_value=tip_index_max, min_value=0),
                font=TrackerConstants.BASE_FONT, state="disabled" if self._tip_index == tip_index_max else "normal"
                ).grid(row=0, column=2, sticky="nswe")
 
