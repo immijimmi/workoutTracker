@@ -21,9 +21,7 @@ class BoardController(Board):
         pass
 
     def render(self):
-        if self.frame:
-            self.frame.destroy()
-        self.frame = Frame(self.parent.frame, borderwidth=TrackerConstants.SUNKEN_WIDTH__LIGHT, relief="sunken")
+        self._refresh_frame(**TrackerConstants.BOARD_FRAME_STYLE)
 
         other_boards = [board for board in self.parent.boards if type(board) != BoardController]
 

@@ -1,4 +1,5 @@
 from abc import ABC
+from tkinter import Frame
 
 
 class Board(ABC):
@@ -41,6 +42,11 @@ class Board(ABC):
         in the format: "class__key_string"
         """
         pass
+
+    def _refresh_frame(self, **style):
+        if self.frame:
+            self.frame.destroy()
+        self.frame = Frame(self.parent.frame, **style)
 
     def _increment_class_var(self, var_name, increment_amount, max_value=None, min_value=None):
         new_value = getattr(self, var_name) + increment_amount

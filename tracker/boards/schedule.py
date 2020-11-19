@@ -21,9 +21,7 @@ class Schedule(WorkoutBoard):
         pass
 
     def render(self):
-        if self.frame:
-            self.frame.destroy()
-        self.frame = Frame(self.parent.frame, borderwidth=TrackerConstants.SUNKEN_WIDTH__LIGHT, relief="sunken")
+        self._refresh_frame(**TrackerConstants.BOARD_FRAME_STYLE)
 
         for column_index in ((i*4)+1 for i in range(len(TrackerConstants.WEEKDAY_KEY_STRINGS))):
             self.frame.grid_columnconfigure(column_index, minsize=TrackerConstants.DIVIDER_SIZE)

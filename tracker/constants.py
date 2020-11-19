@@ -18,6 +18,8 @@ class Constants:
     HEADER_FONT = ("Verdana", 10, "bold")
     SMALL_ITALICS_FONT = ("Verdana", 9, "normal", "italic")
 
+    BOARD_FRAME_STYLE = {"borderwidth": SUNKEN_WIDTH__LIGHT, "relief": "sunken"}
+
     FRAME_UPDATE_DELAY = 250
 
     COLOURS = {

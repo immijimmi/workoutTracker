@@ -44,9 +44,7 @@ class Actuals(WorkoutBoard):
             self._historical_actuals_date.strftime("%a %Y/%m/%d (Retrospective)"))
 
     def render(self):
-        if self.frame:
-            self.frame.destroy()
-        self.frame = Frame(self.parent.frame, borderwidth=TrackerConstants.SUNKEN_WIDTH__LIGHT, relief="sunken")
+        self._refresh_frame(**TrackerConstants.BOARD_FRAME_STYLE)
 
         self.frame.grid_columnconfigure(4, minsize=TrackerConstants.DIVIDER_SIZE, weight=1)
         self.frame.grid_columnconfigure(10, minsize=TrackerConstants.DIVIDER_SIZE)
