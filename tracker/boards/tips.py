@@ -38,17 +38,18 @@ class Tips(WorkoutBoard):
         self._refresh_frame(**TrackerConstants.BOARD_FRAME_STYLE)
 
         Button(self.frame, text="<",
-               command=lambda: self._increment_class_var("_tip_index", -1, max_value=len(self._tips), min_value=0),
+               command=lambda: self._increment_class_var("_tip_index", -1, max_value=len(self._tips)-1, min_value=0),
                font=TrackerConstants.BASE_FONT
                ).grid(sticky="nswe")
         Label(self.frame, textvariable=self._tip__var, font=TrackerConstants.SMALL_ITALICS_FONT,
               borderwidth=TrackerConstants.RIDGE_WIDTH__NORMAL, relief="ridge"
               ).grid(row=0, column=1, sticky="nswe")
         Button(self.frame, text=">",
-               command=lambda: self._increment_class_var("_tip_index", -1, max_value=len(self._tips), min_value=0),
+               command=lambda: self._increment_class_var("_tip_index", 1, max_value=len(self._tips)-1, min_value=0),
                font=TrackerConstants.BASE_FONT
                ).grid(row=0, column=2, sticky="nswe")
 
+        print(self._tip_index)
         return self.frame
 
     def _register_paths(self):

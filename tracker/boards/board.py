@@ -50,9 +50,9 @@ class Board(ABC):
         self.frame = Frame(self.parent.frame, **style)
 
         for index in self._frame_stretch["rows"]:
-            self.frame.gridrowconfigure(index, weight=1)
+            self.frame.grid_rowconfigure(index, weight=1)
         for index in self._frame_stretch["columns"]:
-            self.frame.gridcolumnconfigure(index, weight=1)
+            self.frame.grid_columnconfigure(index, weight=1)
 
     def _increment_class_var(self, var_name, increment_amount, max_value=None, min_value=None):
         new_value = getattr(self, var_name) + increment_amount
