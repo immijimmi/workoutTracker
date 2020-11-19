@@ -6,7 +6,7 @@ from .board import WorkoutBoard
 
 
 class Tips(WorkoutBoard):
-    TIP_PLACEHOLDER = "Unable to load tips"
+    TIP_PLACEHOLDER = "You have not added any tips."
 
     def __init__(self, parent, root_render_method):
         super().__init__(parent, root_render_method)
@@ -37,7 +37,7 @@ class Tips(WorkoutBoard):
 
         Button(self.frame, text="<", command=lambda: self._update_tip(-1), font=TrackerConstants.BASE_FONT
                ).grid(sticky="nswe")
-        Label(self.frame, textvariable=self._tip__var, font=TrackerConstants.BASE_FONT,
+        Label(self.frame, textvariable=self._tip__var, font=TrackerConstants.SMALL_ITALICS_FONT,
               borderwidth=TrackerConstants.RIDGE_WIDTH__NORMAL, relief="ridge"
               ).grid(row=0, column=1, sticky="nswe")
         Button(self.frame, text=">", command=lambda: self._update_tip(1), font=TrackerConstants.BASE_FONT
