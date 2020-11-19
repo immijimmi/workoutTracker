@@ -16,6 +16,7 @@ class Tracker:
         self._window.title("Workout Logger")
         self._window.iconbitmap(Config.ICON_FILENAME)
         self._window.resizable(False, False)
+        self._window.minsize(*Constants.WINDOW_MINSIZE)
 
         # Make the window expand to fill the screen
         self._window.columnconfigure(0, weight=1)
