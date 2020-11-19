@@ -56,4 +56,4 @@ class Hints(WorkoutBoard):
         if self._hints:
             self._hint_index = (self._hint_index + index_offset) % len(self._hints)
 
-            self.update()
+            self._trigger_render()
