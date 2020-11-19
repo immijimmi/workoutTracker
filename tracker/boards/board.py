@@ -13,6 +13,7 @@ class Board(ABC):
         self._trigger_render = root_render_method
 
         self.frame = None
+        self._frame_stretch = {"rows": [], "columns": []}
 
     @property
     def display_name(self):
@@ -47,6 +48,11 @@ class Board(ABC):
         if self.frame:
             self.frame.destroy()
         self.frame = Frame(self.parent.frame, **style)
+
+        for index in self._frame_stretch["rows"]:
+            self.frame.gridrowconfigure(index, weight=1)
+        for index in self._frame_stretch["columns"]:
+            self.frame.gridcolumnconfigure(index, weight=1)
 
     def _increment_class_var(self, var_name, increment_amount, max_value=None, min_value=None):
         new_value = getattr(self, var_name) + increment_amount

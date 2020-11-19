@@ -10,6 +10,9 @@ from .board import WorkoutBoard
 class Actuals(WorkoutBoard):
     def __init__(self, parent, root_render_method):
         super().__init__(parent, root_render_method)
+
+        self._frame_stretch["columns"].append(1)
+
         self._timer = Timer()
         self._date_ticker = DateTicker()
 
@@ -46,7 +49,7 @@ class Actuals(WorkoutBoard):
     def render(self):
         self._refresh_frame(**TrackerConstants.BOARD_FRAME_STYLE)
 
-        self.frame.grid_columnconfigure(4, minsize=TrackerConstants.DIVIDER_SIZE, weight=1)
+        self.frame.grid_columnconfigure(4, minsize=TrackerConstants.DIVIDER_SIZE)
         self.frame.grid_columnconfigure(10, minsize=TrackerConstants.DIVIDER_SIZE)
         self.frame.grid_rowconfigure(1, minsize=TrackerConstants.DIVIDER_SIZE)
 

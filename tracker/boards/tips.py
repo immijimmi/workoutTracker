@@ -11,6 +11,8 @@ class Tips(WorkoutBoard):
     def __init__(self, parent, root_render_method):
         super().__init__(parent, root_render_method)
 
+        self._frame_stretch["columns"].append(1)
+
         self._tips = self.state.registered_get("workout_tips")
         shuffle(self._tips)
 
@@ -35,25 +37,19 @@ class Tips(WorkoutBoard):
     def render(self):
         self._refresh_frame(**TrackerConstants.BOARD_FRAME_STYLE)
 
-        Button(self.frame, text="<", command=lambda: self._update_tip(-1), font=TrackerConstants.BASE_FONT
+        Button(self.frame, text="<",
+               command=lambda: self._increment_class_var("_tip_index", -1, max_value=len(self._tips), min_value=0),
+               font=TrackerConstants.BASE_FONT
                ).grid(sticky="nswe")
         Label(self.frame, textvariable=self._tip__var, font=TrackerConstants.SMALL_ITALICS_FONT,
               borderwidth=TrackerConstants.RIDGE_WIDTH__NORMAL, relief="ridge"
               ).grid(row=0, column=1, sticky="nswe")
-        Button(self.frame, text=">", command=lambda: self._update_tip(1), font=TrackerConstants.BASE_FONT
+        Button(self.frame, text=">",
+               command=lambda: self._increment_class_var("_tip_index", -1, max_value=len(self._tips), min_value=0),
+               font=TrackerConstants.BASE_FONT
                ).grid(row=0, column=2, sticky="nswe")
 
         return self.frame
 
     def _register_paths(self):
         self.state.register("workout_tips", ["workout_tips"], [[]])
-
-    def _update_tip(self, index_offset):
-        """
-        Will be deprecated in favour of using a generic method attached to the Board class
-        once _trigger_render has been shifted to self.update() or _trigger_update project_wide
-        """
-        if self._tips:
-            self._tip_index = (self._tip_index + index_offset) % len(self._tips)
-
-            self._trigger_render()

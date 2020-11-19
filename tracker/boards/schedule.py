@@ -9,6 +9,8 @@ class Schedule(WorkoutBoard):
     def __init__(self, parent, root_render_method):
         super().__init__(parent, root_render_method)
 
+        self._frame_stretch["columns"].append(0)
+
     @property
     def display_name(self):
         return "Schedule"
