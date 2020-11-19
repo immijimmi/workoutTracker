@@ -95,7 +95,8 @@ class Actuals(WorkoutBoard):
         Label(self.frame, textvariable=header_date_var, font=TrackerConstants.BASE_FONT,
               borderwidth=TrackerConstants.RIDGE_WIDTH__NORMAL, relief="ridge"
               ).grid(row=row_index, column=1, columnspan=2, sticky="nswe")
-        Button(self.frame, text=">", command=lambda_increment_date, font=TrackerConstants.BASE_FONT
+        Button(self.frame, text=">", command=lambda_increment_date, font=TrackerConstants.BASE_FONT,
+               state="disabled" if is_rendering_today else "normal"
                ).grid(row=row_index, column=3, sticky="nswe")
         row_index += 1
 

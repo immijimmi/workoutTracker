@@ -61,7 +61,7 @@ class Schedule(WorkoutBoard):
                 column_index = (weekday_index*4)+2
                 Button(self.frame, text="-",
                        command=partial(self._increment_workout_sets_scheduled, workout_type_id, weekday_string, -1),
-                       font=TrackerConstants.BASE_FONT
+                       font=TrackerConstants.BASE_FONT, state="disabled" if workout_sets_scheduled == 0 else "normal"
                        ).grid(row=row_index, column=column_index)
 
                 column_index += 1
