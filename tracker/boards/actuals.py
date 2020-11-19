@@ -17,9 +17,9 @@ class Actuals(WorkoutBoard):
         self._show_workout_descriptions = set()
         self._historical_actuals_date = self._latest_datetime.date()
 
-        self._weekday_datetime__variable = StringVar()
-        self._timer__variable = StringVar()
-        self._historical_actuals_date__variable = StringVar()
+        self._weekday_datetime__var = StringVar()
+        self._timer__var = StringVar()
+        self._historical_actuals_date__var = StringVar()
 
     @property
     def display_name(self):
@@ -38,9 +38,9 @@ class Actuals(WorkoutBoard):
     def update(self):
         self._latest_datetime = datetime.now()
 
-        self._weekday_datetime__variable.set(self._latest_datetime.strftime("%a %Y/%m/%d %H:%M:%S"))
-        self._timer__variable.set(self._timer.elapsed_string)
-        self._historical_actuals_date__variable.set(
+        self._weekday_datetime__var.set(self._latest_datetime.strftime("%a %Y/%m/%d %H:%M:%S"))
+        self._timer__var.set(self._timer.elapsed_string)
+        self._historical_actuals_date__var.set(
             self._historical_actuals_date.strftime("%a %Y/%m/%d (Retrospective)"))
 
     def render(self):
@@ -76,12 +76,12 @@ class Actuals(WorkoutBoard):
         workout_types = self.state.registered_get("workout_types")
 
         if is_rendering_today:
-            header_date_var = self._weekday_datetime__variable
+            header_date_var = self._weekday_datetime__var
 
             weekday_string = self._latest_datetime.strftime("%a")
             date_string = self._latest_datetime.strftime(TrackerConstants.DATE_KEY_FORMAT)
         else:
-            header_date_var = self._historical_actuals_date__variable
+            header_date_var = self._historical_actuals_date__var
 
             weekday_string = self._historical_actuals_date.strftime("%a")
             date_string = self._historical_actuals_date.strftime(TrackerConstants.DATE_KEY_FORMAT)
@@ -174,7 +174,7 @@ class Actuals(WorkoutBoard):
 
         Label(self.frame, text="Timer", font=TrackerConstants.BASE_FONT
               ).grid(row=row_index, column=1)
-        Label(self.frame, textvariable=self._timer__variable, font=TrackerConstants.BASE_FONT
+        Label(self.frame, textvariable=self._timer__var, font=TrackerConstants.BASE_FONT
               ).grid(row=row_index, column=7)
 
         if self._timer.is_running:
