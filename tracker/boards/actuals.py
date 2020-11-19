@@ -1,6 +1,6 @@
 from functools import partial
 from datetime import datetime, timedelta
-from tkinter import Frame, Label, Button, StringVar
+from tkinter import Label, Button, StringVar
 
 from ..constants import Constants as TrackerConstants
 from ..classes import Timer, DateTicker

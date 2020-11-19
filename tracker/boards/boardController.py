@@ -1,4 +1,4 @@
-from tkinter import Frame, Label, Button
+from tkinter import Label, Button
 from functools import partial
 
 from ..constants import Constants as TrackerConstants
