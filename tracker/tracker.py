@@ -82,40 +82,9 @@ class Tracker:
 
             board_frames_grid_layout.append(frames_column)
 
-        column_count = len(board_frames_grid_layout)
-        row_count = max(len(frames_column) for frames_column in board_frames_grid_layout)
-
-        column_max_widths = [0 for i in range(column_count)]
-        row_max_heights = [0 for i in range(row_count)]
-        # Iterate through frames to get the max width for each column and height for each row
         for column_index, frames_column in enumerate(board_frames_grid_layout):
             for row_index, frame in enumerate(frames_column):
-                frame.update()  # Must be called beforehand to pull the updated dimensions
-                column_max_widths[column_index] = max(column_max_widths[column_index], frame.winfo_reqwidth())
-                row_max_heights[row_index] = max(row_max_heights[row_index], frame.winfo_reqheight())
-
-        # Set all frames to the max width and height for their column and row respectively
-        # This will align the frame edges within the grid structure
-        # It is done by adding a new column to that frame with the extra required pixel width
-        for column_index, frames_column in enumerate(board_frames_grid_layout):
-            for row_index, frame in enumerate(frames_column):
-                current_width = frame.winfo_reqwidth()
-                current_height = frame.winfo_reqheight()
-                column_max_width = column_max_widths[column_index]
-                row_max_height = row_max_heights[row_index]
-
-                if current_width < column_max_width:
-                    frame_subcolumn_count = frame.grid_size()[0]
-                    frame.grid_columnconfigure(frame_subcolumn_count, minsize=column_max_width - current_width)
-
-                if current_height < row_max_height:
-                    frame_subrow_count = frame.grid_size()[1]
-                    frame.grid_rowconfigure(frame_subrow_count, minsize=row_max_height - current_height)
-
-        # Slot the frames into position
-        for column_index, frames_column in enumerate(board_frames_grid_layout):
-            for row_index, frame in enumerate(frames_column):
-                frame.grid(row=row_index, column=column_index)
+                frame.grid(row=row_index, column=column_index, sticky="nswe")
 
     def _load_state(self):
         try:
