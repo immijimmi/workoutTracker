@@ -10,6 +10,7 @@ class BoardController(Board):
         super().__init__(parent, root_render_method)
 
         self._frame_stretch["columns"].append(1)
+        self._frame_stretch["rows"].append(0)
         self._full_view = True
 
     @property
@@ -21,22 +22,23 @@ class BoardController(Board):
         return False
 
     def update(self):
-        pass
+        # The dropdown button cell should only stretch if the full board is not visible
+        self._frame_stretch = {"columns": [1], "rows": []} if self._full_view else {"columns": [0], "rows": [0]}
 
     def render(self):
         self._refresh_frame(**TrackerConstants.BOARD_FRAME_STYLE)
 
-        other_boards = [board for board in self.parent.boards if type(board) != BoardController]
-
         Button(self.frame, text="^" if self._full_view else "v",
                command=lambda: self._set_self_var("_full_view", lambda value: not value), font=TrackerConstants.BASE_FONT
-               ).grid()
+               ).grid(sticky="nswe")
 
         if self._full_view:
+            other_boards = [board for board in self.parent.boards if type(board) != BoardController]
+
             # Header
             row_index = 0
             Label(self.frame, text=self.display_name, font=TrackerConstants.BASE_FONT
-                  ).grid(column=1, columnspan=3)
+                  ).grid(row=row_index, column=1, columnspan=3)
 
             row_index += 1
             self.frame.grid_rowconfigure(row_index, minsize=TrackerConstants.DIVIDER_SIZE)

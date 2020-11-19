@@ -9,6 +9,6 @@ class Config:
 
     INITIAL_BOARDS_VISIBLE = {BoardController, Tips}
     BOARDS_COLUMNS = (
-        (Actuals, Schedule, Tips),
-        (BoardController,)
+        (BoardController,),
+        (Actuals, Schedule, Tips)
     )

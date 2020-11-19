@@ -17,6 +17,10 @@ class Tracker:
         self._window.iconbitmap(Config.ICON_FILENAME)
         self._window.resizable(False, False)
 
+        # Make the window expand to fill the screen
+        self._window.columnconfigure(0, weight=1)
+        self._window.rowconfigure(0, weight=1)
+
         self.state = State(extensions=[Registrar, Listeners])
         self._load_state()
         self._register_paths()
@@ -60,11 +64,14 @@ class Tracker:
         if self.frame:
             self.frame.destroy()
         self.frame = Frame(self._window)
+        # Make the frame expand to fill the window
+        self.frame.columnconfigure(0, weight=1)
+        self.frame.rowconfigure(0, weight=1)
 
         self._update()
 
         self._arrange_boards()
-        self.frame.pack()
+        self.frame.grid(sticky="nswe")
 
     def _arrange_boards(self):
         boards_lookup = {type(board): board for board in self.boards}
@@ -81,6 +88,9 @@ class Tracker:
                     frames_column.append(frame)
 
             board_frames_grid_layout.append(frames_column)
+
+        # Remove empty columns
+        board_frames_grid_layout = [col for col in board_frames_grid_layout if col != []]
 
         for column_index, frames_column in enumerate(board_frames_grid_layout):
             for row_index, frame in enumerate(frames_column):
