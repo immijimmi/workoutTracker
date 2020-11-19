@@ -29,7 +29,7 @@ class BoardController(Board):
         other_boards = [board for board in self.parent.boards if type(board) != BoardController]
 
         Button(self.frame, text="^" if self._full_view else "v",
-               command=self._set_self_var("_full_view", lambda value: not value), font=TrackerConstants.BASE_FONT
+               command=lambda: self._set_self_var("_full_view", lambda value: not value), font=TrackerConstants.BASE_FONT
                ).grid()
 
         if self._full_view:
