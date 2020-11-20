@@ -54,16 +54,6 @@ class Actuals(WorkoutBoard):
         self.frame.grid_rowconfigure(1, minsize=TrackerConstants.DIVIDER_SIZE)
 
         self.frame.grid_columnconfigure(1, minsize=220)
-        self.frame.grid_columnconfigure(2, minsize=32)
-        self.frame.grid_columnconfigure(7, minsize=80)
-
-        self.frame.grid_columnconfigure(0, minsize=22)
-        self.frame.grid_columnconfigure(3, minsize=22)
-
-        self.frame.grid_columnconfigure(5, minsize=32)
-        self.frame.grid_columnconfigure(9, minsize=32)
-        self.frame.grid_columnconfigure(6, minsize=22)
-        self.frame.grid_columnconfigure(8, minsize=22)
 
         # Variables
         row_index = 0
@@ -90,14 +80,16 @@ class Actuals(WorkoutBoard):
             date_string = self._historical_actuals_date.strftime(TrackerConstants.DATE_KEY_FORMAT)
 
         # Header Row
-        Button(self.frame, text="<", command=lambda_decrement_date, font=TrackerConstants.BASE_FONT
-               ).grid(row=row_index, sticky="nswe")
+        Button(self.frame, text=TrackerConstants.SYMBOLS["arrows"]["left"],
+               command=lambda_decrement_date, font=TrackerConstants.BASE_FONT
+               ).grid(row=row_index, ipadx=TrackerConstants.IPADX_SMALL, sticky="nswe")
         Label(self.frame, textvariable=header_date_var, font=TrackerConstants.BASE_FONT,
               borderwidth=TrackerConstants.RIDGE_WIDTH__NORMAL, relief="ridge"
-              ).grid(row=row_index, column=1, columnspan=2, sticky="nswe")
-        Button(self.frame, text=">", command=lambda_increment_date, font=TrackerConstants.BASE_FONT,
+              ).grid(row=row_index, column=1, columnspan=2, ipadx=TrackerConstants.IPADX_NORMAL, sticky="nswe")
+        Button(self.frame, text=TrackerConstants.SYMBOLS["arrows"]["right"],
+               command=lambda_increment_date, font=TrackerConstants.BASE_FONT,
                state="disabled" if is_rendering_today else "normal"
-               ).grid(row=row_index, column=3, sticky="nswe")
+               ).grid(row=row_index, column=3, ipadx=TrackerConstants.IPADX_SMALL, sticky="nswe")
         row_index += 1
 
         # Workout Types
@@ -128,39 +120,39 @@ class Actuals(WorkoutBoard):
             row_index += 1
 
             Label(self.frame, text=workout_name, font=TrackerConstants.BASE_FONT
-                  ).grid(row=row_index, column=1)
+                  ).grid(row=row_index, column=1, ipadx=TrackerConstants.IPADX_NORMAL)
             Label(self.frame, text="{0}/{1} sets".format(workout_sets_actual, workout_sets_scheduled),
                   bg=status_colour, font=TrackerConstants.BASE_FONT
-                  ).grid(row=row_index, column=7, sticky="nswe")
+                  ).grid(row=row_index, column=7, ipadx=TrackerConstants.IPADX_SMALL, sticky="nswe")
             Label(self.frame, text="x{0}".format(workout_reps), font=TrackerConstants.BASE_FONT
-                  ).grid(row=row_index, column=2, sticky="w")
+                  ).grid(row=row_index, column=2, ipadx=TrackerConstants.IPADX_SMALL, sticky="w")
 
             if is_rendering_today:
                 Button(self.frame, text="-5",
                        command=partial(
                            self._increment_workout_reps_completed, workout_type_id, date_string, (workout_reps*-5)),
                        font=TrackerConstants.BASE_FONT
-                       ).grid(row=row_index, column=5, sticky="nswe")
+                       ).grid(row=row_index, column=5, ipadx=TrackerConstants.IPADX_SMALL, sticky="nswe")
                 Button(self.frame, text="-",
                        command=partial(
                            self._increment_workout_reps_completed, workout_type_id, date_string, (workout_reps*-1)),
                        font=TrackerConstants.BASE_FONT
-                       ).grid(row=row_index, column=6, sticky="nswe")
+                       ).grid(row=row_index, column=6, ipadx=TrackerConstants.IPADX_SMALL, sticky="nswe")
                 Button(self.frame, text="+",
                        command=partial(
                            self._increment_workout_reps_completed, workout_type_id, date_string, (workout_reps*1)),
                        font=TrackerConstants.BASE_FONT
-                       ).grid(row=row_index, column=8, sticky="nswe")
+                       ).grid(row=row_index, column=8, ipadx=TrackerConstants.IPADX_SMALL, sticky="nswe")
                 Button(self.frame, text="+5",
                        command=partial(
                            self._increment_workout_reps_completed, workout_type_id, date_string, (workout_reps*5)),
                        font=TrackerConstants.BASE_FONT
-                       ).grid(row=row_index, column=9, sticky="nswe")
+                       ).grid(row=row_index, column=9, ipadx=TrackerConstants.IPADX_SMALL, sticky="nswe")
 
             # Description
             Button(self.frame, text="Desc", command=partial(self._toggle_workout_desc, workout_type_id),
                    font=TrackerConstants.BASE_FONT
-                   ).grid(row=row_index, column=11)
+                   ).grid(row=row_index, column=11, ipadx=TrackerConstants.IPADX_SMALL, sticky="nswe")
 
             if workout_type_id in self._show_workout_descriptions:
                 row_index += 1
@@ -168,7 +160,7 @@ class Actuals(WorkoutBoard):
                 Label(self.frame,
                       text=workout_desc, font=TrackerConstants.SMALL_ITALICS_FONT,
                       borderwidth=TrackerConstants.RIDGE_WIDTH__NORMAL, relief="ridge"
-                      ).grid(row=row_index, columnspan=12, sticky="nswe")
+                      ).grid(row=row_index, columnspan=12, ipadx=TrackerConstants.IPADX_SMALL, sticky="nswe")
 
         # Timer
         row_index += 1
@@ -177,19 +169,19 @@ class Actuals(WorkoutBoard):
         row_index += 1
 
         Label(self.frame, text="Timer", font=TrackerConstants.BASE_FONT
-              ).grid(row=row_index, column=1)
+              ).grid(row=row_index, column=1, ipadx=TrackerConstants.IPADX_NORMAL)
         Label(self.frame, textvariable=self._timer__var, font=TrackerConstants.BASE_FONT
-              ).grid(row=row_index, column=7)
+              ).grid(row=row_index, column=7, ipadx=TrackerConstants.IPADX_SMALL)
 
         if self._timer.is_running:
             Button(self.frame, text="Stop", command=lambda: self._toggle_timer("stop"), font=TrackerConstants.BASE_FONT
-                   ).grid(row=row_index, column=8, columnspan=2, sticky="nswe")
+                   ).grid(row=row_index, column=8, columnspan=2, ipadx=TrackerConstants.IPADX_SMALL, sticky="nswe")
         else:
             Button(self.frame, text="Start", command=lambda: self._toggle_timer("start"),
                    font=TrackerConstants.BASE_FONT
-                   ).grid(row=row_index, column=8, columnspan=2, sticky="nswe")
+                   ).grid(row=row_index, column=8, columnspan=2, ipadx=TrackerConstants.IPADX_SMALL, sticky="nswe")
         Button(self.frame, text="Reset", command=lambda: self._toggle_timer("reset"), font=TrackerConstants.BASE_FONT
-               ).grid(row=row_index, column=5, columnspan=2, sticky="nswe")
+               ).grid(row=row_index, column=5, columnspan=2, ipadx=TrackerConstants.IPADX_SMALL, sticky="nswe")
 
         return self.frame
 

@@ -10,16 +10,28 @@ class Constants:
 
     PATH_DYNAMIC_KEY = KeyQueryFactory(lambda sub_state, key: key)
 
-    WINDOW_MINSIZE = (255, 32)
+    WINDOW_MINSIZE = (255, 33)
+    IPADX_TINY = 1
+    IPADX_SMALL = 3
+    IPADX_NORMAL = 10
     DIVIDER_SIZE = 4
-    SUNKEN_WIDTH__LIGHT = 1
+    SUNKEN_WIDTH__SMALL = 1
     RIDGE_WIDTH__NORMAL = 2
 
     BASE_FONT = ("Verdana", 10)
-    HEADER_FONT = ("Verdana", 10, "bold")
+    BOLD_FONT = ("Verdana", 10, "bold")
     SMALL_ITALICS_FONT = ("Verdana", 9, "normal", "italic")
 
-    BOARD_FRAME_STYLE = {"borderwidth": SUNKEN_WIDTH__LIGHT, "relief": "sunken"}
+    SYMBOLS = {
+        "arrows": {
+            "up": "^",
+            "down": "v",
+            "left": "<",
+            "right": ">",
+        }
+    }
+
+    BOARD_FRAME_STYLE = {"borderwidth": SUNKEN_WIDTH__SMALL, "relief": "sunken"}
 
     FRAME_UPDATE_DELAY = 250
 
