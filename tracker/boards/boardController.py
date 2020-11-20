@@ -29,8 +29,8 @@ class BoardController(Board):
         row_index = 0
         Button(self.frame, text=self.display_name,
                command=lambda: self._set_self_var("_full_view", lambda value: not value),
-               font=TrackerConstants.BOLD_FONT
-               ).grid(row=row_index, columnspan=3, ipadx=TrackerConstants.IPADX_SMALL, sticky="nswe")
+               font=TrackerConstants.BASE_FONT
+               ).grid(row=row_index, columnspan=3, ipadx=TrackerConstants.IPADX_TINY, sticky="nswe")
 
         if self._full_view:
             other_boards = [board for board in self.parent.boards if type(board) != BoardController]
