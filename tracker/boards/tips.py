@@ -46,7 +46,7 @@ class Tips(WorkoutBoard):
                ).grid(ipadx=TrackerConstants.IPADX_SMALL, sticky="nswe")
         Label(self.frame, textvariable=self._tip__var, font=TrackerConstants.SMALL_ITALICS_FONT,
               borderwidth=TrackerConstants.RIDGE_WIDTH__NORMAL, relief="ridge"
-              ).grid(row=0, column=1, ipadx=TrackerConstants.IPADX_NORMAL, sticky="nswe")
+              ).grid(row=0, column=1, ipadx=TrackerConstants.IPADX_SMALL, sticky="nswe")
         Button(self.frame, text=TrackerConstants.SYMBOLS["arrows"]["right"],
                command=lambda: self._increment_self_var("_tip_index", 1, max_value=tip_index_max, min_value=0),
                font=TrackerConstants.BASE_FONT, state="disabled" if self._tip_index == tip_index_max else "normal"
