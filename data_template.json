@@ -3,7 +3,7 @@
     "0": {
       "name": "Test Workout",
       "desc": "Test Workout Description",
-      "single_set_repetitions": 9001
+      "single_set_reps": 9001
     }
   },
   "workout_schedules": {

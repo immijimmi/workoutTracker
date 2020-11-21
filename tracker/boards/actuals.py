@@ -111,7 +111,7 @@ class Actuals(WorkoutBoard):
 
             workout_name = workout_type_details["name"]
             workout_desc = workout_type_details["desc"]
-            workout_reps = workout_type_details["single_set_repetitions"]
+            workout_reps = workout_type_details["single_set_reps"]
             workout_sets_actual = int(workout_reps_actual/workout_reps)
 
             status_colour = self._determine_workout_status_color(workout_sets_scheduled, workout_sets_actual)
