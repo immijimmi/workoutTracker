@@ -1,1 +1,1 @@
-from tracker.tracker import Tracker
+from .app import App

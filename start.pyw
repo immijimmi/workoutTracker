@@ -1,5 +1,6 @@
-from tracker import Tracker
+from tracker import App
+from config import Config
 
-Tracker()
+App(Config)
 
 raise SystemExit

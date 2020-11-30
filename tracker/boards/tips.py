@@ -2,7 +2,7 @@ from tkinter import Label, Button, StringVar
 from random import shuffle
 
 from ..constants import Constants as TrackerConstants
-from .board import WorkoutBoard
+from tracker.boards.board import WorkoutBoard
 
 
 class Tips(WorkoutBoard):

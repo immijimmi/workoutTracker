@@ -1,8 +1,7 @@
 from tkinter import Label, Button
 from functools import partial
 
-from ..constants import Constants as TrackerConstants
-from .board import WorkoutBoard
+from tracker.boards.board import WorkoutBoard
 
 
 class Schedule(WorkoutBoard):
