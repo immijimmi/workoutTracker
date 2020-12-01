@@ -43,7 +43,7 @@ class Actuals(Board):
             self.render()
 
         def get_data__number_stepper(workout_id, number_stepper):
-            date = (datetime.now() + timedelta(days=number_stepper.offset))
+            date = (datetime.now() + timedelta(days=self._date_offset))
             date_key = date.strftime(TrackerConstants.DATE_KEY_FORMAT)
             date_weekday = date.strftime("%a")
 
@@ -63,7 +63,7 @@ class Actuals(Board):
             return sets_actual
 
         def on_change__number_stepper(workout_id, number_stepper, increment_amount):
-            date = (datetime.now() + timedelta(days=number_stepper.offset))
+            date = (datetime.now() + timedelta(days=self._date_offset))
             date_key = date.strftime(TrackerConstants.DATE_KEY_FORMAT)
 
             workout_details = self.state.registered_get("workout_type_details", [workout_id])
