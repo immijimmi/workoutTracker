@@ -39,9 +39,6 @@ class Actuals(Board):
             return status_colour
 
         def on_change__date_stepper(date_stepper, increment_amount):
-            if self._date_offset == date_stepper.offset:
-                return
-
             self._date_offset = date_stepper.offset
             self.render()
 
