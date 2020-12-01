@@ -1,18 +1,23 @@
 class Constants:
-    PAD_TINY = 1
-    PAD_SMALL = 3
-    PAD_NORMAL = 10
+    # Padding
+    PAD__TINY = 1
+    PAD__SMALL = 3
+    PAD__NORMAL = 10
 
+    # Min Sizes
     DIVIDER_SIZE = 4
     WORKOUT_TYPES_SIZE = 180
 
+    # Border Sizes
     SUNKEN_WIDTH__SMALL = 1
     RIDGE_WIDTH__NORMAL = 2
 
+    # Fonts
     BASE_FONT = ("Verdana", 10)
     BOLD_FONT = ("Verdana", 10, "bold")
     SMALL_ITALICS_FONT = ("Verdana", 9, "normal", "italic")
 
+    # Misc
     FRAME_STYLE = {"borderwidth": SUNKEN_WIDTH__SMALL, "relief": "sunken"}
 
     COLOURS = {

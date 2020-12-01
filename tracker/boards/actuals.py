@@ -109,7 +109,7 @@ class Actuals(Board):
             styles={
                 "label": {
                     "font": Constants.BASE_FONT,
-                    "padx": Constants.PAD_SMALL,
+                    "padx": Constants.PAD__SMALL,
                     "borderwidth": Constants.RIDGE_WIDTH__NORMAL,
                     "relief": "ridge"
                 },
@@ -149,7 +149,7 @@ class Actuals(Board):
 
             column_index = 1
             row_index += 1
-            Label(self._frame, text=workout_name, font=Constants.BASE_FONT, padx=Constants.PAD_NORMAL
+            Label(self._frame, text=workout_name, font=Constants.BASE_FONT, padx=Constants.PAD__NORMAL
                   ).grid(row=row_index, column=column_index)
 
             column_index += 3 if self._date_offset == 0 else 4
@@ -164,7 +164,7 @@ class Actuals(Board):
                 styles={
                     "label": {
                         "font": Constants.BASE_FONT,
-                        "padx": Constants.PAD_SMALL,
+                        "padx": Constants.PAD__SMALL,
                         "bg": status_colour
                     },
                     "button": {
