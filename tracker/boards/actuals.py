@@ -1,6 +1,6 @@
 import sys
 sys.path.insert(0, "C:/Repos/tkComponents")
-from tkComponents.basicComponents import DateStepper, NumberStepper, ToggleButton
+from tkComponents.basicComponents import DateStepper, NumberStepper, ToggleButton, Constants as ComponentConstants
 
 from datetime import datetime, timedelta
 from tkinter import Label
@@ -90,6 +90,12 @@ class Actuals(Board):
 
         self._frame.grid_columnconfigure(1, minsize=Constants.WORKOUT_TYPES_SIZE)
 
+        button_minsize_x = ComponentConstants.BUTTON_MINSIZES["base_x"] + ComponentConstants.BUTTON_MINSIZES["char_x"]
+        self._frame.grid_columnconfigure(0, minsize=button_minsize_x)
+        self._frame.grid_columnconfigure(2, minsize=button_minsize_x)
+        self._frame.grid_columnconfigure(4, minsize=button_minsize_x)
+        self._frame.grid_columnconfigure(6, minsize=button_minsize_x)
+
         self._apply_dividers(rows=[1], columns=[3])
 
         row_index, column_index = 0, 0
@@ -146,7 +152,7 @@ class Actuals(Board):
             Label(self._frame, text=workout_name, font=Constants.BASE_FONT, padx=Constants.PAD_NORMAL
                   ).grid(row=row_index, column=column_index)
 
-            column_index += 3
+            column_index += 3 if self._date_offset == 0 else 4
             NumberStepper(
                 self._frame,
                 get_data=partial(get_data__number_stepper, workout_type_id),
@@ -165,9 +171,10 @@ class Actuals(Board):
                         "font": Constants.BASE_FONT
                     }
                 }
-            ).render().grid(row=row_index, column=column_index, sticky="nswe")
+            ).render().grid(row=row_index, column=column_index,
+                            columnspan=3 if self._date_offset == 0 else 1, sticky="nswe")
 
-            column_index += 1
+            column_index += 3 if self._date_offset == 0 else 2
 
         row_index += 1
         self._apply_frame_stretch(rows=[row_index], columns=[column_index])
