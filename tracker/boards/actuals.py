@@ -26,61 +26,64 @@ class Actuals(Board):
     def _render(self):
         def determine_workout_status_color(scheduled_sets, actual_sets):
             if actual_sets > scheduled_sets:
-                status_colour = Constants.COLOURS["green"]
+                colour = Constants.COLOURS["green"]
             elif actual_sets == scheduled_sets and actual_sets > 0:
-                status_colour = Constants.COLOURS["blue"]
+                colour = Constants.COLOURS["blue"]
             elif actual_sets == scheduled_sets:
-                status_colour = Constants.COLOURS["grey"]
+                colour = Constants.COLOURS["grey"]
             elif actual_sets > 0:
-                status_colour = Constants.COLOURS["yellow"]
+                colour = Constants.COLOURS["yellow"]
             else:
-                status_colour = Constants.COLOURS["orange"]  # Default
+                colour = Constants.COLOURS["orange"]  # Default
 
-            return status_colour
+            return colour
 
         def on_change__date_stepper(date_stepper, increment_amount):
             self._date_offset = date_stepper.offset
             self.render()
 
-        def get_data__number_stepper(workout_type_id, number_stepper):
-            workout_type_details = self.state.registered_get("workout_type_details", [workout_type_id])
-            workout_reps = workout_type_details["single_set_reps"]
+        def get_data__number_stepper(workout_id, number_stepper):
+            date = (datetime.now() + timedelta(days=number_stepper.offset))
+            date_key = date.strftime(TrackerConstants.DATE_KEY_FORMAT)
+            date_weekday = date.strftime("%a")
 
-            workout_reps_actual = self.state.registered_get("completed_reps_single_entry",
-                                                            [working_date_string, workout_type_id])
-            workout_sets_scheduled = self.state.registered_get("scheduled_sets_single_entry",
-                                                               [working_date.strftime("%a"), workout_type_id])
-            workout_sets_actual = int(workout_reps_actual / workout_reps)
+            workout_details = self.state.registered_get("workout_type_details", [workout_id])
+            reps = workout_details["single_set_reps"]
 
-            number_stepper.text_format = "{0}" + "/{0} sets".format(workout_sets_scheduled)
-            status_colour = determine_workout_status_color(workout_sets_scheduled, workout_sets_actual)
+            reps_actual = self.state.registered_get("completed_reps_single_entry", [date_key, workout_id])
+            sets_scheduled = self.state.registered_get("scheduled_sets_single_entry", [date_weekday, workout_id])
+            sets_actual = int(reps_actual / reps)
+
+            number_stepper.text_format = "{0}" + "/{0} sets".format(sets_scheduled)
+            colour = determine_workout_status_color(sets_scheduled, sets_actual)
 
             if "label" in number_stepper.children:
-                number_stepper.children["label"].config(bg=status_colour)
+                number_stepper.children["label"].config(bg=colour)
 
-            return workout_sets_actual
+            return sets_actual
 
-        def on_change__number_stepper(workout_type_id, number_stepper, increment_amount):
-            workout_type_details = self.state.registered_get("workout_type_details", [workout_type_id])
-            workout_reps = workout_type_details["single_set_reps"]
+        def on_change__number_stepper(workout_id, number_stepper, increment_amount):
+            date = (datetime.now() + timedelta(days=number_stepper.offset))
+            date_key = date.strftime(TrackerConstants.DATE_KEY_FORMAT)
 
-            workout_reps_actual = self.state.registered_get("completed_reps_single_entry",
-                                                            [working_date_string, workout_type_id])
-            workout_sets_actual = int(workout_reps_actual / workout_reps)
+            workout_details = self.state.registered_get("workout_type_details", [workout_id])
+            reps = workout_details["single_set_reps"]
 
-            sets_actual_difference = number_stepper.value - workout_sets_actual
-            reps_actual_difference = sets_actual_difference * workout_reps
+            reps_actual = self.state.registered_get("completed_reps_single_entry", [date_key, workout_id])
+            sets_actual = int(reps_actual / reps)
 
-            new_workout_reps_actual = workout_reps_actual + reps_actual_difference
-            self.state.registered_set(new_workout_reps_actual, "completed_reps_single_entry",
-                                      [working_date_string, workout_type_id])
+            sets_actual_difference = number_stepper.value - sets_actual
+            reps_actual_difference = sets_actual_difference * reps
+
+            new_workout_reps_actual = reps_actual + reps_actual_difference
+            self.state.registered_set(new_workout_reps_actual, "completed_reps_single_entry", [date_key, workout_id])
 
         """
-        def toggle_workout_desc(workout_type_id):
-            if workout_type_id in self._visible_workout_descriptions:
-                self._visible_workout_descriptions.remove(workout_type_id)
+        def toggle_workout_desc(workout_id):
+            if workout_id in self._visible_workout_descriptions:
+                self._visible_workout_descriptions.remove(workout_id)
             else:
-                self._visible_workout_descriptions.add(workout_type_id)
+                self._visible_workout_descriptions.add(workout_id)
 
             self.render()
         """
