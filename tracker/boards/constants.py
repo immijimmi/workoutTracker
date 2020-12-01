@@ -2,7 +2,10 @@ class Constants:
     PAD_TINY = 1
     PAD_SMALL = 3
     PAD_NORMAL = 10
+
     DIVIDER_SIZE = 4
+    WORKOUT_TYPE_SIZE = 200
+
     SUNKEN_WIDTH__SMALL = 1
     RIDGE_WIDTH__NORMAL = 2
 

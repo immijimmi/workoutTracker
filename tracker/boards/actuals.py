@@ -88,6 +88,10 @@ class Actuals(Board):
             self.render()
         """
 
+        self._frame.grid_columnconfigure(1, minsize=Constants.WORKOUT_TYPE_SIZE)
+
+        self._apply_dividers(rows=[1], columns=[3])
+
         row_index, column_index = 0, 0
 
         DateStepper(
@@ -99,15 +103,18 @@ class Actuals(Board):
             styles={
                 "label": {
                     "font": Constants.BASE_FONT,
-                    "padx": Constants.PAD_SMALL
+                    "padx": Constants.PAD_SMALL,
+                    "borderwidth": Constants.RIDGE_WIDTH__NORMAL,
+                    "relief": "ridge"
                 },
                 "button": {
                     "font": Constants.BASE_FONT
                 }
             }
             ).render().grid(row=row_index, column=column_index, columnspan=3, sticky="nswe")
+        row_index += 1
 
-        working_date = datetime.now().date() - timedelta(days=self._date_offset)
+        working_date = datetime.now().date() + timedelta(days=self._date_offset)
         working_date_string = working_date.strftime(TrackerConstants.DATE_KEY_FORMAT)
 
         workout_types = self.state.registered_get("workout_types")
@@ -139,7 +146,7 @@ class Actuals(Board):
             Label(self._frame, text=workout_name, font=Constants.BASE_FONT, padx=Constants.PAD_NORMAL
                   ).grid(row=row_index, column=column_index)
 
-            column_index += 2 if self._date_offset == 0 else 3
+            column_index += 3
             NumberStepper(
                 self._frame,
                 get_data=partial(get_data__number_stepper, workout_type_id),
@@ -154,10 +161,9 @@ class Actuals(Board):
                         "bg": status_colour
                     }
                 }
-            ).render().grid(row=row_index, column=column_index,
-                            columnspan=3 if self._date_offset == 0 else 1, sticky="nswe")
+            ).render().grid(row=row_index, column=column_index, sticky="nswe")
 
-            column_index += 3 if self._date_offset == 0 else 2
+            column_index += 1
 
         row_index += 1
         self._apply_frame_stretch(rows=[row_index], columns=[column_index])
