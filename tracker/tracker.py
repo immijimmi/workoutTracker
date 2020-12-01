@@ -4,6 +4,7 @@ from managedState.extensions import Registrar, Listeners
 import sys
 sys.path.insert(0, "C:/Repos/tkComponents")
 from tkComponents import Component
+from tkComponents.extensions import GridHelper
 
 import json
 import logging
@@ -13,7 +14,7 @@ from .constants import Constants
 
 class Tracker(Component):
     def __init__(self, container, config):
-        super().__init__(container)
+        super().__init__(container, extensions=[GridHelper])
 
         self._config = config
 
@@ -51,6 +52,7 @@ class Tracker(Component):
 
         for column_index, frames_column in enumerate(board_frames_grid_layout):
             for row_index, frame in enumerate(frames_column):
+                self._apply_frame_stretch(rows=[row_index], columns=[column_index])
                 frame.grid(row=row_index, column=column_index, sticky="nswe")
 
     def _load_state(self):

@@ -12,5 +12,11 @@ class App:
         self._window.minsize(*Constants.WINDOW_MINSIZE)
         self._window.resizable(False, False)
 
-        Tracker(self._window, config).render().pack(expand=True, fill='both')
+        # Make the window expand to fill the screen
+        self._window.columnconfigure(0, weight=1)
+        self._window.rowconfigure(0, weight=1)
+
+        self.tracker = Tracker(self._window, config).render()
+        self.tracker.grid(sticky="nswe")
+
         self._window.mainloop()

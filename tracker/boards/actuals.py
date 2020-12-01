@@ -157,4 +157,7 @@ class Actuals(Board):
             ).render().grid(row=row_index, column=column_index,
                             columnspan=3 if self._date_offset == 0 else 1, sticky="nswe")
 
-            column_index += 2 if self._date_offset == 0 else 1
+            column_index += 3 if self._date_offset == 0 else 2
+
+        row_index += 1
+        self._apply_frame_stretch(rows=[row_index], columns=[column_index])
