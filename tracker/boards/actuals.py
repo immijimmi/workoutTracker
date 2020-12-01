@@ -88,7 +88,7 @@ class Actuals(Board):
             self.render()
         """
 
-        self._frame.grid_columnconfigure(1, minsize=Constants.WORKOUT_TYPE_SIZE)
+        self._frame.grid_columnconfigure(1, minsize=Constants.WORKOUT_TYPES_SIZE)
 
         self._apply_dividers(rows=[1], columns=[3])
 
@@ -157,8 +157,12 @@ class Actuals(Board):
                 limits=(0, None),
                 styles={
                     "label": {
+                        "font": Constants.BASE_FONT,
                         "padx": Constants.PAD_SMALL,
                         "bg": status_colour
+                    },
+                    "button": {
+                        "font": Constants.BASE_FONT
                     }
                 }
             ).render().grid(row=row_index, column=column_index, sticky="nswe")
