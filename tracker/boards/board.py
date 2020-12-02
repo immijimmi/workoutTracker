@@ -1,7 +1,5 @@
 from abc import ABC
 
-import sys
-sys.path.insert(0, "C:/Repos/tkComponents")
 from tkComponents import Component
 from tkComponents.extensions import GridHelper
 

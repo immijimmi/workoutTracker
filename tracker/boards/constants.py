@@ -7,6 +7,7 @@ class Constants:
     # Min Sizes
     DIVIDER_SIZE = 4
     WORKOUT_TYPES_SIZE = 180
+    WORKOUT_SETS_ACTUALS_SIZE = 80
 
     # Border Sizes
     SUNKEN_WIDTH__SMALL = 1

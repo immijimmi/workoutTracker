@@ -1,8 +1,6 @@
 from managedState import State
 from managedState.extensions import Registrar, Listeners
 
-import sys
-sys.path.insert(0, "C:/Repos/tkComponents")
 from tkComponents import Component
 from tkComponents.extensions import GridHelper
 

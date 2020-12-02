@@ -1,5 +1,3 @@
-import sys
-sys.path.insert(0, "C:/Repos/tkComponents")
 from tkComponents.basicComponents import DateStepper, NumberStepper, ToggleButton, Constants as ComponentConstants
 
 from datetime import datetime, timedelta
@@ -78,25 +76,25 @@ class Actuals(Board):
             new_workout_reps_actual = reps_actual + reps_actual_difference
             self.state.registered_set(new_workout_reps_actual, "completed_reps_single_entry", [date_key, workout_id])
 
-        """
-        def toggle_workout_desc(workout_id):
+        def toggle_workout_desc(workout_id, toggle_button):
             if workout_id in self._visible_workout_descriptions:
                 self._visible_workout_descriptions.remove(workout_id)
             else:
                 self._visible_workout_descriptions.add(workout_id)
 
             self.render()
-        """
+
+        self._apply_frame_stretch(rows=[1], columns=[4])
+        self._apply_dividers(rows=[1], columns=[4])
 
         self._frame.grid_columnconfigure(1, minsize=Constants.WORKOUT_TYPES_SIZE)
+        self._frame.grid_columnconfigure(6, minsize=Constants.WORKOUT_SETS_ACTUALS_SIZE)
 
         button_minsize_x = ComponentConstants.BUTTON_MINSIZES["base_x"] + ComponentConstants.BUTTON_MINSIZES["char_x"]
         self._frame.grid_columnconfigure(0, minsize=button_minsize_x)
-        self._frame.grid_columnconfigure(2, minsize=button_minsize_x)
-        self._frame.grid_columnconfigure(4, minsize=button_minsize_x)
-        self._frame.grid_columnconfigure(6, minsize=button_minsize_x)
-
-        self._apply_dividers(rows=[1], columns=[3])
+        self._frame.grid_columnconfigure(3, minsize=button_minsize_x)
+        self._frame.grid_columnconfigure(5, minsize=button_minsize_x)
+        self._frame.grid_columnconfigure(7, minsize=button_minsize_x)
 
         row_index, column_index = 0, 0
 
@@ -117,7 +115,7 @@ class Actuals(Board):
                     "font": Constants.BASE_FONT
                 }
             }
-            ).render().grid(row=row_index, column=column_index, columnspan=3, sticky="nswe")
+            ).render().grid(row=row_index, column=column_index, columnspan=4, sticky="nswe")
         row_index += 1
 
         working_date = datetime.now().date() + timedelta(days=self._date_offset)
@@ -149,8 +147,12 @@ class Actuals(Board):
 
             column_index = 1
             row_index += 1
-            Label(self._frame, text=workout_name, font=Constants.BASE_FONT, padx=Constants.PAD__NORMAL
-                  ).grid(row=row_index, column=column_index)
+            Label(self._frame, text=workout_name, font=Constants.BASE_FONT, padx=Constants.PAD__SMALL
+                  ).grid(row=row_index, column=column_index, sticky="nswe")
+
+            column_index += 1
+            Label(self._frame, text="x{0}".format(workout_reps), font=Constants.BASE_FONT, padx=Constants.PAD__TINY
+                  ).grid(row=row_index, column=column_index, sticky="nsw")
 
             column_index += 3 if self._date_offset == 0 else 4
             NumberStepper(
@@ -175,6 +177,23 @@ class Actuals(Board):
                             columnspan=3 if self._date_offset == 0 else 1, sticky="nswe")
 
             column_index += 3 if self._date_offset == 0 else 2
+            ToggleButton(
+                self._frame,
+                text_values={True: "Desc", False: "Desc"},
+                get_data=partial(lambda button: workout_type_id in self._visible_workout_descriptions),
+                on_change=partial(toggle_workout_desc, workout_type_id),
+                styles={
+                    "button": {
+                        "font": Constants.BASE_FONT
+                    }
+                }
+            ).render().grid(row=row_index, column=column_index, sticky="nswe")
+
+            if workout_type_id in self._visible_workout_descriptions:
+                row_index += 1
+                Label(self._frame,
+                      text=workout_desc, font=Constants.SMALL_ITALICS_FONT,
+                      borderwidth=Constants.SUNKEN_WIDTH__SMALL, relief="sunken"
+                      ).grid(row=row_index, column=0, columnspan=9, sticky="nswe")
 
         row_index += 1
-        self._apply_frame_stretch(rows=[row_index], columns=[column_index])
