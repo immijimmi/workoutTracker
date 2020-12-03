@@ -180,7 +180,6 @@ class Actuals(Board):
             ToggleButton(
                 self._frame,
                 text_values={True: "Desc", False: "Desc"},
-                get_data=partial(lambda button: workout_type_id in self._visible_workout_descriptions),
                 on_change=partial(toggle_workout_desc, workout_type_id),
                 styles={
                     "button": {
