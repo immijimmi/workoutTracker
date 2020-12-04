@@ -1,4 +1,4 @@
-from tkComponents.basicComponents import DateStepper, NumberStepper, ToggleButton, Constants as ComponentConstants
+from tkComponents.basicComponents import DateStepper, NumberStepper, ToggleButton
 
 from datetime import datetime, timedelta
 from tkinter import Label
@@ -85,16 +85,8 @@ class Actuals(Board):
             self.render()
 
         self._apply_frame_stretch(rows=[1], columns=[4])
-        self._apply_dividers(rows=[1], columns=[4])
 
         self._frame.grid_columnconfigure(1, minsize=Constants.WORKOUT_TYPES_SIZE)
-        self._frame.grid_columnconfigure(6, minsize=Constants.WORKOUT_SETS_ACTUALS_SIZE)
-
-        button_minsize_x = ComponentConstants.BUTTON_MINSIZES["base_x"] + ComponentConstants.BUTTON_MINSIZES["char_x"]
-        self._frame.grid_columnconfigure(0, minsize=button_minsize_x)
-        self._frame.grid_columnconfigure(3, minsize=button_minsize_x)
-        self._frame.grid_columnconfigure(5, minsize=button_minsize_x)
-        self._frame.grid_columnconfigure(7, minsize=button_minsize_x)
 
         row_index, column_index = 0, 0
 
@@ -122,7 +114,7 @@ class Actuals(Board):
         working_date_string = working_date.strftime(TrackerConstants.DATE_KEY_FORMAT)
 
         workout_types = self.state.registered_get("workout_types")
-
+        is_date_empty = True
         for workout_type_id in workout_types:
             workout_type_details = self.state.registered_get("workout_type_details", [workout_type_id])
             workout_sets_scheduled = self.state.registered_get("scheduled_sets_single_entry",
@@ -137,6 +129,7 @@ class Actuals(Board):
             else:  # Rendering a previous date
                 if workout_sets_scheduled == 0 and workout_reps_actual == 0:
                     continue  # Ignore workout types that were not scheduled nor performed on this date
+            is_date_empty = False
 
             workout_name = workout_type_details["name"]
             workout_desc = workout_type_details["desc"]
@@ -196,3 +189,7 @@ class Actuals(Board):
                       ).grid(row=row_index, column=0, columnspan=9, sticky="nswe")
 
         row_index += 1
+
+        if not is_date_empty:
+            self._apply_dividers(rows=[1], columns=[4])
+

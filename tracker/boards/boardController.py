@@ -71,5 +71,3 @@ class BoardController(Board):
                         }
                     }
                 ).render().grid(row=row_index, column=column_index, sticky="nswe")
-
-
