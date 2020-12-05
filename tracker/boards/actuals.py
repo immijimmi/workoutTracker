@@ -86,11 +86,9 @@ class Actuals(Board):
 
         self._apply_frame_stretch(rows=[1], columns=[4])
 
-        self._frame.grid_columnconfigure(1, minsize=Constants.WORKOUT_TYPES_SIZE)
-
         row_index, column_index = 0, 0
 
-        DateStepper(
+        date_stepper = DateStepper(
             self._frame,
             date_text_format="%a %Y/%m/%d",
             get_data=lambda stepper: self._date_offset,
@@ -99,16 +97,25 @@ class Actuals(Board):
             styles={
                 "label": {
                     "font": Constants.BASE_FONT,
+                    "width": 14,
                     "padx": Constants.PAD__SMALL,
-                    "borderwidth": Constants.RIDGE_WIDTH__NORMAL,
+                    "borderwidth": Constants.BORDERWIDTH__SMALL,
                     "relief": "ridge"
                 },
                 "button": {
-                    "font": Constants.BASE_FONT
+                    "font": Constants.BASE_FONT,
+                    "width": 1,
+                    "padx": Constants.PAD__SMALL
                 }
             }
-            ).render().grid(row=row_index, column=column_index, columnspan=4, sticky="nswe")
+        )
+        date_stepper.render().grid(row=row_index, column=column_index, columnspan=4, sticky="nswe")
         row_index += 1
+
+        date_stepper_back_button_width = date_stepper.children["back_button"].winfo_reqwidth()
+        date_stepper_forward_button_width = date_stepper.children["forward_button"].winfo_reqwidth()
+        self._frame.grid_columnconfigure(0, minsize=date_stepper_back_button_width)
+        self._frame.grid_columnconfigure(3, minsize=date_stepper_forward_button_width)
 
         working_date = datetime.now().date() + timedelta(days=self._date_offset)
         working_date_string = working_date.strftime(TrackerConstants.DATE_KEY_FORMAT)
@@ -140,30 +147,38 @@ class Actuals(Board):
 
             column_index = 1
             row_index += 1
-            Label(self._frame, text=workout_name, font=Constants.BASE_FONT, padx=Constants.PAD__SMALL
+            Label(self._frame, text=workout_name, font=Constants.BASE_FONT,
+                  width=len(workout_name), padx=Constants.PAD__NORMAL
                   ).grid(row=row_index, column=column_index, sticky="nswe")
 
             column_index += 1
-            Label(self._frame, text="x{0}".format(workout_reps), font=Constants.BASE_FONT, padx=Constants.PAD__TINY
+
+            workout_reps_text = "x{0}".format(workout_reps)
+            Label(self._frame, text=workout_reps_text, font=Constants.BASE_FONT,
+                  width=len(workout_reps_text), padx=Constants.PAD__SMALL
                   ).grid(row=row_index, column=column_index, sticky="nsw")
 
             column_index += 3 if self._date_offset == 0 else 4
+            sets_actual_text_format = "{0}" + "/{0} sets".format(workout_sets_scheduled)
             NumberStepper(
                 self._frame,
                 get_data=partial(get_data__number_stepper, workout_type_id),
                 on_change=partial(on_change__number_stepper, workout_type_id),
                 update_interval=200,
-                text_format="{0}" + "/{0} sets".format(workout_sets_scheduled),
+                text_format=sets_actual_text_format,
                 step_amounts=(1,) if self._date_offset == 0 else (),
                 limits=(0, None),
                 styles={
                     "label": {
                         "font": Constants.BASE_FONT,
+                        "bg": status_colour,
+                        "width": len(sets_actual_text_format)-2,  # Format string has 3 chars per inserted int - {0}
                         "padx": Constants.PAD__SMALL,
-                        "bg": status_colour
                     },
                     "button": {
-                        "font": Constants.BASE_FONT
+                        "font": Constants.BASE_FONT,
+                        "width": 1,
+                        "padx": Constants.PAD__SMALL
                     }
                 }
             ).render().grid(row=row_index, column=column_index,
@@ -176,7 +191,9 @@ class Actuals(Board):
                 on_change=partial(toggle_workout_desc, workout_type_id),
                 styles={
                     "button": {
-                        "font": Constants.BASE_FONT
+                        "font": Constants.BASE_FONT,
+                        "width": 4,
+                        "padx": Constants.PAD__SMALL
                     }
                 }
             ).render().grid(row=row_index, column=column_index, sticky="nswe")
@@ -185,7 +202,7 @@ class Actuals(Board):
                 row_index += 1
                 Label(self._frame,
                       text=workout_desc, font=Constants.SMALL_ITALICS_FONT,
-                      borderwidth=Constants.SUNKEN_WIDTH__SMALL, relief="sunken"
+                      borderwidth=Constants.BORDERWIDTH__TINY, relief="sunken"
                       ).grid(row=row_index, column=0, columnspan=9, sticky="nswe")
 
         row_index += 1

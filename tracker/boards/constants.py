@@ -1,8 +1,8 @@
 class Constants:
     # Padding
-    PAD__TINY = 1
-    PAD__SMALL = 3
-    PAD__NORMAL = 10
+    PAD__TINY = 2
+    PAD__SMALL = 4
+    PAD__NORMAL = 6
 
     # Min Sizes
     DIVIDER_SIZE = 4
@@ -10,8 +10,8 @@ class Constants:
     WORKOUT_SETS_ACTUALS_SIZE = 80
 
     # Border Sizes
-    SUNKEN_WIDTH__SMALL = 1
-    RIDGE_WIDTH__NORMAL = 2
+    BORDERWIDTH__TINY = 1
+    BORDERWIDTH__SMALL = 2
 
     # Fonts
     BASE_FONT = ("Verdana", 10)
@@ -19,7 +19,7 @@ class Constants:
     SMALL_ITALICS_FONT = ("Verdana", 9, "normal", "italic")
 
     # Misc
-    FRAME_STYLE = {"borderwidth": SUNKEN_WIDTH__SMALL, "relief": "sunken"}
+    FRAME_STYLE = {"borderwidth": BORDERWIDTH__TINY, "relief": "sunken"}
 
     COLOURS = {
         "orange": "#FF9859",

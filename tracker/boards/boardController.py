@@ -41,7 +41,9 @@ class BoardController(Board):
             on_change=toggle_full_view,
             styles={
                 "button": {
-                    "font": Constants.BASE_FONT
+                    "font": Constants.BASE_FONT,
+                    "width": len(self.display_name),
+                    "padx": Constants.PAD__SMALL
                 }
             }
         ).render().grid(row=row_index, column=column_index, columnspan=2, sticky="nswe")
@@ -56,7 +58,8 @@ class BoardController(Board):
                 row_index += 1
 
                 Label(self._frame, text=other_board.display_name, font=Constants.BASE_FONT,
-                      padx=Constants.PAD__SMALL).grid(row=row_index, column=column_index, sticky="nswe")
+                      width=len(other_board.display_name), padx=Constants.PAD__SMALL
+                      ).grid(row=row_index, column=column_index, sticky="nswe")
                 column_index += 1
 
                 ToggleButton(
@@ -67,7 +70,9 @@ class BoardController(Board):
                     on_change=partial(toggle_board_visibility, other_board_class),
                     styles={
                         "button": {
-                            "font": Constants.BASE_FONT
+                            "font": Constants.BASE_FONT,
+                            "width": 4,
+                            "padx": Constants.PAD__SMALL
                         }
                     }
                 ).render().grid(row=row_index, column=column_index, sticky="nswe")
