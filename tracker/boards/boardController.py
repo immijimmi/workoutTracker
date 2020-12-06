@@ -33,7 +33,7 @@ class BoardController(Board):
 
         self._apply_frame_stretch(rows=[0], columns=[0])
 
-        row_index, column_index = 0, 0
+        row_index = 0
 
         ToggleButton(
             self._frame,
@@ -46,7 +46,7 @@ class BoardController(Board):
                     "padx": Constants.PAD__SMALL
                 }
             }
-        ).render().grid(row=row_index, column=column_index, columnspan=2, sticky="nswe")
+        ).render().grid(row=row_index, column=0, columnspan=2, sticky="nswe")
 
         if self._full_view:
             other_boards = [board for board in self.parent.boards if type(board) != BoardController]
