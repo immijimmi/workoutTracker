@@ -1,4 +1,4 @@
-from tracker.boards import Actuals, BoardController
+from tracker.boards import BoardController, Actuals, Tips
 
 
 class Config:
@@ -15,10 +15,10 @@ class Config:
     )
     """
 
-    BOARDS = {BoardController, Actuals}
+    BOARDS = {BoardController, Actuals, Tips}
 
-    INITIAL_BOARDS_VISIBLE = {BoardController}
+    INITIAL_BOARDS_VISIBLE = {BoardController, Tips}
     BOARDS_COLUMNS = (
         (BoardController,),
-        (Actuals,)
+        (Actuals, Tips)
     )

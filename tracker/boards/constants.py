@@ -16,6 +16,7 @@ class Constants:
     # Fonts
     BASE_FONT = ("Verdana", 10)
     BOLD_FONT = ("Verdana", 10, "bold")
+    SYMBOL_FONT = ("Verdana", 8, "bold")
     SMALL_ITALICS_FONT = ("Verdana", 9, "normal", "italic")
 
     # Misc

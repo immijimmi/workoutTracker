@@ -103,7 +103,7 @@ class Actuals(Board):
                     "relief": "ridge"
                 },
                 "button": {
-                    "font": Constants.BASE_FONT,
+                    "font": Constants.SYMBOL_FONT,
                     "width": 1,
                     "padx": Constants.PAD__SMALL
                 }
@@ -176,7 +176,7 @@ class Actuals(Board):
                         "padx": Constants.PAD__SMALL,
                     },
                     "button": {
-                        "font": Constants.BASE_FONT,
+                        "font": Constants.SYMBOL_FONT,
                         "width": 1,
                         "padx": Constants.PAD__SMALL
                     }
@@ -212,8 +212,10 @@ class Actuals(Board):
             self._apply_dividers(rows=[1], columns=[4])
 
             number_stepper_label_width = number_stepper.children["label"].winfo_reqwidth()
-            number_stepper_minus_button_width = number_stepper.children["minus_buttons"][0].winfo_reqwidth()
-            number_stepper_plus_button_width = number_stepper.children["plus_buttons"][0].winfo_reqwidth()
             self._frame.grid_columnconfigure(6, minsize=number_stepper_label_width)
-            self._frame.grid_columnconfigure(5, minsize=number_stepper_minus_button_width)
-            self._frame.grid_columnconfigure(7, minsize=number_stepper_plus_button_width)
+
+            if self._date_offset == 0:
+                number_stepper_minus_button_width = number_stepper.children["minus_buttons"][0].winfo_reqwidth()
+                number_stepper_plus_button_width = number_stepper.children["plus_buttons"][0].winfo_reqwidth()
+                self._frame.grid_columnconfigure(5, minsize=number_stepper_minus_button_width)
+                self._frame.grid_columnconfigure(7, minsize=number_stepper_plus_button_width)
