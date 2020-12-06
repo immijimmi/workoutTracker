@@ -86,7 +86,7 @@ class Actuals(Board):
 
         self._apply_frame_stretch(rows=[1], columns=[4])
 
-        row_index, column_index = 0, 0
+        row_index = 0
 
         date_stepper = DateStepper(
             self._frame,
@@ -109,7 +109,7 @@ class Actuals(Board):
                 }
             }
         )
-        date_stepper.render().grid(row=row_index, column=column_index, columnspan=4, sticky="nswe")
+        date_stepper.render().grid(row=row_index, column=0, columnspan=4, sticky="nswe")
         row_index += 1
 
         date_stepper_back_button_width = date_stepper.children["back_button"].winfo_reqwidth()
@@ -160,7 +160,7 @@ class Actuals(Board):
 
             column_index += 3 if self._date_offset == 0 else 4
             sets_actual_text_format = "{0}" + "/{0} sets".format(workout_sets_scheduled)
-            NumberStepper(
+            number_stepper = NumberStepper(
                 self._frame,
                 get_data=partial(get_data__number_stepper, workout_type_id),
                 on_change=partial(on_change__number_stepper, workout_type_id),
@@ -181,8 +181,9 @@ class Actuals(Board):
                         "padx": Constants.PAD__SMALL
                     }
                 }
-            ).render().grid(row=row_index, column=column_index,
-                            columnspan=3 if self._date_offset == 0 else 1, sticky="nswe")
+            )
+            number_stepper.render().grid(row=row_index, column=column_index,
+                                         columnspan=3 if self._date_offset == 0 else 1, sticky="nswe")
 
             column_index += 3 if self._date_offset == 0 else 2
             ToggleButton(
@@ -210,3 +211,9 @@ class Actuals(Board):
         if not is_date_empty:
             self._apply_dividers(rows=[1], columns=[4])
 
+            number_stepper_label_width = number_stepper.children["label"].winfo_reqwidth()
+            number_stepper_minus_button_width = number_stepper.children["minus_buttons"][0].winfo_reqwidth()
+            number_stepper_plus_button_width = number_stepper.children["plus_buttons"][0].winfo_reqwidth()
+            self._frame.grid_columnconfigure(6, minsize=number_stepper_label_width)
+            self._frame.grid_columnconfigure(5, minsize=number_stepper_minus_button_width)
+            self._frame.grid_columnconfigure(7, minsize=number_stepper_plus_button_width)
