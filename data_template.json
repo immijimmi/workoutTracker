@@ -1,4 +1,7 @@
 {
+  "settings": {
+    "active_schedule_id": "0"
+  },
   "workout_types": {
     "0": {
       "name": "Test Workout",
@@ -7,24 +10,29 @@
     }
   },
   "workout_schedules": {
-    "Mon": {
-      "0": 1
-    },
-    "Tue": {
-      "0": 3
-    },
-    "Wed": {
-      "0": 3
-    },
-    "Thu": {
-      "0": 7
-    },
-    "Fri": {},
-    "Sat": {
-      "0": 4
-    },
-    "Sun": {
-      "0": 2
+    "0": {
+      "name": "Test Schedule",
+      "schedule": {
+        "Mon": {
+          "0": 1
+        },
+        "Tue": {
+          "0": 3
+        },
+        "Wed": {
+          "0": 3
+        },
+        "Thu": {
+          "0": 7
+        },
+        "Fri": {},
+        "Sat": {
+          "0": 4
+        },
+        "Sun": {
+          "0": 2
+        }
+      }
     }
   },
   "workout_log": {

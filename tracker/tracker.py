@@ -66,15 +66,19 @@ class Tracker(Component):
             data_file.write(json.dumps(self.state.get()))
 
     def _register_paths(self):
+        self.state.register("settings", ["settings"], [{}])
+
         self.state.register("workout_types", ["workout_types"], [{}])
         self.state.register("workout_type_details", ["workout_types", Constants.PATH_DYNAMIC_KEY], [{}, {}])
-        self.state.register("is_workout_disabled",
-                            ["workout_types", Constants.PATH_DYNAMIC_KEY, "disabled"], [{}, {}, False])
+        self.state.register(
+            "is_workout_disabled", ["workout_types", Constants.PATH_DYNAMIC_KEY, "disabled"], [{}, {}, False])
 
         self.state.register(
+            "workout_schedule", ["workout_schedules", Constants.PATH_DYNAMIC_KEY], [{}, {}])
+        self.state.register(
             "scheduled_sets_single_entry",
-            ["workout_schedules", Constants.PATH_DYNAMIC_KEY, Constants.PATH_DYNAMIC_KEY],
-            [{}, {}, 0])
+            ["workout_schedules", Constants.PATH_DYNAMIC_KEY, "schedule", Constants.PATH_DYNAMIC_KEY, Constants.PATH_DYNAMIC_KEY],
+            [{}, {}, {}, {}, 0])
         self.state.register(
             "completed_reps_single_entry",
             ["workout_log", Constants.PATH_DYNAMIC_KEY, Constants.PATH_DYNAMIC_KEY],
