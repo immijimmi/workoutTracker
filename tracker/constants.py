@@ -18,8 +18,10 @@ class Constants:
         "green": "#00B211",
         "grey": "#CCCCCC",
         "white": "#FFFFFF",
-        "cool_off_white": "#F5F5FF",
-        "cool_dark_grey": "#36393F",
+        "cool_off_white": "#FAFAFF",
+        "cool_dark_grey": "#37373C",
+        "warm_dark_grey": "#3C3B37",
+        "warm_off_white": "#FFFEFA",
     }
 
     DEFAULT_STYLE_ARGS = {
