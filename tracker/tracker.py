@@ -67,6 +67,7 @@ class Tracker(Component):
 
     def _register_paths(self):
         self.state.register("settings", ["settings"], [{}])
+        self.state.register("active_schedule_id", ["settings", "active_schedule_id"], [{}, None])
 
         self.state.register("workout_types", ["workout_types"], [{}])
         self.state.register("workout_type_details", ["workout_types", Constants.PATH_DYNAMIC_KEY], [{}, {}])
