@@ -2,6 +2,7 @@ from tkComponents.basicComponents import TextCarousel
 
 from random import shuffle
 
+from ..constants import Constants as TrackerConstants
 from .constants import Constants
 from .board import Board
 
@@ -29,10 +30,12 @@ class Tips(Board):
                 "button": {
                     "font": Constants.SYMBOL_FONT,
                     "width": 1,
-                    "padx": Constants.PAD__SMALL
+                    "padx": Constants.PAD__SMALL,
+                    **TrackerConstants.DEFAULT_STYLE_ARGS
                 },
                 "label": {
-                    "font": Constants.SMALL_ITALICS_FONT
+                    "font": Constants.SMALL_ITALICS_FONT,
+                    **TrackerConstants.DEFAULT_STYLE_ARGS
                 }
             }
         ).render().grid(row=0, column=0, sticky="nswe")

@@ -32,7 +32,7 @@ class Schedule(WorkoutBoard):
 
         for weekday_index, weekday_string in enumerate(TrackerConstants.WEEKDAY_KEY_STRINGS):
             column_index = (weekday_index*4)+2
-            Label(self.frame, text=weekday_string, font=TrackerConstants.BASE_FONT
+            Label(self.frame, text=weekday_string, font=TrackerConstants.NORMAL_FONT
                   ).grid(row=row_index, column=column_index, columnspan=3, ipadx=TrackerConstants.IPADX_SMALL)
 
         workout_types = self.state.registered_get("workout_types")
@@ -50,7 +50,7 @@ class Schedule(WorkoutBoard):
             workout_name = workout_type_details["name"]
 
             row_index += 1
-            Label(self.frame, text=workout_name, font=TrackerConstants.BASE_FONT
+            Label(self.frame, text=workout_name, font=TrackerConstants.NORMAL_FONT
                   ).grid(row=row_index, ipadx=TrackerConstants.IPADX_NORMAL)
 
             for weekday_index, weekday_string in enumerate(TrackerConstants.WEEKDAY_KEY_STRINGS):
@@ -60,17 +60,17 @@ class Schedule(WorkoutBoard):
                 column_index = (weekday_index*4)+2
                 Button(self.frame, text="-",
                        command=partial(self._increment_workout_sets_scheduled, workout_type_id, weekday_string, -1),
-                       font=TrackerConstants.BASE_FONT, state="disabled" if workout_sets_scheduled == 0 else "normal"
+                       font=TrackerConstants.NORMAL_FONT, state="disabled" if workout_sets_scheduled == 0 else "normal"
                        ).grid(row=row_index, column=column_index, ipadx=TrackerConstants.IPADX_TINY, sticky="nswe")
 
                 column_index += 1
-                Label(self.frame, text=workout_sets_scheduled, font=TrackerConstants.BASE_FONT
+                Label(self.frame, text=workout_sets_scheduled, font=TrackerConstants.NORMAL_FONT
                       ).grid(row=row_index, column=column_index, ipadx=TrackerConstants.IPADX_SMALL)
 
                 column_index += 1
                 Button(self.frame, text="+",
                        command=partial(self._increment_workout_sets_scheduled, workout_type_id, weekday_string, 1),
-                       font=TrackerConstants.BASE_FONT
+                       font=TrackerConstants.NORMAL_FONT
                        ).grid(row=row_index, column=column_index, ipadx=TrackerConstants.IPADX_TINY, sticky="nswe")
 
         return self.frame

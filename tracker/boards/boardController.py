@@ -3,6 +3,7 @@ from tkComponents.basicComponents import ToggleButton
 from tkinter import Label
 from functools import partial
 
+from ..constants import Constants as TrackerConstants
 from .constants import Constants
 from .board import Board
 
@@ -41,9 +42,10 @@ class BoardController(Board):
             on_change=toggle_full_view,
             styles={
                 "button": {
-                    "font": Constants.BASE_FONT,
+                    "font": Constants.NORMAL_FONT,
                     "width": len(self.display_name),
-                    "padx": Constants.PAD__SMALL
+                    "padx": Constants.PAD__SMALL,
+                    **TrackerConstants.DEFAULT_STYLE_ARGS
                 }
             }
         ).render().grid(row=row_index, column=0, columnspan=2, sticky="nswe")
@@ -57,8 +59,9 @@ class BoardController(Board):
                 column_index = 0
                 row_index += 1
 
-                Label(self._frame, text=other_board.display_name, font=Constants.BASE_FONT,
-                      width=len(other_board.display_name), padx=Constants.PAD__SMALL
+                Label(self._frame, text=other_board.display_name, font=Constants.NORMAL_FONT,
+                      width=len(other_board.display_name), padx=Constants.PAD__SMALL,
+                      **TrackerConstants.DEFAULT_STYLE_ARGS
                       ).grid(row=row_index, column=column_index, sticky="nswe")
                 column_index += 1
 
@@ -70,9 +73,10 @@ class BoardController(Board):
                     on_change=partial(toggle_board_visibility, other_board_class),
                     styles={
                         "button": {
-                            "font": Constants.BASE_FONT,
+                            "font": Constants.NORMAL_FONT,
                             "width": 4,
-                            "padx": Constants.PAD__SMALL
+                            "padx": Constants.PAD__SMALL,
+                            **TrackerConstants.DEFAULT_STYLE_ARGS
                         }
                     }
                 ).render().grid(row=row_index, column=column_index, sticky="nswe")

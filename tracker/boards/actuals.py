@@ -27,15 +27,15 @@ class Actuals(Board):
 
         def determine_workout_status_color(_workout_sets_actual, _workout_sets_scheduled):
             if _workout_sets_actual > _workout_sets_scheduled:
-                return Constants.COLOURS["green"]
+                return TrackerConstants.COLOURS["green"]
             elif _workout_sets_actual == _workout_sets_scheduled and _workout_sets_actual > 0:
-                return Constants.COLOURS["blue"]
+                return TrackerConstants.COLOURS["blue"]
             elif _workout_sets_actual == _workout_sets_scheduled:
-                return Constants.COLOURS["grey"]
+                return TrackerConstants.DEFAULT_STYLE_ARGS["fg"]
             elif _workout_sets_actual > 0:
-                return Constants.COLOURS["yellow"]
-
-            return Constants.COLOURS["orange"]  # Default
+                return TrackerConstants.COLOURS["yellow"]
+            else:
+                return TrackerConstants.COLOURS["orange"]
 
         def on_change__date_stepper(_date_stepper, increment_amount):
             self._date_offset = _date_stepper.offset
@@ -103,16 +103,18 @@ class Actuals(Board):
             update_interval=500,
             styles={
                 "label": {
-                    "font": Constants.BASE_FONT,
+                    "font": Constants.NORMAL_FONT,
                     "width": 14,
                     "padx": Constants.PAD__SMALL,
                     "borderwidth": Constants.BORDERWIDTH__SMALL,
-                    "relief": "ridge"
+                    "relief": "ridge",
+                    **TrackerConstants.DEFAULT_STYLE_ARGS
                 },
                 "button": {
                     "font": Constants.SYMBOL_FONT,
                     "width": 1,
-                    "padx": Constants.PAD__SMALL
+                    "padx": Constants.PAD__SMALL,
+                    **TrackerConstants.DEFAULT_STYLE_ARGS
                 }
             }
         )
@@ -156,15 +158,15 @@ class Actuals(Board):
 
             column_index = 1
             row_index += 1
-            Label(self._frame, text=workout_name, font=Constants.BASE_FONT,
-                  width=len(workout_name), padx=Constants.PAD__NORMAL
+            Label(self._frame, text=workout_name, font=Constants.NORMAL_FONT,
+                  width=len(workout_name), padx=Constants.PAD__NORMAL, **TrackerConstants.DEFAULT_STYLE_ARGS
                   ).grid(row=row_index, column=column_index, sticky="nswe")
 
             column_index += 1
 
             workout_reps_text = "x{0}".format(workout_reps)
-            Label(self._frame, text=workout_reps_text, font=Constants.BASE_FONT,
-                  width=len(workout_reps_text), padx=Constants.PAD__SMALL
+            Label(self._frame, text=workout_reps_text, font=Constants.NORMAL_FONT,
+                  width=len(workout_reps_text), padx=Constants.PAD__SMALL, **TrackerConstants.DEFAULT_STYLE_ARGS
                   ).grid(row=row_index, column=column_index, sticky="nsw")
 
             column_index += 3 if self._date_offset == 0 else 4
@@ -179,15 +181,17 @@ class Actuals(Board):
                 limits=(0, None),
                 styles={
                     "label": {
-                        "font": Constants.BASE_FONT,
-                        "bg": status_colour,
+                        "font": Constants.NORMAL_FONT,
                         "width": len(sets_actual_text_format)-2,  # Format string has 3 chars per inserted int - {0}
                         "padx": Constants.PAD__SMALL,
+                        "bg": status_colour,
+                        "fg": TrackerConstants.COLOURS["cool_dark_grey"]
                     },
                     "button": {
                         "font": Constants.SYMBOL_FONT,
                         "width": 1,
-                        "padx": Constants.PAD__SMALL
+                        "padx": Constants.PAD__SMALL,
+                        **TrackerConstants.DEFAULT_STYLE_ARGS
                     }
                 }
             )
@@ -201,9 +205,10 @@ class Actuals(Board):
                 on_change=partial(toggle_workout_desc, workout_type_id),
                 styles={
                     "button": {
-                        "font": Constants.BASE_FONT,
+                        "font": Constants.NORMAL_FONT,
                         "width": 4,
-                        "padx": Constants.PAD__SMALL
+                        "padx": Constants.PAD__SMALL,
+                        **TrackerConstants.DEFAULT_STYLE_ARGS
                     }
                 }
             ).render().grid(row=row_index, column=column_index, sticky="nswe")
@@ -212,7 +217,7 @@ class Actuals(Board):
                 row_index += 1
                 Label(self._frame,
                       text=workout_desc, font=Constants.SMALL_ITALICS_FONT,
-                      borderwidth=Constants.BORDERWIDTH__TINY, relief="sunken"
+                      borderwidth=Constants.BORDERWIDTH__TINY, relief="sunken", **TrackerConstants.DEFAULT_STYLE_ARGS
                       ).grid(row=row_index, column=0, columnspan=9, sticky="nswe")
 
         row_index += 1

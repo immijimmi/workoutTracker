@@ -1,3 +1,6 @@
+from ..constants import Constants as TrackerConstants
+
+
 class Constants:
     # Padding
     PAD__TINY = 2
@@ -14,18 +17,14 @@ class Constants:
     BORDERWIDTH__SMALL = 2
 
     # Fonts
-    BASE_FONT = ("Verdana", 10)
-    BOLD_FONT = ("Verdana", 10, "bold")
-    SYMBOL_FONT = ("Verdana", 8, "bold")
-    SMALL_ITALICS_FONT = ("Verdana", 9, "normal", "italic")
+    NORMAL_FONT = ("Bahnschrift", 10)
+    BOLD_FONT = ("Bahnschrift", 10, "bold")
+    SYMBOL_FONT = ("Bahnschrift", 9, "bold")
+    SMALL_ITALICS_FONT = ("Bahnschrift", 9, "italic")
 
     # Misc
-    FRAME_STYLE = {"borderwidth": BORDERWIDTH__TINY, "relief": "sunken"}
-
-    COLOURS = {
-        "orange": "#FF9859",
-        "yellow": "#FFD800",
-        "blue": "#667FFF",
-        "green": "#00B211",
-        "grey": "#CCCCCC"
+    FRAME_STYLE = {
+        "borderwidth": BORDERWIDTH__TINY,
+        "relief": "sunken",
+        "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
     }

@@ -12,7 +12,7 @@ from .constants import Constants
 
 class Tracker(Component):
     def __init__(self, container, config):
-        super().__init__(container, extensions=[GridHelper])
+        super().__init__(container, frame_style={"bg": Constants.DEFAULT_STYLE_ARGS["bg"]}, extensions=[GridHelper])
 
         self._config = config
 
