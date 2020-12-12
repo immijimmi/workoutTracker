@@ -13,18 +13,10 @@ class Board(Component, ABC):
         self.parent = parent
 
         self.state = self.parent.state
-        self._register_paths()
 
     @property
     def display_name(self):
         raise NotImplementedError
-
-    def _register_paths(self):
-        """
-        Any keys registered in subclasses should be prefixed with the class name
-        in the format: "class__key_string"
-        """
-        pass
 
     def _apply_dividers(self, rows=(), columns=()):
         for row_index in rows:
