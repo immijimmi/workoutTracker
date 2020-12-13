@@ -4,7 +4,6 @@ from tkinter import Label
 from functools import partial
 
 from ..constants import Constants as TrackerConstants
-from .constants import Constants
 from .board import Board
 
 
@@ -42,10 +41,11 @@ class BoardController(Board):
             on_change=toggle_full_view,
             styles={
                 "button": {
-                    "font": Constants.NORMAL_FONT,
+                    "font": TrackerConstants.NORMAL_FONT,
                     "width": len(self.display_name),
-                    "padx": Constants.PAD__SMALL,
-                    **TrackerConstants.DEFAULT_STYLE_ARGS
+                    "padx": TrackerConstants.PAD__SMALL,
+                    "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
+                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
                 }
             }
         ).render().grid(row=row_index, column=0, columnspan=2, sticky="nswe")
@@ -59,9 +59,10 @@ class BoardController(Board):
                 column_index = 0
                 row_index += 1
 
-                Label(self._frame, text=other_board.display_name, font=Constants.NORMAL_FONT,
-                      width=len(other_board.display_name), padx=Constants.PAD__SMALL,
-                      **TrackerConstants.DEFAULT_STYLE_ARGS
+                Label(self._frame, text=other_board.display_name, font=TrackerConstants.NORMAL_FONT,
+                      width=len(other_board.display_name), padx=TrackerConstants.PAD__SMALL,
+                      fg=TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
+                      bg=TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
                       ).grid(row=row_index, column=column_index, sticky="nswe")
                 column_index += 1
 
@@ -73,10 +74,11 @@ class BoardController(Board):
                     on_change=partial(toggle_board_visibility, other_board_class),
                     styles={
                         "button": {
-                            "font": Constants.NORMAL_FONT,
+                            "font": TrackerConstants.NORMAL_FONT,
                             "width": 4,
-                            "padx": Constants.PAD__SMALL,
-                            **TrackerConstants.DEFAULT_STYLE_ARGS
+                            "padx": TrackerConstants.PAD__SMALL,
+                            "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
+                            "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
                         }
                     }
                 ).render().grid(row=row_index, column=column_index, sticky="nswe")

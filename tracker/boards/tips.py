@@ -1,7 +1,6 @@
 from tkComponents.basicComponents import TextCarousel
 
 from ..constants import Constants as TrackerConstants
-from .constants import Constants
 from .board import Board
 
 
@@ -26,14 +25,16 @@ class Tips(Board):
             index=self.parent.tips_index,
             styles={
                 "button": {
-                    "font": Constants.SYMBOL_FONT,
+                    "font": TrackerConstants.SYMBOL_FONT,
                     "width": 1,
-                    "padx": Constants.PAD__SMALL,
-                    **TrackerConstants.DEFAULT_STYLE_ARGS
+                    "padx": TrackerConstants.PAD__SMALL,
+                    "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
+                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
                 },
                 "label": {
-                    "font": Constants.SMALL_ITALICS_FONT,
-                    **TrackerConstants.DEFAULT_STYLE_ARGS
+                    "font": TrackerConstants.SMALL_ITALICS_FONT,
+                    "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
+                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
                 }
             }
         ).render().grid(row=0, column=0, sticky="nswe")
