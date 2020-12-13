@@ -28,3 +28,5 @@ class Constants:
         "fg": COLOURS["cool_off_white"],
         "bg": COLOURS["cool_dark_grey"]
     }
+
+    TIP_PLACEHOLDER = "You have not added any tips."

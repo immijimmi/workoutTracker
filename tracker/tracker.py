@@ -12,7 +12,11 @@ from .constants import Constants
 
 class Tracker(Component):
     def __init__(self, container, config):
-        super().__init__(container, frame_style={"bg": Constants.DEFAULT_STYLE_ARGS["bg"]}, extensions=[GridHelper])
+        super().__init__(container,
+                         styles={
+                             "frame": {"bg": Constants.DEFAULT_STYLE_ARGS["bg"]}
+                         },
+                         extensions=[GridHelper])
 
         self._config = config
 
@@ -69,11 +73,14 @@ class Tracker(Component):
         self.state.register("settings", ["settings"], [{}])
         self.state.register("active_schedule_id", ["settings", "active_schedule_id"], [{}, None])
 
+        self.state.register("workout_tips", ["workout_tips"], [[Constants.TIP_PLACEHOLDER]])
+
         self.state.register("workout_types", ["workout_types"], [{}])
         self.state.register("workout_type_details", ["workout_types", Constants.PATH_DYNAMIC_KEY], [{}, {}])
         self.state.register(
             "is_workout_disabled", ["workout_types", Constants.PATH_DYNAMIC_KEY, "disabled"], [{}, {}, False])
 
+        self.state.register("workout_schedules", ["workout_schedules"], [{}])
         self.state.register(
             "workout_schedule", ["workout_schedules", Constants.PATH_DYNAMIC_KEY], [{}, {}])
         self.state.register(

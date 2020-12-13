@@ -8,8 +8,6 @@ from .board import Board
 
 
 class Tips(Board):
-    TIP_PLACEHOLDER = "You have not added any tips."
-
     def __init__(self, parent, container):
         super().__init__(parent, container)
 
@@ -39,6 +37,3 @@ class Tips(Board):
                 }
             }
         ).render().grid(row=0, column=0, sticky="nswe")
-
-    def _register_paths(self):
-        self.state.register("workout_tips", ["workout_tips"], [[Tips.TIP_PLACEHOLDER]])

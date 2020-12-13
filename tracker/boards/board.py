@@ -8,7 +8,7 @@ from .constants import Constants
 
 class Board(Component, ABC):
     def __init__(self, parent, container):
-        super().__init__(container, frame_style=Constants.FRAME_STYLE, extensions=[GridHelper])
+        super().__init__(container, styles={"frame": Constants.FRAME_STYLE}, extensions=[GridHelper])
 
         self.parent = parent
 
