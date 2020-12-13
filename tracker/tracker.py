@@ -1,6 +1,7 @@
 from managedState import State
 from managedState.extensions import Registrar, Listeners
 
+from random import shuffle
 from tkComponents import Component
 from tkComponents.extensions import GridHelper
 
@@ -27,6 +28,11 @@ class Tracker(Component):
 
         self.boards = []
         self.visible_boards = set(self._config.INITIAL_BOARDS_VISIBLE)
+
+        # Board-specific temporary variables
+        self.tips = self.state.registered_get("workout_tips")
+        shuffle(self.tips)
+        self.tips_index = 0
 
     def _render(self):
         self.boards = [BoardClass(self, self._frame) for BoardClass in self._config.BOARDS]
