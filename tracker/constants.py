@@ -29,9 +29,11 @@ class Constants:
 
     # Fonts
     NORMAL_FONT = ("Bahnschrift", 10)
+    SMALL_FONT = ("Bahnschrift", 9)
     BOLD_FONT = ("Bahnschrift", 10, "bold")
-    SYMBOL_FONT = ("Bahnschrift", 9, "bold")
+    ITALICS_FONT = ("Bahnschrift", 10, "italic")
     SMALL_ITALICS_FONT = ("Bahnschrift", 9, "italic")
+    SYMBOL_FONT = ("Bahnschrift", 9, "bold")
 
     COLOURS = {
         "orange": "#FF9859",
@@ -42,8 +44,7 @@ class Constants:
         "white": "#FFFFFF",
         "cool_off_white": "#FAFAFF",
         "cool_dark_grey": "#37373C",
-        "warm_dark_grey": "#3C3B37",
-        "warm_off_white": "#FFFEFA",
+        "scrollbar_trough_grey": "#f0f0f0"
     }
 
     DEFAULT_STYLE_ARGS = {

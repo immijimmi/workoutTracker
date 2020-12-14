@@ -1,27 +1,73 @@
-from tkinter import Label, Button
-from functools import partial
+from tkComponents.basicComponents import ButtonListBox
 
-from tracker.boards.board import WorkoutBoard
+from tkinter import PhotoImage
+
+from ..constants import Constants as TrackerConstants
+from .board import Board
 
 
-class Schedule(WorkoutBoard):
-    def __init__(self, parent, root_render_method):
-        super().__init__(parent, root_render_method)
-
-        self._frame_stretch["columns"].append(0)
+class Schedule(Board):
+    def __init__(self, parent, container):
+        super().__init__(parent, container)
 
     @property
     def display_name(self):
         return "Schedule"
 
     @property
-    def is_needs_render(self):
-        return False
+    def height(self):
+        self._frame.update()
+        return self._frame.winfo_height()-(2*self._frame["borderwidth"])
 
-    def update(self):
-        pass
+    def _render(self):
+        def on_change__schedule_picker(_schedule_picker, new_value):
+            if new_value is None:
+                self.state.registered_set(None, "active_schedule_id")
 
-    def render(self):
+            else:
+                schedules = self.state.registered_get("workout_schedules")
+                if new_value not in schedules:
+                    raise ValueError
+
+                self.state.registered_set(new_value, "active_schedule_id")
+
+            self.render()
+
+        def get_data__schedule_picker(_schedule_picker):
+            result = [{"value": None, "text": "None", "style": {"font": TrackerConstants.BOLD_FONT}}]
+
+            schedules = self.state.registered_get("workout_schedules")
+            for schedule_id in schedules:
+                result.append({"value": schedule_id, "text": schedules[schedule_id]["name"]})
+
+            return result
+
+        schedule_picker = ButtonListBox(
+            self._frame,
+            self.state.registered_get("active_schedule_id"),
+            lambda: self.height,
+            get_data=get_data__schedule_picker,
+            on_change=on_change__schedule_picker,
+            styles={
+                "button": {
+                    "font": TrackerConstants.NORMAL_FONT,
+                    "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
+                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
+                    "pady": TrackerConstants.PAD__TINY,
+                    "relief": "raised"
+                },
+                "button_selected": {
+                    "bg": TrackerConstants.COLOURS["scrollbar_trough_grey"],
+                    "relief": "sunken"
+                },
+                "scrollbar": {
+                    "width": 14  # <14 Will not look symmetrical
+                }
+            }
+        )
+        schedule_picker.render().grid(row=0, column=0, sticky="nswe")
+
+        """
         self._refresh_frame(**TrackerConstants.BOARD_FRAME_STYLE)
 
         for column_index in ((i*4)+1 for i in range(len(TrackerConstants.WEEKDAY_KEY_STRINGS))):
@@ -74,3 +120,4 @@ class Schedule(WorkoutBoard):
                        ).grid(row=row_index, column=column_index, ipadx=TrackerConstants.IPADX_TINY, sticky="nswe")
 
         return self.frame
+        """
