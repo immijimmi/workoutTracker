@@ -1,4 +1,4 @@
-from tkComponents.basicComponents import ButtonListBox
+from tkComponents.basicComponents import ButtonListBox, NumberStepperTable
 
 from tkinter import PhotoImage
 
@@ -31,7 +31,7 @@ class Schedule(Board):
 
                 self.state.registered_set(new_value, "active_schedule_id")
 
-            self.render()
+            self.parent.render()
 
         def get_data__schedule_picker(_schedule_picker):
             result = [{"value": None, "text": "None", "style": {"font": TrackerConstants.BOLD_FONT}}]
@@ -42,6 +42,27 @@ class Schedule(Board):
 
             return result
 
+        def on_change__stepper_table(x_value, y_value, _stepper_table, increment_value):
+            active_schedule_id = self.state.registered_get("active_schedule_id")
+
+            if active_schedule_id is None:
+                return
+
+            self.state.registered_set(
+                _stepper_table.value, "scheduled_sets_single_entry", [active_schedule_id, x_value, y_value])
+
+        def get_data__stepper_table(x_value, y_value, _stepper_table):
+            active_schedule_id = self.state.registered_get("active_schedule_id")
+
+            if active_schedule_id is None:
+                _stepper_table.min = 0
+                _stepper_table.max = 0
+
+                return 0
+
+            else:
+                return self.state.registered_get("scheduled_sets_single_entry", [active_schedule_id, x_value, y_value])
+
         schedule_picker = ButtonListBox(
             self._frame,
             self.state.registered_get("active_schedule_id"),
@@ -49,6 +70,9 @@ class Schedule(Board):
             get_data=get_data__schedule_picker,
             on_change=on_change__schedule_picker,
             styles={
+                "canvas": {
+                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
+                },
                 "button": {
                     "font": TrackerConstants.NORMAL_FONT,
                     "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
@@ -66,6 +90,23 @@ class Schedule(Board):
             }
         )
         schedule_picker.render().grid(row=0, column=0, sticky="nswe")
+
+        workout_types = self.state.registered_get("workout_types")
+        workout_y_values = workout_types.keys()
+        workout_y_labels = [workout_types[workout_type_id]["name"] for workout_type_id in workout_y_values]
+
+        stepper_table = NumberStepperTable(
+            self._frame,
+            [TrackerConstants.WEEKDAY_KEY_STRINGS, workout_y_labels],
+            [TrackerConstants.WEEKDAY_KEY_STRINGS, workout_y_values],
+            get_data=get_data__stepper_table,
+            on_change=on_change__stepper_table,
+            limits=(0, None),
+            styles={
+
+            }
+        )
+        stepper_table.render().grid(row=0, column=1, sticky="nswe")
 
         """
         self._refresh_frame(**TrackerConstants.BOARD_FRAME_STYLE)
