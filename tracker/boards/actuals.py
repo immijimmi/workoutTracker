@@ -105,6 +105,7 @@ class Actuals(Board):
                     "font": TrackerConstants.NORMAL_FONT,
                     "width": 14,
                     "padx": TrackerConstants.PAD__SMALL,
+                    "pady": TrackerConstants.PAD__SMALL,
                     "borderwidth": TrackerConstants.BORDERWIDTH__SMALL,
                     "relief": "ridge",
                     "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],

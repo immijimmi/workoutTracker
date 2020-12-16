@@ -12,7 +12,9 @@ class Board(Component, ABC):
             "frame": {
                 "borderwidth": TrackerConstants.BORDERWIDTH__TINY,
                 "relief": "sunken",
-                "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
+                "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
+                "padx": TrackerConstants.PAD__SMALL,
+                "pady": TrackerConstants.PAD__SMALL
             }
         }, extensions=[GridHelper])
 

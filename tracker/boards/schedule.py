@@ -17,7 +17,13 @@ class Schedule(Board):
     @property
     def height(self):
         self._frame.update()
-        return self._frame.winfo_height()-(2*self._frame["borderwidth"])
+
+        frame_padding = self.styles["frame"].get("padx", 0)
+        frame_borderwidth = self.styles["frame"].get("borderwidth", 0)
+
+        total_height_buffer = (2 * frame_padding) + (2 * frame_borderwidth)
+
+        return self._frame.winfo_height() - total_height_buffer
 
     def _render(self):
         def on_change__schedule_picker(_schedule_picker, new_value):
@@ -113,7 +119,8 @@ class Schedule(Board):
                     "relief": "ridge",
                     "borderwidth": TrackerConstants.BORDERWIDTH__SMALL,
                     "width": 3,
-                    "padx": TrackerConstants.PAD__SMALL
+                    "padx": TrackerConstants.PAD__SMALL,
+                    "pady": TrackerConstants.PAD__SMALL
                 },
                 "y_label": {
                     "font": TrackerConstants.NORMAL_FONT,
@@ -133,15 +140,11 @@ class Schedule(Board):
                         "padx": TrackerConstants.PAD__TINY
                     },
                     "button": {
-                        "font": TrackerConstants.NORMAL_FONT,
+                        "font": TrackerConstants.SYMBOL_FONT,
                         "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
                         "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
                         "width": 1,
                         "padx": TrackerConstants.PAD__TINY
-                    },
-                    "frame": {
-                        "relief": "groove",
-                        "borderwidth": TrackerConstants.BORDERWIDTH__TINY
                     }
                 }
             }
