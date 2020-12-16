@@ -225,7 +225,7 @@ class Actuals(Board):
                 row_index += 1
                 Label(self._frame,
                       text=workout_desc, font=TrackerConstants.SMALL_ITALICS_FONT,
-                      borderwidth=TrackerConstants.BORDERWIDTH__TINY, relief="sunken",
+                      borderwidth=TrackerConstants.BORDERWIDTH__TINY, relief="ridge",
                       fg=TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
                       bg=TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
                       ).grid(row=row_index, column=0, columnspan=9, sticky="nswe")
