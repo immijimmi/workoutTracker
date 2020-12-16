@@ -26,6 +26,7 @@ class Constants:
     # Border Sizes
     BORDERWIDTH__TINY = 1
     BORDERWIDTH__SMALL = 2
+    BORDERWIDTH__NORMAL = 3
 
     # Fonts
     NORMAL_FONT = ("Bahnschrift", 10)

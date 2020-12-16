@@ -77,7 +77,7 @@ class Schedule(Board):
                     "font": TrackerConstants.NORMAL_FONT,
                     "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
                     "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
-                    "pady": TrackerConstants.PAD__TINY,
+                    "padx": TrackerConstants.PAD__SMALL,
                     "relief": "raised"
                 },
                 "button_selected": {
@@ -103,7 +103,47 @@ class Schedule(Board):
             on_change=on_change__stepper_table,
             limits=(0, None),
             styles={
-
+                "frame": {
+                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
+                },
+                "x_label": {
+                    "font": TrackerConstants.NORMAL_FONT,
+                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
+                    "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
+                    "relief": "ridge",
+                    "borderwidth": TrackerConstants.BORDERWIDTH__SMALL,
+                    "width": 3,
+                    "padx": TrackerConstants.PAD__SMALL
+                },
+                "y_label": {
+                    "font": TrackerConstants.NORMAL_FONT,
+                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
+                    "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
+                    "width": max([len(label) for label in workout_y_labels]),
+                    "padx": TrackerConstants.PAD__SMALL
+                },
+                "number_stepper": {
+                    "label": {
+                        "font": TrackerConstants.NORMAL_FONT,
+                        "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
+                        "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
+                        "relief": "ridge",
+                        "borderwidth": TrackerConstants.BORDERWIDTH__TINY,
+                        "width": 3,
+                        "padx": TrackerConstants.PAD__TINY
+                    },
+                    "button": {
+                        "font": TrackerConstants.NORMAL_FONT,
+                        "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
+                        "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
+                        "width": 1,
+                        "padx": TrackerConstants.PAD__TINY
+                    },
+                    "frame": {
+                        "relief": "groove",
+                        "borderwidth": TrackerConstants.BORDERWIDTH__TINY
+                    }
+                }
             }
         )
         stepper_table.render().grid(row=0, column=1, sticky="nswe")
