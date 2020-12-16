@@ -180,7 +180,7 @@ class Actuals(Board):
                 self._frame,
                 get_data=partial(get_data__number_stepper, workout_type_id),
                 on_change=partial(on_change__number_stepper, workout_type_id),
-                update_interval=200,
+                update_interval=500,
                 text_format=sets_actual_text_format,
                 step_amounts=(1,) if self._date_offset == 0 else (),
                 limits=(0, None),
