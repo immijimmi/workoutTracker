@@ -130,4 +130,5 @@ dmypy.json
 
 to-do.txt
 data.json
+data_backup.json
 .idea
