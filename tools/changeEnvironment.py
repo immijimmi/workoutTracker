@@ -20,7 +20,7 @@ with open(dependency_filename, "r") as file:
     file_contents = file.read()
 
 if is_live:
-    run("pip uninstall tkComponents", text=True, input="y\n")
+    run("pip uninstall tkComponents", text=True, input="y")
 
     if local_dependency_code not in file_contents:
         with open(dependency_filename, "w") as new_file:
