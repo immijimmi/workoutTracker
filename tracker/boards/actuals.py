@@ -1,9 +1,8 @@
-from tkComponents.basicComponents import DateStepper, NumberStepper, ToggleButton
-
 from datetime import datetime, timedelta
 from tkinter import Label
 from functools import partial
 
+from ..components import DateStepper, NumberStepper, ToggleButton
 from ..constants import Constants as TrackerConstants
 from .board import Board
 

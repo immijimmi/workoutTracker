@@ -1,5 +1,4 @@
-from tkComponents.basicComponents import TextCarousel
-
+from ..components import TextCarousel
 from ..constants import Constants as TrackerConstants
 from .board import Board
 

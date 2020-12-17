@@ -2,12 +2,10 @@ from managedState import State
 from managedState.extensions import Registrar, Listeners
 
 from random import shuffle
-from tkComponents import Component
-from tkComponents.extensions import GridHelper
-
 import json
 import logging
 
+from .components import Component, GridHelper
 from .constants import Constants
 
 

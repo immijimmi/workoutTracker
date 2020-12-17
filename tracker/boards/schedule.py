@@ -1,7 +1,4 @@
-from tkComponents.basicComponents import ButtonListBox, NumberStepperTable
-
-from tkinter import PhotoImage
-
+from ..components import ButtonListBox, NumberStepperTable
 from ..constants import Constants as TrackerConstants
 from .board import Board
 
