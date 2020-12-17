@@ -22,7 +22,6 @@ class Tracker(Component):
         self._register_paths()
         self.state.add_listener("set", lambda metadata: self._save_state())
 
-        self.boards = []
         self.visible_boards = set(self._config.INITIAL_BOARDS_VISIBLE)
 
         # Board-specific temporary variables
