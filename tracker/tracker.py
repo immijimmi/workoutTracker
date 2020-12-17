@@ -17,12 +17,13 @@ class Tracker(Component):
 
         self._config = config
 
-        self.state = State(extensions=[Registrar, Listeners])
-        self._load_state()
-        self._register_paths()
-        self.state.add_listener("set", lambda metadata: self._save_state())
-
+        self.state_filename = self._config.STATE_FILENAME
         self.visible_boards = set(self._config.INITIAL_BOARDS_VISIBLE)
+
+        self.state = State(extensions=[Registrar, Listeners])
+        self.load_state(self.state_filename, catch=True)
+        self.state.add_listener("set", lambda metadata: self.save_state(self.state_filename, catch=True))
+        self._register_paths()
 
         # Board-specific temporary variables
         self.tips = self.state.registered_get("workout_tips")
@@ -58,17 +59,25 @@ class Tracker(Component):
                 self._apply_frame_stretch(rows=[row_index], columns=[column_index])
                 frame.grid(row=row_index, column=column_index, sticky="nswe")
 
-    def _load_state(self):
+    def load_state(self, filename, catch=False):
         try:
-            with open(self._config.STATE_FILENAME, "r") as data_file:
+            with open(filename, "r") as data_file:
                 self.state.set(json.loads(data_file.read()))
-
         except (FileNotFoundError, json.decoder.JSONDecodeError) as ex:
+            if not catch:
+                raise ex
+
             logging.warning("Unable to load application state from file: {0}".format(ex))
 
-    def _save_state(self):
-        with open(self._config.STATE_FILENAME, "w") as data_file:
-            data_file.write(json.dumps(self.state.get()))
+    def save_state(self, filename, catch=False):
+        try:
+            with open(filename, "w") as data_file:
+                data_file.write(json.dumps(self.state.get()))
+        except (FileNotFoundError, TypeError) as ex:
+            if not catch:
+                raise ex
+
+            logging.warning("Unable to save application state to file: {0}".format(ex))
 
     def _register_paths(self):
         self.state.register("settings", ["settings"], [{}])
