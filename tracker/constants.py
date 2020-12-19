@@ -13,6 +13,9 @@ class Constants:
 
     TIP_PLACEHOLDER = "You have not added any tips."
 
+    ALERT_DURATION = 3000
+    PROGRESS_BAR_WIDTH = 60
+
     # Padding
     PAD__TINY = 2
     PAD__SMALL = 4
@@ -36,6 +39,7 @@ class Constants:
     SMALL_ITALICS_FONT = ("Bahnschrift", 9, "italic")
     SYMBOL_FONT = ("Bahnschrift", 9, "bold")
 
+    # Misc
     COLOURS = {
         "orange": "#FF9859",
         "yellow": "#FFD800",
@@ -45,11 +49,36 @@ class Constants:
         "white": "#FFFFFF",
         "cool_off_white": "#FAFAFF",
         "cool_dark_grey": "#37373C",
-        "scrollbar_trough_grey": "#f0f0f0"
+        "default_grey": "#f0f0f0"
     }
 
     DEFAULT_STYLE_ARGS = {
         "fg": COLOURS["cool_off_white"],
-        "bg": COLOURS["cool_dark_grey"]
+        "bg": COLOURS["cool_dark_grey"],
+        "font": NORMAL_FONT,
+        "padx": PAD__SMALL,
+        "pady": PAD__SMALL
     }
 
+    DEFAULT_STYLES = {
+        "label": {
+            "font": DEFAULT_STYLE_ARGS["font"],
+            "fg": DEFAULT_STYLE_ARGS["fg"],
+            "bg": DEFAULT_STYLE_ARGS["bg"],
+            "padx": DEFAULT_STYLE_ARGS["padx"],
+            "pady": DEFAULT_STYLE_ARGS["pady"]
+        },
+        "button": {
+            "font": DEFAULT_STYLE_ARGS["font"],
+            "fg": DEFAULT_STYLE_ARGS["fg"],
+            "bg": DEFAULT_STYLE_ARGS["bg"],
+            "padx": DEFAULT_STYLE_ARGS["padx"],
+        },
+        "symbol_button": {
+            "font": SYMBOL_FONT,
+            "fg": DEFAULT_STYLE_ARGS["fg"],
+            "bg": DEFAULT_STYLE_ARGS["bg"],
+            "padx": DEFAULT_STYLE_ARGS["padx"],
+            "width": 1
+        }
+    }

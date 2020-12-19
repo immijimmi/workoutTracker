@@ -40,11 +40,8 @@ class BoardController(Board):
             on_change=toggle_full_view,
             styles={
                 "button": {
-                    "font": TrackerConstants.NORMAL_FONT,
+                    **TrackerConstants.DEFAULT_STYLES["button"],
                     "width": len(self.display_name),
-                    "padx": TrackerConstants.PAD__SMALL,
-                    "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
-                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
                 }
             }
         ).render().grid(row=row_index, column=0, columnspan=2, sticky="nswe")
@@ -58,10 +55,8 @@ class BoardController(Board):
                 column_index = 0
                 row_index += 1
 
-                Label(self._frame, text=other_board.display_name, font=TrackerConstants.NORMAL_FONT,
-                      width=len(other_board.display_name), padx=TrackerConstants.PAD__SMALL,
-                      fg=TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
-                      bg=TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
+                Label(self._frame, text=other_board.display_name, width=len(other_board.display_name),
+                      **TrackerConstants.DEFAULT_STYLES["label"]
                       ).grid(row=row_index, column=column_index, sticky="nswe")
                 column_index += 1
 
@@ -73,11 +68,8 @@ class BoardController(Board):
                     on_change=partial(toggle_board_visibility, other_board_class),
                     styles={
                         "button": {
-                            "font": TrackerConstants.NORMAL_FONT,
+                            **TrackerConstants.DEFAULT_STYLES["button"],
                             "width": 4,
-                            "padx": TrackerConstants.PAD__SMALL,
-                            "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
-                            "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
                         }
                     }
                 ).render().grid(row=row_index, column=column_index, sticky="nswe")

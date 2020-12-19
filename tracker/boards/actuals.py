@@ -101,21 +101,13 @@ class Actuals(Board):
             update_interval=500,
             styles={
                 "label": {
-                    "font": TrackerConstants.NORMAL_FONT,
+                    **TrackerConstants.DEFAULT_STYLES["label"],
                     "width": 14,
-                    "padx": TrackerConstants.PAD__SMALL,
-                    "pady": TrackerConstants.PAD__SMALL,
                     "borderwidth": TrackerConstants.BORDERWIDTH__SMALL,
                     "relief": "ridge",
-                    "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
-                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
                 },
                 "button": {
-                    "font": TrackerConstants.SYMBOL_FONT,
-                    "width": 1,
-                    "padx": TrackerConstants.PAD__SMALL,
-                    "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
-                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
+                    **TrackerConstants.DEFAULT_STYLES["symbol_button"]
                 }
             }
         )
@@ -159,19 +151,15 @@ class Actuals(Board):
 
             column_index = 1
             row_index += 1
-            Label(self._frame, text=workout_name, font=TrackerConstants.NORMAL_FONT,
-                  width=len(workout_name), padx=TrackerConstants.PAD__NORMAL,
-                  fg=TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
-                  bg=TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
+            Label(self._frame, text=workout_name, width=len(workout_name),
+                  **TrackerConstants.DEFAULT_STYLES["label"]
                   ).grid(row=row_index, column=column_index, sticky="nswe")
 
             column_index += 1
 
             workout_reps_text = "x{0}".format(workout_reps)
-            Label(self._frame, text=workout_reps_text, font=TrackerConstants.NORMAL_FONT,
-                  width=len(workout_reps_text), padx=TrackerConstants.PAD__SMALL,
-                  fg=TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
-                  bg=TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
+            Label(self._frame, text=workout_reps_text, width=len(workout_reps_text),
+                  **TrackerConstants.DEFAULT_STYLES["label"]
                   ).grid(row=row_index, column=column_index, sticky="nsw")
 
             column_index += 3 if self._date_offset == 0 else 4
@@ -186,18 +174,13 @@ class Actuals(Board):
                 limits=(0, None),
                 styles={
                     "label": {
-                        "font": TrackerConstants.NORMAL_FONT,
+                        **TrackerConstants.DEFAULT_STYLES["label"],
                         "width": len(sets_actual_text_format)-2,  # Format string has 3 chars per inserted int - {0}
-                        "padx": TrackerConstants.PAD__SMALL,
                         "bg": status_colour,
                         "fg": TrackerConstants.COLOURS["cool_dark_grey"]
                     },
                     "button": {
-                        "font": TrackerConstants.SYMBOL_FONT,
-                        "width": 1,
-                        "padx": TrackerConstants.PAD__SMALL,
-                        "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
-                        "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
+                        **TrackerConstants.DEFAULT_STYLES["symbol_button"]
                     }
                 }
             )
@@ -211,11 +194,8 @@ class Actuals(Board):
                 on_change=partial(toggle_workout_desc, workout_type_id),
                 styles={
                     "button": {
-                        "font": TrackerConstants.NORMAL_FONT,
+                        **TrackerConstants.DEFAULT_STYLES["button"],
                         "width": 4,
-                        "padx": TrackerConstants.PAD__SMALL,
-                        "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
-                        "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
                     }
                 }
             ).render().grid(row=row_index, column=column_index, sticky="nswe")

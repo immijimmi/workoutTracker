@@ -24,11 +24,7 @@ class Tips(Board):
             index=self.parent.tips_index,
             styles={
                 "button": {
-                    "font": TrackerConstants.SYMBOL_FONT,
-                    "width": 1,
-                    "padx": TrackerConstants.PAD__SMALL,
-                    "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
-                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
+                    **TrackerConstants.DEFAULT_STYLES["symbol_button"]
                 },
                 "label": {
                     "font": TrackerConstants.SMALL_ITALICS_FONT,
