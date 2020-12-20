@@ -32,7 +32,7 @@ class File(Board):
         def open__button():
             #import_filename = askopenfilename()
 
-            self.active_alerts["Invalid file name; please choose a valid path."] = datetime.now()
+            self.active_alerts["Invalid file name."] = datetime.now()
             self.render()
             #####
 
@@ -55,17 +55,23 @@ class File(Board):
                 on_change=on_change__alert,
                 styles={
                     "frame": {
+                        "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
                         "relief": "ridge",
-                        "borderwidth": TrackerConstants.BORDERWIDTH__SMALL,
-                        "padx": TrackerConstants.PAD__SMALL
+                        "borderwidth": TrackerConstants.BORDERWIDTH__TINY
                     },
-                    "label": TrackerConstants.DEFAULT_STYLES["label"],
+                    "label": {
+                        **TrackerConstants.DEFAULT_STYLES["label"],
+                        "font": TrackerConstants.SMALL_ITALICS_FONT
+                    },
                     "progress_bar": {
-                        "frame": {"bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"]},
+                        "frame": {
+                            "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
+                            "padx": TrackerConstants.DEFAULT_STYLE_ARGS["padx"]
+                        },
                         "filled_bar_frame": {
                             "bg": TrackerConstants.COLOURS["cool_dark_grey"],
-                            "relief": "raised",
-                            "borderwidth": 1
+                            "relief": "ridge",
+                            "borderwidth": TrackerConstants.BORDERWIDTH__TINY
                         },
                         "empty_bar_frame": {"bg": TrackerConstants.COLOURS["default_grey"]}
                     }

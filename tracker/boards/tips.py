@@ -29,7 +29,8 @@ class Tips(Board):
                 "label": {
                     "font": TrackerConstants.SMALL_ITALICS_FONT,
                     "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
-                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
+                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
+                    "pady": TrackerConstants.PAD__SMALL_NORMAL
                 }
             }
         ).render().grid(row=0, column=0, sticky="nswe")

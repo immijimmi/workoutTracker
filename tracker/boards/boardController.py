@@ -41,7 +41,6 @@ class BoardController(Board):
             styles={
                 "button": {
                     **TrackerConstants.DEFAULT_STYLES["button"],
-                    "width": len(self.display_name),
                 }
             }
         ).render().grid(row=row_index, column=0, columnspan=2, sticky="nswe")
@@ -55,8 +54,7 @@ class BoardController(Board):
                 column_index = 0
                 row_index += 1
 
-                Label(self._frame, text=other_board.display_name, width=len(other_board.display_name),
-                      **TrackerConstants.DEFAULT_STYLES["label"]
+                Label(self._frame, text=other_board.display_name, **TrackerConstants.DEFAULT_STYLES["label"]
                       ).grid(row=row_index, column=column_index, sticky="nswe")
                 column_index += 1
 
@@ -69,7 +67,6 @@ class BoardController(Board):
                     styles={
                         "button": {
                             **TrackerConstants.DEFAULT_STYLES["button"],
-                            "width": 4,
                         }
                     }
                 ).render().grid(row=row_index, column=column_index, sticky="nswe")

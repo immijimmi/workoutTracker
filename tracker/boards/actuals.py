@@ -102,7 +102,7 @@ class Actuals(Board):
             styles={
                 "label": {
                     **TrackerConstants.DEFAULT_STYLES["label"],
-                    "width": 14,
+                    "width": 28,  # Extra room left to keep the size somewhat constant between dates
                     "borderwidth": TrackerConstants.BORDERWIDTH__SMALL,
                     "relief": "ridge",
                 },
@@ -151,14 +151,14 @@ class Actuals(Board):
 
             column_index = 1
             row_index += 1
-            Label(self._frame, text=workout_name, width=len(workout_name),
+            Label(self._frame, text=workout_name, width=24,
                   **TrackerConstants.DEFAULT_STYLES["label"]
                   ).grid(row=row_index, column=column_index, sticky="nswe")
 
             column_index += 1
 
             workout_reps_text = "x{0}".format(workout_reps)
-            Label(self._frame, text=workout_reps_text, width=len(workout_reps_text),
+            Label(self._frame, text=workout_reps_text, width=4,
                   **TrackerConstants.DEFAULT_STYLES["label"]
                   ).grid(row=row_index, column=column_index, sticky="nsw")
 
@@ -175,7 +175,7 @@ class Actuals(Board):
                 styles={
                     "label": {
                         **TrackerConstants.DEFAULT_STYLES["label"],
-                        "width": len(sets_actual_text_format)-2,  # Format string has 3 chars per inserted int - {0}
+                        "width": 10,
                         "bg": status_colour,
                         "fg": TrackerConstants.COLOURS["cool_dark_grey"]
                     },
@@ -195,7 +195,6 @@ class Actuals(Board):
                 styles={
                     "button": {
                         **TrackerConstants.DEFAULT_STYLES["button"],
-                        "width": 4,
                     }
                 }
             ).render().grid(row=row_index, column=column_index, sticky="nswe")
@@ -214,6 +213,7 @@ class Actuals(Board):
         if not is_date_empty:
             self._apply_dividers(rows=[1], columns=[4])
 
+            # Prevents description box rendering from making the NumberStepper labels too thin
             number_stepper_label_width = number_stepper.children["label"].winfo_reqwidth()
             self._frame.grid_columnconfigure(6, minsize=number_stepper_label_width)
 

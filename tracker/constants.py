@@ -19,6 +19,7 @@ class Constants:
     # Padding
     PAD__TINY = 2
     PAD__SMALL = 4
+    PAD__SMALL_NORMAL = 5
     PAD__NORMAL = 6
 
     # Min Sizes
@@ -49,6 +50,7 @@ class Constants:
         "white": "#FFFFFF",
         "cool_off_white": "#FAFAFF",
         "cool_dark_grey": "#37373C",
+        "cool_less_dark_grey": "#46464C",
         "default_grey": "#f0f0f0"
     }
 
