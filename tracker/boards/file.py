@@ -41,10 +41,10 @@ class File(Board):
         self.children["alerts"] = []
 
         self._apply_frame_stretch(
-            rows=[0, 5+len(self.active_alerts)] + ([1+len(self.active_alerts)] if self.active_alerts else []),
-            columns=[0, 4])
+            rows=[4+len(self.active_alerts)] + ([len(self.active_alerts)] if self.active_alerts else []),
+            columns=[1, 3])
 
-        row_index = 0
+        row_index = -1
 
         for alert_message in self.active_alerts:
             row_index += 1
@@ -78,23 +78,29 @@ class File(Board):
                 }
             )
             self.children["alerts"].append(alert_component)
-            alert_component.render().grid(row=row_index, column=1, columnspan=3, sticky="nswe")
+            alert_component.render().grid(row=row_index, column=0, columnspan=5, sticky="nswe")
 
         row_index += 2
         Label(self._frame, text="Save Location", **TrackerConstants.DEFAULT_STYLES["label"]
-              ).grid(row=row_index, column=1, columnspan=3, sticky="nswe")
+              ).grid(row=row_index, column=0, columnspan=5, sticky="nswe")
 
-        row_index += 1
+        row_index += 2
         Label(self._frame, textvariable=self._filename__var,
               **{
                   **TrackerConstants.DEFAULT_STYLES["label"],
                   "relief": "ridge",
                   "borderwidth": TrackerConstants.BORDERWIDTH__SMALL
-              }).grid(row=row_index, column=1, columnspan=3, sticky="nswe")
+              }).grid(row=row_index, column=0, columnspan=5, sticky="nswe")
 
-        row_index += 1
-        Button(self._frame, text="Open", command=open__button, **TrackerConstants.DEFAULT_STYLES["button"]
-               ).grid(row=row_index, column=1, sticky="nswe")
+        row_index += 2
+        Button(self._frame, text="Open", width=8, command=open__button, **TrackerConstants.DEFAULT_STYLES["button"]
+               ).grid(row=row_index, column=0, sticky="nswe")
+
+        Button(self._frame, text="Import", width=8, **TrackerConstants.DEFAULT_STYLES["button"]
+               ).grid(row=row_index, column=2, sticky="nswe")
+
+        Button(self._frame, text="Move", width=8, **TrackerConstants.DEFAULT_STYLES["button"]
+               ).grid(row=row_index, column=4, sticky="nswe")
 
     def _expire_alerts(self):
         now = datetime.now()
