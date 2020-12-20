@@ -29,9 +29,11 @@ class File(Board):
         def on_change__alert(alert):
             self.render()
 
-        def import__button():
-            import_filename = askopenfilename()
+        def open__button():
+            #import_filename = askopenfilename()
 
+            self.active_alerts["Invalid file name; please choose a valid path."] = datetime.now()
+            self.render()
             #####
 
         self._expire_alerts()
@@ -46,33 +48,47 @@ class File(Board):
 
         for alert_message in self.active_alerts:
             row_index += 1
-            alert_instance = Alert(
+            alert_component = Alert(
                 self._frame,
                 TrackerConstants.ALERT_DURATION,
                 get_data=partial(get_data__alert, alert_message),
                 on_change=on_change__alert,
                 styles={
+                    "frame": {
+                        "relief": "ridge",
+                        "borderwidth": TrackerConstants.BORDERWIDTH__SMALL,
+                        "padx": TrackerConstants.PAD__SMALL
+                    },
+                    "label": TrackerConstants.DEFAULT_STYLES["label"],
                     "progress_bar": {
-                        "width": 20,
-                        "filled_frame": {"bg": "blue", "pady": 15, "borderwidth": 3, "relief": "ridge"},
-                        "empty_frame": {"bg": "red", "pady": 10}  #####
+                        "frame": {"bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"]},
+                        "filled_bar_frame": {
+                            "bg": TrackerConstants.COLOURS["cool_dark_grey"],
+                            "relief": "raised",
+                            "borderwidth": 1
+                        },
+                        "empty_bar_frame": {"bg": TrackerConstants.COLOURS["default_grey"]}
                     }
                 }
             )
-            self.children["alerts"].append(alert_instance)
-            alert_instance.render().grid(row=row_index, column=1, columnspan=3, sticky="nswe")
+            self.children["alerts"].append(alert_component)
+            alert_component.render().grid(row=row_index, column=1, columnspan=3, sticky="nswe")
 
         row_index += 2
-        Label(self._frame, text="Save Location").grid(row=row_index, column=1, columnspan=3, sticky="nswe")
+        Label(self._frame, text="Save Location", **TrackerConstants.DEFAULT_STYLES["label"]
+              ).grid(row=row_index, column=1, columnspan=3, sticky="nswe")
 
         row_index += 1
-        Label(self._frame, textvariable=self._filename__var).grid(row=row_index, column=1, columnspan=3, sticky="nswe")
+        Label(self._frame, textvariable=self._filename__var,
+              **{
+                  **TrackerConstants.DEFAULT_STYLES["label"],
+                  "relief": "ridge",
+                  "borderwidth": TrackerConstants.BORDERWIDTH__SMALL
+              }).grid(row=row_index, column=1, columnspan=3, sticky="nswe")
 
         row_index += 1
-        def test():
-            self.active_alerts["test"] = datetime.now()
-            self.render()
-        Button(self._frame, text="Test", command=test).grid(row=row_index, column=1, sticky="nswe")
+        Button(self._frame, text="Open", command=open__button, **TrackerConstants.DEFAULT_STYLES["button"]
+               ).grid(row=row_index, column=1, sticky="nswe")
 
     def _expire_alerts(self):
         now = datetime.now()
