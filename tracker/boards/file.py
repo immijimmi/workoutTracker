@@ -11,7 +11,7 @@ from .board import Board
 
 class File(Board):
     def __init__(self, parent, container):
-        super().__init__(parent, container)
+        super().__init__(parent, container, update_interval=TrackerConstants.INTERVAL__SHORT_DELAY)
 
         self.active_alerts = {}
 
@@ -21,6 +21,10 @@ class File(Board):
     @property
     def display_name(self):
         return "File"
+
+    def _update(self):
+        self._file_path__var.set(self.parent.state_file_path)
+        self.children["file_path_label"].configure(**self._get_file_path_label_style())
 
     def _render(self):
         def get_data__alert(message, alert):
@@ -44,10 +48,12 @@ class File(Board):
                 return
 
             self.parent.state_file_path = selected_file_path
-            self._file_path__var.set(self.parent.state_file_path)
+            self.parent.is_state_unsaved = False
+            self.parent.render()
 
         self._expire_alerts()
 
+        self.children["file_path_label"] = None
         self.children["alerts"] = []
 
         self._apply_frame_stretch(
@@ -95,12 +101,15 @@ class File(Board):
               ).grid(row=row_index, column=0, columnspan=5, sticky="nswe")
 
         row_index += 2
-        Label(self._frame, textvariable=self._file_path__var,
-              **{
-                  **TrackerConstants.DEFAULT_STYLES["label"],
-                  "relief": "ridge",
-                  "borderwidth": TrackerConstants.BORDERWIDTH__SMALL
-              }).grid(row=row_index, column=0, columnspan=5, sticky="nswe")
+        file_path_label = Label(self._frame, textvariable=self._file_path__var,
+                                **{
+                                    **TrackerConstants.DEFAULT_STYLES["label"],
+                                    "relief": "ridge",
+                                    "borderwidth": TrackerConstants.BORDERWIDTH__SMALL,
+                                    **self._get_file_path_label_style()
+                                })
+        self.children["file_path_label"] = file_path_label
+        file_path_label.grid(row=row_index, column=0, columnspan=5, sticky="nswe")
 
         row_index += 2
         Button(self._frame, text="Open", command=open__button, **TrackerConstants.DEFAULT_STYLES["button"]
@@ -111,6 +120,10 @@ class File(Board):
 
         Button(self._frame, text="Move", **TrackerConstants.DEFAULT_STYLES["button"]
                ).grid(row=row_index, column=4, sticky="nswe")
+
+    def _get_file_path_label_style(self):
+        return ({"fg": TrackerConstants.COLOURS["yellow"]} if self.parent.is_state_unsaved else
+                {"fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"]})
 
     def _expire_alerts(self):
         now = datetime.now()

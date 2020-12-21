@@ -27,12 +27,10 @@ class Tracker(Component):
             "set",
             lambda metadata: None if metadata["extension_data"].get("registered_path_label", None) == "load_file"
             else self.save_state(self.state_file_path, catch=True))  # Only save if this was not a load operation
-        self.load_state(self.state_file_path, catch=True)
+        loaded = self.load_state(self.state_file_path, catch=True)
 
-        # Board-specific temporary variables
-        self.tips = self.state.registered_get("workout_tips")
-        shuffle(self.tips)
-        self.tips_index = 0
+        # Tracker temporary variables
+        self.is_state_unsaved = False if loaded else True
 
     def _render(self):
         def can_move_board(layout, coords_list_lookup, _board_class, offset):
@@ -68,6 +66,11 @@ class Tracker(Component):
                 "rowspan": (max(rows)-min(rows))+1,
                 "columnspan": (max(columns)-min(columns))+1
             }
+
+        # Board-specific temporary variables
+        self.tips = self.state.registered_get("workout_tips")
+        shuffle(self.tips)
+        self.tips_index = 0
 
         # Initialise all boards
         self.boards = [board_class(self, self._frame) for board_class in self._config.BOARDS_LAYOUT]
@@ -154,6 +157,7 @@ class Tracker(Component):
         try:
             with open(file_path, "r") as data_file:
                 self.state.registered_set(json.loads(data_file.read()), "load_file")
+            return True
         except (FileNotFoundError, json.decoder.JSONDecodeError) as ex:
             if not catch:
                 raise ex
@@ -164,6 +168,9 @@ class Tracker(Component):
         try:
             with open(file_path, "w") as data_file:
                 data_file.write(json.dumps(self.state.get()))
+
+            self.is_state_unsaved = False
+            return True
         except (FileNotFoundError, TypeError) as ex:
             if not catch:
                 raise ex

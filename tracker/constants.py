@@ -40,6 +40,9 @@ class Constants:
     SMALL_ITALICS_FONT = ("Bahnschrift", 9, "italic")
     SYMBOL_FONT = ("Bahnschrift", 9, "bold")
 
+    # Update Intervals
+    INTERVAL__SHORT_DELAY = 500
+
     # Misc
     COLOURS = {
         "orange": "#FF9859",

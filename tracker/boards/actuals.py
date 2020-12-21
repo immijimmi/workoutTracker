@@ -98,7 +98,7 @@ class Actuals(Board):
             date_text_format="%a %Y/%m/%d",
             get_data=lambda stepper: self._date_offset,
             on_change=on_change__date_stepper,
-            update_interval=500,
+            update_interval=TrackerConstants.INTERVAL__SHORT_DELAY,
             styles={
                 "label": {
                     **TrackerConstants.DEFAULT_STYLES["label"],
@@ -168,7 +168,7 @@ class Actuals(Board):
                 self._frame,
                 get_data=partial(get_data__number_stepper, workout_type_id),
                 on_change=partial(on_change__number_stepper, workout_type_id),
-                update_interval=500,
+                update_interval=TrackerConstants.INTERVAL__SHORT_DELAY,
                 text_format=sets_actual_text_format,
                 step_amounts=(1,) if self._date_offset == 0 else (),
                 limits=(0, None),

@@ -115,7 +115,7 @@ class Schedule(Board):
                 },
                 "y_label": {
                     **TrackerConstants.DEFAULT_STYLES["label"],
-                    "width": max([len(label) for label in workout_y_labels])
+                    **({"width": max([len(label) for label in workout_y_labels])} if workout_y_labels else {})
                 },
                 "number_stepper": {
                     "label": {
