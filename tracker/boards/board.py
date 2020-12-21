@@ -5,8 +5,8 @@ from ..constants import Constants as TrackerConstants
 
 
 class Board(Component, ABC):
-    def __init__(self, parent, container):
-        super().__init__(container, styles={
+    def __init__(self, parent, container, update_interval=None):
+        super().__init__(container, update_interval=update_interval, styles={
             "frame": {
                 "borderwidth": TrackerConstants.BORDERWIDTH__TINY,
                 "relief": "sunken",
