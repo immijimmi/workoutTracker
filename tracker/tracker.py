@@ -4,7 +4,7 @@ from managedState.extensions import Registrar, Listeners
 import json
 from random import shuffle
 from logging import warning
-from os import getcwd
+from os import path, getcwd
 
 from .components import Component, GridHelper
 from .constants import Constants
@@ -18,7 +18,7 @@ class Tracker(Component):
 
         self._config = config
 
-        self.state_file_path = self._config.STATE_FILE_PATH
+        self.state_file_path = path.relpath(self._config.STATE_FILE_PATH)
         self.visible_boards = set(self._config.INITIAL_BOARDS_VISIBLE)
 
         self.state = State(extensions=[Registrar, Listeners])

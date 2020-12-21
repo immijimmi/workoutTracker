@@ -1,6 +1,7 @@
 from datetime import datetime
 from functools import partial
 from json import decoder
+from os import path
 from tkinter import Label, Button, StringVar
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 
@@ -24,31 +25,33 @@ class File(Board):
 
     def _update(self):
         self._file_path__var.set(self.parent.state_file_path)
-        self.children["file_path_label"].configure(**self._get_file_path_label_style())
+        self._set_path_label_style()
 
     def _render(self):
         def get_data__alert(message, alert):
             alert.started = self.active_alerts[message]
             return message
 
-        def on_change__alert(alert):
-            self.render()
-
-        def open__button():
+        def load_file(change_save_location=False):
             selected_file_path = askopenfilename(filetypes=(("JSON Files", "*.json"), ("All Files", "*.*")))
             if selected_file_path == "":
                 return
 
+            selected_file_path = path.relpath(selected_file_path)
+            if selected_file_path == self.parent.state_file_path:
+                return self._add_alert("Selected file is already open.")
+
             try:
                 self.parent.load_state(selected_file_path)
             except (FileNotFoundError, decoder.JSONDecodeError) as ex:
-                self.active_alerts["Unable to open file."] = datetime.now()
+                return self._add_alert("Unable to open selected file.")
 
-                self.render()
-                return
+            if change_save_location:
+                self.parent.state_file_path = selected_file_path
+                self.parent.is_state_unsaved = False
+            else:
+                self.parent.is_state_unsaved = True
 
-            self.parent.state_file_path = selected_file_path
-            self.parent.is_state_unsaved = False
             self.parent.render()
 
         self._expire_alerts()
@@ -58,7 +61,7 @@ class File(Board):
 
         self._apply_frame_stretch(
             rows=[4+len(self.active_alerts)] + ([len(self.active_alerts)] if self.active_alerts else []),
-            columns=[1, 3])
+            columns=[0, 4])
 
         row_index = -1
 
@@ -68,7 +71,7 @@ class File(Board):
                 self._frame,
                 TrackerConstants.ALERT_DURATION,
                 get_data=partial(get_data__alert, alert_message),
-                on_change=on_change__alert,
+                on_change=lambda alert: self.render(),
                 styles={
                     "frame": {
                         "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
@@ -101,29 +104,37 @@ class File(Board):
               ).grid(row=row_index, column=0, columnspan=5, sticky="nswe")
 
         row_index += 2
-        file_path_label = Label(self._frame, textvariable=self._file_path__var,
-                                **{
-                                    **TrackerConstants.DEFAULT_STYLES["label"],
-                                    "relief": "ridge",
-                                    "borderwidth": TrackerConstants.BORDERWIDTH__SMALL,
-                                    **self._get_file_path_label_style()
-                                })
-        self.children["file_path_label"] = file_path_label
-        file_path_label.grid(row=row_index, column=0, columnspan=5, sticky="nswe")
+        path_label = Label(self._frame, textvariable=self._file_path__var,
+                           **{
+                               **TrackerConstants.DEFAULT_STYLES["label"],
+                               "relief": "ridge",
+                               "borderwidth": TrackerConstants.BORDERWIDTH__SMALL,
+                           })
+        self.children["file_path_label"] = path_label
+        self._set_path_label_style()
+        path_label.grid(row=row_index, column=0, columnspan=5, sticky="nswe")
 
         row_index += 2
-        Button(self._frame, text="Open", command=open__button, **TrackerConstants.DEFAULT_STYLES["button"]
-               ).grid(row=row_index, column=0, sticky="nswe")
+        Button(self._frame, text="Open", command=lambda: load_file(change_save_location=True),
+               **TrackerConstants.DEFAULT_STYLES["button"]
+               ).grid(row=row_index, column=1, sticky="nswe")
 
-        Button(self._frame, text="Import", **TrackerConstants.DEFAULT_STYLES["button"]
+        Button(self._frame, text="Import", command=lambda: load_file(change_save_location=False),
+               **TrackerConstants.DEFAULT_STYLES["button"]
                ).grid(row=row_index, column=2, sticky="nswe")
 
         Button(self._frame, text="Move", **TrackerConstants.DEFAULT_STYLES["button"]
-               ).grid(row=row_index, column=4, sticky="nswe")
+               ).grid(row=row_index, column=3, sticky="nswe")
 
-    def _get_file_path_label_style(self):
-        return ({"fg": TrackerConstants.COLOURS["yellow"]} if self.parent.is_state_unsaved else
-                {"fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"]})
+    def _set_path_label_style(self):
+        style = ({"fg": TrackerConstants.COLOURS["yellow"]} if self.parent.is_state_unsaved else
+                 {"fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"]})
+
+        self.children["file_path_label"].config(**style)
+
+    def _add_alert(self, msg):
+        self.active_alerts[msg] = datetime.now()
+        self.render()
 
     def _expire_alerts(self):
         now = datetime.now()
