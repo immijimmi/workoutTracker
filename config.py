@@ -2,8 +2,8 @@ from tracker.boards import BoardController, Actuals, Tips, Schedule, File
 
 
 class Config:
-    STATE_FILENAME = "data.json"
-    ICON_FILENAME = r"res/icon.ico"
+    STATE_FILE_PATH = "data.json"
+    ICON_FILE_PATH = r"res/icon.ico"
 
     INITIAL_BOARDS_VISIBLE = {BoardController, Tips}
     BOARDS_LAYOUT = {  # Row and column must be provided. Rowspan and columnspan are defaulted to 1 if not provided

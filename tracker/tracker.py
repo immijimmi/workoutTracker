@@ -1,9 +1,10 @@
 from managedState import State
 from managedState.extensions import Registrar, Listeners
 
-from random import shuffle
 import json
-import logging
+from random import shuffle
+from logging import warning
+from os import getcwd
 
 from .components import Component, GridHelper
 from .constants import Constants
@@ -17,13 +18,16 @@ class Tracker(Component):
 
         self._config = config
 
-        self.state_filename = self._config.STATE_FILENAME
+        self.state_file_path = self._config.STATE_FILE_PATH
         self.visible_boards = set(self._config.INITIAL_BOARDS_VISIBLE)
 
         self.state = State(extensions=[Registrar, Listeners])
-        self.load_state(self.state_filename, catch=True)
-        self.state.add_listener("set", lambda metadata: self.save_state(self.state_filename, catch=True))
         self._register_paths()
+        self.state.add_listener(
+            "set",
+            lambda metadata: None if metadata["extension_data"].get("registered_path_label", None) == "load_file"
+            else self.save_state(self.state_file_path, catch=True))  # Only save if this was not a load operation
+        self.load_state(self.state_file_path, catch=True)
 
         # Board-specific temporary variables
         self.tips = self.state.registered_get("workout_tips")
@@ -146,27 +150,29 @@ class Tracker(Component):
 
                 board.render().grid(**updated_board_layout, sticky="nswe")
 
-    def load_state(self, filename, catch=False):
+    def load_state(self, file_path, catch=False):
         try:
-            with open(filename, "r") as data_file:
-                self.state.set(json.loads(data_file.read()))
+            with open(file_path, "r") as data_file:
+                self.state.registered_set(json.loads(data_file.read()), "load_file")
         except (FileNotFoundError, json.decoder.JSONDecodeError) as ex:
             if not catch:
                 raise ex
 
-            logging.warning("Unable to load application state from file: {0}".format(ex))
+            warning("Unable to load application state from file: {0}".format(ex))
 
-    def save_state(self, filename, catch=False):
+    def save_state(self, file_path, catch=False):
         try:
-            with open(filename, "w") as data_file:
+            with open(file_path, "w") as data_file:
                 data_file.write(json.dumps(self.state.get()))
         except (FileNotFoundError, TypeError) as ex:
             if not catch:
                 raise ex
 
-            logging.warning("Unable to save application state to file: {0}".format(ex))
+            warning("Unable to save application state to file: {0}".format(ex))
 
     def _register_paths(self):
+        self.state.register("load_file", [], [])  # Used to add metadata for listeners
+
         self.state.register("settings", ["settings"], [{}])
         self.state.register("active_schedule_id", ["settings", "active_schedule_id"], [{}, None])
 

@@ -8,7 +8,7 @@ class App:
     def __init__(self, config):
         self._window = Tk()
         self._window.title(Constants.WINDOW_TITLE)
-        self._window.iconbitmap(config.ICON_FILENAME)
+        self._window.iconbitmap(config.ICON_FILE_PATH)
 
         # Make the window expand to fill the screen
         self._window.columnconfigure(0, weight=1)

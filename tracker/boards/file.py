@@ -1,5 +1,6 @@
 from datetime import datetime
 from functools import partial
+from json import decoder
 from tkinter import Label, Button, StringVar
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 
@@ -14,8 +15,8 @@ class File(Board):
 
         self.active_alerts = {}
 
-        self._filename__var = StringVar()
-        self._filename__var.set(self.parent.state_filename)
+        self._file_path__var = StringVar()
+        self._file_path__var.set(self.parent.state_file_path)
 
     @property
     def display_name(self):
@@ -30,11 +31,20 @@ class File(Board):
             self.render()
 
         def open__button():
-            #import_filename = askopenfilename()
+            selected_file_path = askopenfilename(filetypes=(("JSON Files", "*.json"), ("All Files", "*.*")))
+            if selected_file_path == "":
+                return
 
-            self.active_alerts["Invalid file name."] = datetime.now()
-            self.render()
-            #####
+            try:
+                self.parent.load_state(selected_file_path)
+            except (FileNotFoundError, decoder.JSONDecodeError) as ex:
+                self.active_alerts["Unable to open file."] = datetime.now()
+
+                self.render()
+                return
+
+            self.parent.state_file_path = selected_file_path
+            self._file_path__var.set(self.parent.state_file_path)
 
         self._expire_alerts()
 
@@ -85,7 +95,7 @@ class File(Board):
               ).grid(row=row_index, column=0, columnspan=5, sticky="nswe")
 
         row_index += 2
-        Label(self._frame, textvariable=self._filename__var,
+        Label(self._frame, textvariable=self._file_path__var,
               **{
                   **TrackerConstants.DEFAULT_STYLES["label"],
                   "relief": "ridge",
@@ -93,13 +103,13 @@ class File(Board):
               }).grid(row=row_index, column=0, columnspan=5, sticky="nswe")
 
         row_index += 2
-        Button(self._frame, text="Open", width=8, command=open__button, **TrackerConstants.DEFAULT_STYLES["button"]
+        Button(self._frame, text="Open", command=open__button, **TrackerConstants.DEFAULT_STYLES["button"]
                ).grid(row=row_index, column=0, sticky="nswe")
 
-        Button(self._frame, text="Import", width=8, **TrackerConstants.DEFAULT_STYLES["button"]
+        Button(self._frame, text="Import", **TrackerConstants.DEFAULT_STYLES["button"]
                ).grid(row=row_index, column=2, sticky="nswe")
 
-        Button(self._frame, text="Move", width=8, **TrackerConstants.DEFAULT_STYLES["button"]
+        Button(self._frame, text="Move", **TrackerConstants.DEFAULT_STYLES["button"]
                ).grid(row=row_index, column=4, sticky="nswe")
 
     def _expire_alerts(self):
