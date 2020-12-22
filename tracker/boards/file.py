@@ -91,12 +91,13 @@ class File(Board):
                     },
                     "label": {
                         **TrackerConstants.DEFAULT_STYLES["label"],
-                        "font": TrackerConstants.SMALL_ITALICS_FONT
+                        "font": TrackerConstants.SMALL_ITALICS_FONT,
+                        "padx": 0,
                     },
                     "progress_bar": {
                         "frame": {
                             "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
-                            "padx": TrackerConstants.DEFAULT_STYLE_ARGS["padx"]
+                            "padx": TrackerConstants.PAD__NORMAL
                         },
                         "filled_bar_frame": {
                             "bg": TrackerConstants.COLOURS["cool_dark_grey"],
