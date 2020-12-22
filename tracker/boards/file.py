@@ -71,7 +71,7 @@ class File(Board):
         self.children["alerts"] = []
 
         self._apply_frame_stretch(
-            rows=[4+len(self.active_alerts)] + ([len(self.active_alerts)] if self.active_alerts else []),
+            rows=[3+len(self.active_alerts)] + ([len(self.active_alerts)] if self.active_alerts else []),
             columns=[0, 4])
 
         row_index = -1
@@ -114,7 +114,7 @@ class File(Board):
         Label(self._frame, text="Save Location", **TrackerConstants.DEFAULT_STYLES["label"]
               ).grid(row=row_index, column=0, columnspan=5, sticky="nswe")
 
-        row_index += 2
+        row_index += 1
         path_label = Label(self._frame, textvariable=self._file_path__var,
                            **{
                                **TrackerConstants.DEFAULT_STYLES["label"],
