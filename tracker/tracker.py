@@ -18,9 +18,6 @@ class Tracker(Component):
 
         self._config = config
 
-        self.state_file_path = path.relpath(self._config.STATE_FILE_PATH)
-        self.visible_boards = set(self._config.INITIAL_BOARDS_VISIBLE)
-
         self.state = State(extensions=[Registrar, Listeners])
         self._register_paths()
         self.state.add_listener(
@@ -30,7 +27,9 @@ class Tracker(Component):
         loaded = self.load_state(self.state_file_path, catch=True)
 
         # Tracker temporary variables
+        self.state_file_path = path.relpath(self._config.STATE_FILE_PATH)
         self.is_state_unsaved = False if loaded else True
+        self.visible_boards = set(self._config.INITIAL_BOARDS_VISIBLE)
 
     def _render(self):
         def can_move_board(layout, coords_list_lookup, _board_class, offset):
