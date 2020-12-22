@@ -49,11 +49,11 @@ class File(Board):
                 return self._add_alert("Selected file is already open.")
 
             if operation in ("Open", "Import"):
-                loaded = self.parent.load_state(selected_file_path)
+                loaded = self.parent.load_state(selected_file_path, catch=True)
                 if not loaded:
                     return self._add_alert("Unable to open selected file.")
             else:
-                saved = self.parent.save_state(selected_file_path)
+                saved = self.parent.save_state(selected_file_path, catch=True)
                 if not saved:
                     return self._add_alert("Unable to save as selected file name.")
 

@@ -46,8 +46,8 @@ class Constants:
     INTERVAL__SHORT_DELAY = 500
 
     # File Handling Errors
-    READ_ERRORS = [FileNotFoundError, decoder.JSONDecodeError]
-    WRITE_ERRORS = [OSError]
+    READ_ERRORS = (FileNotFoundError, decoder.JSONDecodeError)
+    WRITE_ERRORS = (OSError,)
 
     # Misc
     COLOURS = {
