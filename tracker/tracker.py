@@ -4,7 +4,7 @@ from managedState.extensions import Registrar, Listeners
 import json
 from random import shuffle
 from logging import warning
-from os import path, getcwd
+from os import path
 
 from .components import Component, GridHelper
 from .constants import Constants
@@ -16,12 +16,12 @@ class Tracker(Component):
             "frame": {"bg": Constants.DEFAULT_STYLE_ARGS["bg"]}
         }, extensions=[GridHelper])
 
-        self._config = config
+        self.config = config
 
         # Tracker temporary variables
-        self.state_file_path = path.relpath(self._config.STATE_FILE_PATH)
+        self.state_file_path = path.relpath(self.config.STATE_FILE_PATH)
         self.is_state_unsaved = True
-        self.visible_boards = set(self._config.INITIAL_BOARDS_VISIBLE)
+        self.visible_boards = set(self.config.INITIAL_BOARDS_VISIBLE)
 
         # State Initialisation
         self.state = State(extensions=[Registrar, Listeners])
@@ -75,14 +75,14 @@ class Tracker(Component):
         self.tips_index = 0
 
         # Initialise all boards
-        self.boards = [board_class(self, self._frame) for board_class in self._config.BOARDS_LAYOUT]
+        self.boards = [board_class(self, self._frame) for board_class in self.config.BOARDS_LAYOUT]
 
         # Create structures to represent boards layout in grid form
         row_count = max([
-            layout["row"]+layout.get("rowspan", 1) for layout in self._config.BOARDS_LAYOUT.values()
+            layout["row"]+layout.get("rowspan", 1) for layout in self.config.BOARDS_LAYOUT.values()
         ])
         column_count = max([
-            layout["column"]+layout.get("columnspan", 1) for layout in self._config.BOARDS_LAYOUT.values()
+            layout["column"]+layout.get("columnspan", 1) for layout in self.config.BOARDS_LAYOUT.values()
         ])
         grid_layout = [[None for i in range(row_count)] for j in range(column_count)]
         board_coords = {}
@@ -92,7 +92,7 @@ class Tracker(Component):
             board_class = type(board)
 
             if board_class in self.visible_boards:  # Filter out non-visible boards
-                board_layout = self._config.BOARDS_LAYOUT[board_class]
+                board_layout = self.config.BOARDS_LAYOUT[board_class]
 
                 for column_offset in range(board_layout.get("columnspan", 1)):
                     for row_offset in range(board_layout.get("rowspan", 1)):
@@ -114,8 +114,6 @@ class Tracker(Component):
                 no_boards_moved_upwards = True
 
                 for board_class in board_coords:
-                    coords_list = board_coords[board_class]
-
                     if can_move_board(grid_layout, board_coords, board_class, (0, -1)):
                         move_board(grid_layout, board_coords, board_class, (0, -1))
                         no_boards_moved_upwards = False
@@ -125,8 +123,6 @@ class Tracker(Component):
                     break
 
             for board_class in board_coords:
-                coords_list = board_coords[board_class]
-
                 if can_move_board(grid_layout, board_coords, board_class, (-1, 0)):
                     move_board(grid_layout, board_coords, board_class, (-1, 0))
                     no_boards_moved = False
@@ -160,7 +156,7 @@ class Tracker(Component):
             with open(file_path, "r") as data_file:
                 self.state.registered_set(json.loads(data_file.read()), "load_file")
             return True
-        except (FileNotFoundError, json.decoder.JSONDecodeError) as ex:
+        except self.config.read_errors as ex:
             if not catch:
                 raise ex
 
@@ -173,7 +169,7 @@ class Tracker(Component):
 
             self.is_state_unsaved = False
             return True
-        except (FileNotFoundError, TypeError) as ex:
+        except self.config.write_errors as ex:
             if not catch:
                 raise ex
 
@@ -197,7 +193,13 @@ class Tracker(Component):
             "workout_schedule", ["workout_schedules", Constants.PATH_DYNAMIC_KEY], [{}, {}])
         self.state.register(
             "scheduled_sets_single_entry",
-            ["workout_schedules", Constants.PATH_DYNAMIC_KEY, "schedule", Constants.PATH_DYNAMIC_KEY, Constants.PATH_DYNAMIC_KEY],
+            [
+                "workout_schedules",
+                Constants.PATH_DYNAMIC_KEY,
+                "schedule",
+                Constants.PATH_DYNAMIC_KEY,
+                Constants.PATH_DYNAMIC_KEY
+            ],
             [{}, {}, {}, {}, 0])
         self.state.register(
             "completed_reps_single_entry",

@@ -1,5 +1,7 @@
 from managedState.extensions import KeyQueryFactory
 
+from json import decoder
+
 
 class Constants:
     WEEKDAY_KEY_STRINGS = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
@@ -42,6 +44,10 @@ class Constants:
 
     # Update Intervals
     INTERVAL__SHORT_DELAY = 500
+
+    # File Handling Errors
+    read_errors = [FileNotFoundError, decoder.JSONDecodeError]
+    write_errors = [OSError]
 
     # Misc
     COLOURS = {

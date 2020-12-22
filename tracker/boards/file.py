@@ -1,6 +1,5 @@
 from datetime import datetime
 from functools import partial
-from json import decoder
 from os import path
 from tkinter import Label, Button, StringVar
 from tkinter.filedialog import askopenfilename, asksaveasfilename
@@ -32,10 +31,16 @@ class File(Board):
             alert.started = self.active_alerts[message]
             return message
 
-        def load_file(change_save_location=False):
-            selected_file_path = askopenfilename(
-                title="Open" if change_save_location else "Import",
-                filetypes=(("JSON Files", "*.json"), ("All Files", "*.*")))
+        def set_file_config(operation):
+            if operation not in ("Open", "Import", "Save As"):
+                raise ValueError
+
+            filetypes = (("JSON Files", "*.json"), ("All Files", "*.*"))
+            if operation in ("Open", "Import"):
+                selected_file_path = askopenfilename(title=operation, filetypes=filetypes)
+            else:
+                selected_file_path = asksaveasfilename(title="Save As", filetypes=filetypes, defaultextension=".json")
+
             if selected_file_path == "":
                 return
 
@@ -43,12 +48,16 @@ class File(Board):
             if selected_file_path == self.parent.state_file_path:
                 return self._add_alert("Selected file is already open.")
 
-            try:
-                self.parent.load_state(selected_file_path)
-            except (FileNotFoundError, decoder.JSONDecodeError) as ex:
-                return self._add_alert("Unable to open selected file.")
+            if operation in ("Open", "Import"):
+                loaded = self.parent.load_state(selected_file_path)
+                if not loaded:
+                    return self._add_alert("Unable to open selected file.")
+            else:
+                saved = self.parent.save_state(selected_file_path)
+                if not saved:
+                    return self._add_alert("Unable to save as selected file name.")
 
-            if change_save_location:
+            if operation in ("Open", "Save As"):
                 self.parent.state_file_path = selected_file_path
                 self.parent.is_state_unsaved = False
             else:
@@ -117,15 +126,16 @@ class File(Board):
         path_label.grid(row=row_index, column=0, columnspan=5, sticky="nswe")
 
         row_index += 2
-        Button(self._frame, text="Open", command=lambda: load_file(change_save_location=True),
+        Button(self._frame, text="Open...", width=8, command=lambda: set_file_config("Open"),
                **TrackerConstants.DEFAULT_STYLES["button"]
                ).grid(row=row_index, column=1, sticky="nswe")
 
-        Button(self._frame, text="Import", command=lambda: load_file(change_save_location=False),
+        Button(self._frame, text="Import...", width=8, command=lambda: set_file_config("Import"),
                **TrackerConstants.DEFAULT_STYLES["button"]
                ).grid(row=row_index, column=2, sticky="nswe")
 
-        Button(self._frame, text="Move", **TrackerConstants.DEFAULT_STYLES["button"]
+        Button(self._frame, text="Save As...", width=8, command=lambda: set_file_config("Save As"),
+               **TrackerConstants.DEFAULT_STYLES["button"]
                ).grid(row=row_index, column=3, sticky="nswe")
 
     def _set_path_label_style(self):
