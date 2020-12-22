@@ -156,7 +156,7 @@ class Tracker(Component):
             with open(file_path, "r") as data_file:
                 self.state.registered_set(json.loads(data_file.read()), "load_file")
             return True
-        except self.config.read_errors as ex:
+        except Constants.READ_ERRORS as ex:
             if not catch:
                 raise ex
 
@@ -169,7 +169,7 @@ class Tracker(Component):
 
             self.is_state_unsaved = False
             return True
-        except self.config.write_errors as ex:
+        except Constants.WRITE_ERRORS as ex:
             if not catch:
                 raise ex
 
