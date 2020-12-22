@@ -18,6 +18,12 @@ class Tracker(Component):
 
         self._config = config
 
+        # Tracker temporary variables
+        self.state_file_path = path.relpath(self._config.STATE_FILE_PATH)
+        self.is_state_unsaved = True
+        self.visible_boards = set(self._config.INITIAL_BOARDS_VISIBLE)
+
+        # State Initialisation
         self.state = State(extensions=[Registrar, Listeners])
         self._register_paths()
         self.state.add_listener(
@@ -25,11 +31,8 @@ class Tracker(Component):
             lambda metadata: None if metadata["extension_data"].get("registered_path_label", None) == "load_file"
             else self.save_state(self.state_file_path, catch=True))  # Only save if this was not a load operation
         loaded = self.load_state(self.state_file_path, catch=True)
-
-        # Tracker temporary variables
-        self.state_file_path = path.relpath(self._config.STATE_FILE_PATH)
-        self.is_state_unsaved = False if loaded else True
-        self.visible_boards = set(self._config.INITIAL_BOARDS_VISIBLE)
+        if loaded:
+            self.is_state_unsaved = False
 
     def _render(self):
         def can_move_board(layout, coords_list_lookup, _board_class, offset):

@@ -33,7 +33,9 @@ class File(Board):
             return message
 
         def load_file(change_save_location=False):
-            selected_file_path = askopenfilename(filetypes=(("JSON Files", "*.json"), ("All Files", "*.*")))
+            selected_file_path = askopenfilename(
+                title="Open" if change_save_location else "Import",
+                filetypes=(("JSON Files", "*.json"), ("All Files", "*.*")))
             if selected_file_path == "":
                 return
 
