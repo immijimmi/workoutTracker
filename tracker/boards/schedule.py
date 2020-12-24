@@ -37,11 +37,18 @@ class Schedule(Board):
             self.parent.render()
 
         def get_data__schedule_picker(_schedule_picker):
-            result = [{"value": None, "text": "None", "style": {"bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"]}}]
+            schedule_button_style = {"bg": TrackerConstants.COLOURS["cool_less_dark_grey"]}
+            default_button_format = "({0})"
+
+            result = [{"value": None, "text": default_button_format.format(None)}]
 
             schedules = self.state.registered_get("workout_schedules")
             for schedule_id in schedules:
-                result.append({"value": schedule_id, "text": schedules[schedule_id]["name"]})
+                result.append({
+                    "value": schedule_id,
+                    "text": schedules[schedule_id]["name"] or default_button_format.format(schedule_id),
+                    "style": schedule_button_style if schedules[schedule_id]["name"] else {}
+                })
 
             return result
 
@@ -78,7 +85,6 @@ class Schedule(Board):
                 },
                 "button": {
                     **TrackerConstants.DEFAULT_STYLES["button"],
-                    "bg": TrackerConstants.COLOURS["cool_less_dark_grey"],
                     "relief": "raised"
                 },
                 "button_selected": {

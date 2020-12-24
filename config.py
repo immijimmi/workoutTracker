@@ -5,7 +5,7 @@ class Config:
     STATE_FILE_PATH = "data.json"
     ICON_FILE_PATH = r"res/icon.ico"
 
-    INITIAL_BOARDS_VISIBLE = {BoardController, Tips}
+    INITIAL_BOARDS_VISIBLE = {BoardController}
     BOARDS_LAYOUT = {  # Row and column must be provided. Rowspan and columnspan are defaulted to 1 if not provided
         BoardController: {"row": 0, "column": 0, "rowspan": 3},
         Actuals: {"row": 0, "column": 1, "rowspan": 2, "columnspan": 5},
