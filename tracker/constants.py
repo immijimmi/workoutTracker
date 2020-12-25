@@ -20,6 +20,7 @@ class Constants:
 
     # Padding
     PAD__TINY = 2
+    PAD__TINY_SMALL = 3
     PAD__SMALL = 4
     PAD__SMALL_NORMAL = 5
     PAD__NORMAL = 6
@@ -37,6 +38,7 @@ class Constants:
     # Fonts
     NORMAL_FONT = ("Bahnschrift", 10)
     SMALL_FONT = ("Bahnschrift", 9)
+    TINY_FONT = ("Bahnschrift", 8)
     BOLD_FONT = ("Bahnschrift", 10, "bold")
     ITALICS_FONT = ("Bahnschrift", 10, "italic")
     SMALL_ITALICS_FONT = ("Bahnschrift", 9, "italic")

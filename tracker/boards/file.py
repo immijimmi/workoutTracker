@@ -31,6 +31,10 @@ class File(Board):
             alert.started = self.active_alerts[message]
             return message
 
+        def on_expire__alert(alert):
+            del self.active_alerts[alert.value]
+            self.render()
+
         def set_file_config(operation):
             if operation not in ("Open", "Import", "Save As"):
                 raise ValueError
@@ -82,28 +86,30 @@ class File(Board):
                 self._frame,
                 TrackerConstants.ALERT_DURATION,
                 get_data=partial(get_data__alert, alert_message),
-                on_change=lambda alert: self.render(),
+                on_expire=on_expire__alert,
                 styles={
                     "frame": {
                         "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
                         "relief": "ridge",
                         "borderwidth": TrackerConstants.BORDERWIDTH__TINY
                     },
+                    "inner_frame": {
+                        "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
+                        "padx": TrackerConstants.PAD__TINY_SMALL,
+                        "pady": TrackerConstants.PAD__TINY_SMALL
+                    },
                     "label": {
                         **TrackerConstants.DEFAULT_STYLES["label"],
-                        "font": TrackerConstants.SMALL_ITALICS_FONT,
-                        "padx": 0,
+                        "font": TrackerConstants.SMALL_ITALICS_FONT
+                    },
+                    "button": {
+                        **TrackerConstants.DEFAULT_STYLES["button"],
+                        "font": TrackerConstants.TINY_FONT,
+                        "borderwidth": TrackerConstants.BORDERWIDTH__TINY
                     },
                     "progress_bar": {
-                        "frame": {
-                            "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
-                            "padx": TrackerConstants.PAD__NORMAL
-                        },
-                        "filled_bar_frame": {
-                            "bg": TrackerConstants.COLOURS["cool_dark_grey"],
-                            "relief": "ridge",
-                            "borderwidth": TrackerConstants.BORDERWIDTH__TINY
-                        },
+                        "height": 4,
+                        "filled_bar_frame": {"bg": TrackerConstants.COLOURS["cool_less_dark_grey"]},
                         "empty_bar_frame": {"bg": TrackerConstants.COLOURS["default_grey"]}
                     }
                 }
