@@ -62,6 +62,8 @@ class Schedule(Board):
             else:
                 return self.state.registered_get("scheduled_sets_single_entry", [active_schedule_id, x_value, y_value])
 
+        self._apply_frame_stretch(rows=[0], columns=[1])
+
         schedule_picker = ButtonListBox(
             self._frame,
             self.state.registered_get("active_schedule_id"),
