@@ -108,7 +108,6 @@ class File(Board):
                         "borderwidth": TrackerConstants.BORDERWIDTH__TINY
                     },
                     "progress_bar": {
-                        "height": 4,
                         "filled_bar_frame": {"bg": TrackerConstants.COLOURS["cool_less_dark_grey"]},
                         "empty_bar_frame": {"bg": TrackerConstants.COLOURS["default_grey"]}
                     }
