@@ -11,17 +11,6 @@ class Schedule(Board):
     def display_name(self):
         return "Schedule"
 
-    @property
-    def height(self):
-        self._frame.update()
-
-        frame_padding = self.styles["frame"].get("padx", 0)
-        frame_borderwidth = self.styles["frame"].get("borderwidth", 0)
-
-        total_height_buffer = (2 * frame_padding) + (2 * frame_borderwidth)
-
-        return self._frame.winfo_height() - total_height_buffer
-
     def _render(self):
         def on_change__schedule_picker(_schedule_picker, new_value):
             if new_value is None:
@@ -76,7 +65,7 @@ class Schedule(Board):
         schedule_picker = ButtonListBox(
             self._frame,
             self.state.registered_get("active_schedule_id"),
-            lambda: self.height,
+            lambda: self.height_clearance,
             get_data=get_data__schedule_picker,
             on_change=on_change__schedule_picker,
             styles={
@@ -115,8 +104,7 @@ class Schedule(Board):
                 },
                 "x_label": {
                     **TrackerConstants.DEFAULT_STYLES["label"],
-                    "relief": "ridge",
-                    "borderwidth": TrackerConstants.BORDERWIDTH__SMALL,
+                    **TrackerConstants.DEFAULT_STYLES["highlight"],
                     "width": 3
                 },
                 "y_label": {
@@ -126,8 +114,7 @@ class Schedule(Board):
                 "number_stepper": {
                     "label": {
                         **TrackerConstants.DEFAULT_STYLES["label"],
-                        "relief": "ridge",
-                        "borderwidth": TrackerConstants.BORDERWIDTH__TINY,
+                        **TrackerConstants.DEFAULT_STYLES["highlight"],
                         "width": 3
                     },
                     "button": {
@@ -137,4 +124,3 @@ class Schedule(Board):
             }
         )
         stepper_table.render().grid(row=0, column=1, sticky="nswe")
-

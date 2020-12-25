@@ -42,7 +42,7 @@ class Constants:
     BOLD_FONT = ("Bahnschrift", 10, "bold")
     ITALICS_FONT = ("Bahnschrift", 10, "italic")
     SMALL_ITALICS_FONT = ("Bahnschrift", 9, "italic")
-    SYMBOL_FONT = ("Bahnschrift", 9, "bold")
+    SYMBOL_FONT = ("Bahnschrift", 10)
 
     # Update Intervals
     INTERVAL__SHORT_DELAY = 500
@@ -88,10 +88,19 @@ class Constants:
             "padx": DEFAULT_STYLE_ARGS["padx"],
         },
         "symbol_button": {
-            "font": SYMBOL_FONT,
+            "font": DEFAULT_STYLE_ARGS["font"],
             "fg": DEFAULT_STYLE_ARGS["fg"],
             "bg": DEFAULT_STYLE_ARGS["bg"],
-            "padx": DEFAULT_STYLE_ARGS["padx"],
+            "padx": PAD__NORMAL,
             "width": 1
+        },
+        "highlight": {
+            "relief": "raised",
+            "borderwidth": BORDERWIDTH__TINY
+        },
+        "paragraph": {
+            "font": SMALL_ITALICS_FONT,
+            "fg": DEFAULT_STYLE_ARGS["fg"],
+            "bg": DEFAULT_STYLE_ARGS["bg"]
         }
     }

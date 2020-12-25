@@ -102,9 +102,8 @@ class Actuals(Board):
             styles={
                 "label": {
                     **TrackerConstants.DEFAULT_STYLES["label"],
-                    "width": 28,  # Extra room left to keep the size somewhat constant between dates
-                    "borderwidth": TrackerConstants.BORDERWIDTH__SMALL,
-                    "relief": "ridge",
+                    **TrackerConstants.DEFAULT_STYLES["highlight"],
+                    "width": 30  # Extra room left to keep the size somewhat constant between dates
                 },
                 "button": {
                     **TrackerConstants.DEFAULT_STYLES["symbol_button"]
@@ -175,6 +174,7 @@ class Actuals(Board):
                 styles={
                     "label": {
                         **TrackerConstants.DEFAULT_STYLES["label"],
+                        **TrackerConstants.DEFAULT_STYLES["highlight"],
                         "width": 10,
                         "bg": status_colour,
                         "fg": TrackerConstants.COLOURS["cool_dark_grey"]
@@ -202,10 +202,8 @@ class Actuals(Board):
             if workout_type_id in self._visible_workout_descriptions:
                 row_index += 1
                 Label(self._frame,
-                      text=workout_desc, font=TrackerConstants.SMALL_ITALICS_FONT,
-                      borderwidth=TrackerConstants.BORDERWIDTH__TINY, relief="ridge",
-                      fg=TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
-                      bg=TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
+                      text=workout_desc,
+                      **TrackerConstants.DEFAULT_STYLES["paragraph"], **TrackerConstants.DEFAULT_STYLES["highlight"],
                       ).grid(row=row_index, column=0, columnspan=9, sticky="nswe")
 
         row_index += 1

@@ -89,9 +89,8 @@ class File(Board):
                 on_expire=on_expire__alert,
                 styles={
                     "frame": {
+                        **TrackerConstants.DEFAULT_STYLES["highlight"],
                         "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
-                        "relief": "ridge",
-                        "borderwidth": TrackerConstants.BORDERWIDTH__TINY
                     },
                     "inner_frame": {
                         "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
@@ -103,9 +102,7 @@ class File(Board):
                         "font": TrackerConstants.SMALL_ITALICS_FONT
                     },
                     "button": {
-                        **TrackerConstants.DEFAULT_STYLES["button"],
-                        "font": TrackerConstants.TINY_FONT,
-                        "borderwidth": TrackerConstants.BORDERWIDTH__TINY
+                        **TrackerConstants.DEFAULT_STYLES["symbol_button"],
                     },
                     "progress_bar": {
                         "filled_bar_frame": {"bg": TrackerConstants.COLOURS["cool_less_dark_grey"]},
@@ -122,11 +119,7 @@ class File(Board):
 
         row_index += 1
         path_label = Label(self._frame, textvariable=self._file_path__var,
-                           **{
-                               **TrackerConstants.DEFAULT_STYLES["label"],
-                               "relief": "ridge",
-                               "borderwidth": TrackerConstants.BORDERWIDTH__SMALL,
-                           })
+                           **TrackerConstants.DEFAULT_STYLES["label"], **TrackerConstants.DEFAULT_STYLES["highlight"])
         self.children["file_path_label"] = path_label
         self._set_path_label_style()
         path_label.grid(row=row_index, column=0, columnspan=5, sticky="nswe")
