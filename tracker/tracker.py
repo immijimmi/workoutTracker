@@ -175,6 +175,15 @@ class Tracker(Component):
 
             warning("Unable to save application state to file: {0}".format(ex))
 
+    def state__add_schedule(self):
+        schedules = self.state.registered_get("workout_schedules")
+
+        new_id = str(max(int(schedule_id) for schedule_id in schedules) + 1)
+        new_schedule = {"name": "", "schedule": {}}
+        schedules[new_id] = new_schedule
+
+        self.state.registered_set(schedules, "workout_schedules")
+
     def _register_paths(self):
         self.state.register("load_file", [], [])  # Used to add metadata for listeners
 

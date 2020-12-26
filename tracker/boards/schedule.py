@@ -1,4 +1,4 @@
-from ..components import ButtonListBox, NumberStepperTable
+from ..components import SchedulePicker, NumberStepperTable
 from ..constants import Constants as TrackerConstants
 from .board import Board
 
@@ -12,35 +12,6 @@ class Schedule(Board):
         return "Schedule"
 
     def _render(self):
-        def on_change__schedule_picker(_schedule_picker, new_value):
-            if new_value is None:
-                self.state.registered_set(None, "active_schedule_id")
-
-            else:
-                schedules = self.state.registered_get("workout_schedules")
-                if new_value not in schedules:
-                    raise ValueError
-
-                self.state.registered_set(new_value, "active_schedule_id")
-
-            self.parent.render()
-
-        def get_data__schedule_picker(_schedule_picker):
-            schedule_button_style = {"bg": TrackerConstants.COLOURS["cool_less_dark_grey"]}
-            default_button_format = "({0})"
-
-            result = [{"value": None, "text": default_button_format.format(None)}]
-
-            schedules = self.state.registered_get("workout_schedules")
-            for schedule_id in schedules:
-                result.append({
-                    "value": schedule_id,
-                    "text": schedules[schedule_id]["name"] or default_button_format.format(schedule_id),
-                    "style": schedule_button_style if schedules[schedule_id]["name"] else {}
-                })
-
-            return result
-
         def on_change__stepper_table(x_value, y_value, _stepper_table, increment_value):
             active_schedule_id = self.state.registered_get("active_schedule_id")
 
@@ -64,29 +35,7 @@ class Schedule(Board):
 
         self._apply_frame_stretch(rows=[0], columns=[1])
 
-        schedule_picker = ButtonListBox(
-            self._frame,
-            self.state.registered_get("active_schedule_id"),
-            lambda: self.height_clearance,
-            get_data=get_data__schedule_picker,
-            on_change=on_change__schedule_picker,
-            styles={
-                "canvas": {
-                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
-                },
-                "button": {
-                    **TrackerConstants.DEFAULT_STYLES["button"],
-                    "relief": "raised"
-                },
-                "button_selected": {
-                    "bg": TrackerConstants.COLOURS["default_grey"],
-                    "relief": "sunken"
-                },
-                "scrollbar": {
-                    "width": 14  # <14 Will not look symmetrical
-                }
-            }
-        )
+        schedule_picker = SchedulePicker(self, self._frame)
         schedule_picker.render().grid(row=0, column=0, sticky="nswe")
 
         workout_types = self.state.registered_get("workout_types")
