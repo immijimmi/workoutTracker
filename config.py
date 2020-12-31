@@ -1,4 +1,4 @@
-from tracker.boards import BoardController, Actuals, Tips, Schedule, File
+from tracker.boards import *
 
 
 class Config:
@@ -11,5 +11,6 @@ class Config:
         Actuals: {"row": 0, "column": 1, "rowspan": 2, "columnspan": 5},
         Schedule: {"row": 2, "column": 1, "rowspan": 2, "columnspan": 6},
         Tips: {"row": 4, "column": 1, "columnspan": 4},
-        File: {"row": 0, "column": 6, "rowspan": 2, "columnspan": 2}
+        File: {"row": 0, "column": 6, "rowspan": 2, "columnspan": 2},
+        ScheduleEditor: {"row": 2, "column": 7, "rowspan": 2, "columnspan": 4}
     }  # Note that boards can end up truncated if not given enough rows or columns
