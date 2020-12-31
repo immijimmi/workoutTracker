@@ -8,9 +8,9 @@ class Config:
     INITIAL_BOARDS_VISIBLE = {BoardController}
     BOARDS_LAYOUT = {  # Row and column must be provided. Rowspan and columnspan are defaulted to 1 if not provided
         BoardController: {"row": 0, "column": 0, "rowspan": 3},
-        Actuals: {"row": 0, "column": 1, "rowspan": 2, "columnspan": 5},
-        Schedule: {"row": 2, "column": 1, "rowspan": 2, "columnspan": 6},
-        Tips: {"row": 4, "column": 1, "columnspan": 4},
-        File: {"row": 0, "column": 6, "rowspan": 2, "columnspan": 2},
-        ScheduleEditor: {"row": 2, "column": 7, "rowspan": 2, "columnspan": 4}
+        Actuals: {"row": 0, "column": 1, "rowspan": 2, "columnspan": 7},
+        Schedule: {"row": 2, "column": 1, "rowspan": 2, "columnspan": 8},
+        Tips: {"row": 4, "column": 1, "columnspan": 5},
+        File: {"row": 0, "column": 8, "rowspan": 2, "columnspan": 3},
+        ScheduleEditor: {"row": 2, "column": 9, "rowspan": 2, "columnspan": 5}
     }  # Note that boards can end up truncated if not given enough rows or columns

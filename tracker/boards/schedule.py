@@ -33,10 +33,7 @@ class Schedule(Board):
             else:
                 return self.state.registered_get("scheduled_sets_single_entry", [active_schedule_id, x_value, y_value])
 
-        self._apply_frame_stretch(rows=[0], columns=[1])
-
-        schedule_picker = SchedulePicker(self, self._frame)
-        schedule_picker.render().grid(row=0, column=0, sticky="nswe")
+        self._apply_frame_stretch(rows=[0], columns=[0])
 
         workout_types = self.state.registered_get("workout_types")
         workout_y_values = workout_types.keys()
@@ -74,4 +71,4 @@ class Schedule(Board):
                 }
             }
         )
-        stepper_table.render().grid(row=0, column=1, sticky="nswe")
+        stepper_table.render().grid(row=0, column=0, sticky="nswe")
