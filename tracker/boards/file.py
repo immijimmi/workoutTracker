@@ -138,7 +138,7 @@ class File(Board):
                ).grid(row=row_index, column=3, sticky="nswe")
 
     def _set_path_label_style(self):
-        style = ({"fg": TrackerConstants.COLOURS["yellow"]} if self.parent.is_state_unsaved else
+        style = ({**TrackerConstants.DEFAULT_STYLES["unsaved"]} if self.parent.is_state_unsaved else
                  {"fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"]})
 
         self.children["file_path_label"].config(**style)

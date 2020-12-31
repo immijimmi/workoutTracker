@@ -98,6 +98,9 @@ class Constants:
             "relief": "raised",
             "borderwidth": BORDERWIDTH__TINY
         },
+        "unsaved": {
+            "fg": COLOURS["yellow"]
+        },
         "paragraph": {
             "font": SMALL_ITALICS_FONT,
             "fg": DEFAULT_STYLE_ARGS["fg"],

@@ -184,6 +184,16 @@ class Tracker(Component):
 
         self.state.registered_set(schedules, "workout_schedules")
 
+    def state__del_schedule(self, schedule_id):
+        schedules = self.state.registered_get("workout_schedules")
+        active_schedule_id = self.state.registered_get("active_schedule_id")
+
+        del schedules[schedule_id]
+        if schedule_id == active_schedule_id:
+            self.state.registered_set("active_schedule_id", None)
+
+        self.state.registered_set("workout_schedules", schedules)
+
     def _register_paths(self):
         self.state.register("load_file", [], [])  # Used to add metadata for listeners
 
