@@ -190,9 +190,9 @@ class Tracker(Component):
 
         del schedules[schedule_id]
         if schedule_id == active_schedule_id:
-            self.state.registered_set("active_schedule_id", None)
+            self.state.registered_set(None, "active_schedule_id")
 
-        self.state.registered_set("workout_schedules", schedules)
+        self.state.registered_set(schedules, "workout_schedules")
 
     def _register_paths(self):
         self.state.register("load_file", [], [])  # Used to add metadata for listeners
