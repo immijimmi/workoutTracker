@@ -1,12 +1,16 @@
 from tracker.boards import *
+from tracker.boardHandlers import *
 
 
 class Config:
     STATE_FILE_PATH = "data.json"
     ICON_FILE_PATH = r"res/icon.ico"
 
+    BOARD_HANDLER = ResponsiveGrid
+
+    # Board Handler Details
     INITIAL_BOARDS_VISIBLE = {BoardController}
-    BOARDS_LAYOUT = {  # Row and column must be provided. Rowspan and columnspan are defaulted to 1 if not provided
+    BOARDS_GRID_LAYOUT = {  # Row and column must be provided. rowspan and columnspan are defaulted to 1 if not provided
         BoardController: {"row": 0, "column": 0, "rowspan": 3},
         Actuals: {"row": 0, "column": 1, "rowspan": 2, "columnspan": 7},
         Schedule: {"row": 2, "column": 1, "rowspan": 2, "columnspan": 8},
