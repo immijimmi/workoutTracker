@@ -1,4 +1,4 @@
-from managedState.extensions import KeyQueryFactory
+from managedstate.extensions import PartialQuery
 
 from json import decoder
 
@@ -6,7 +6,7 @@ from json import decoder
 class Constants:
     WEEKDAY_KEY_STRINGS = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
 
-    PATH_DYNAMIC_KEY = KeyQueryFactory(lambda sub_state, key: key)
+    PATH_DYNAMIC_KEY = PartialQuery(lambda key: key)
 
     WINDOW_MINSIZE = (255, 33)
     WINDOW_TITLE = "Workout Logger"

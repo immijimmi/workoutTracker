@@ -1,5 +1,5 @@
-from managedState import State
-from managedState.extensions import Registrar, Listeners
+from managedstate import State
+from managedstate.extensions import Registrar, Listeners
 
 import json
 from random import shuffle
@@ -10,11 +10,11 @@ from .components import Component, GridHelper
 from .constants import Constants
 
 
-class Tracker(Component):
+class Tracker(Component.with_extensions(GridHelper)):
     def __init__(self, container, config):
         super().__init__(container, styles={
             "frame": {"bg": Constants.DEFAULT_STYLE_ARGS["bg"]}
-        }, extensions=[GridHelper])
+        })
 
         self.config = config
         self.board_handler = self.config.BOARD_HANDLER(self)
@@ -25,12 +25,15 @@ class Tracker(Component):
         self.visible_boards = set(self.config.INITIAL_BOARDS_VISIBLE)
 
         # State Initialisation
-        self.state = State(extensions=[Registrar, Listeners])
+        self.state = State.with_extensions(Registrar, Listeners)()
         self._register_paths()
         self.state.add_listener(
             "set",
-            lambda metadata: None if metadata["extension_data"].get("registered_path_label", None) == "load_file"
-            else self.save_state(self.state_file_path, catch=True))  # Only save if this was not a load operation
+            lambda result, state_obj, *args, **kwargs: (
+                None if state_obj._extension_data.get("registered_path_label", None) == "load_file"
+                else self.save_state(self.state_file_path, catch=True)
+            )
+        )  # Only save if this was not a load operation
 
         loaded = self.load_state(self.state_file_path, catch=True)
         if loaded:

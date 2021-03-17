@@ -1,7 +1,7 @@
 from subprocess import run
 
 dependency_file_path = "../tracker/components/basicComponents.py"
-local_dependency_code = """import sys\nsys.path.insert(0, "C:/Repos/tkComponents")"""
+local_dependency_code = """import sys\nsys.path.insert(0, "C:/Repos/tkcomponents")"""
 
 is_live = "tkComponents" in str(run("pip list", capture_output=True).stdout)
 

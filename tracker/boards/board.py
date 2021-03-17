@@ -4,7 +4,7 @@ from ..components import Component, GridHelper
 from ..constants import Constants as TrackerConstants
 
 
-class Board(Component, ABC):
+class Board(Component.with_extensions(GridHelper), ABC):
     def __init__(self, parent, container, update_interval=None):
         super().__init__(container, update_interval=update_interval, styles={
             "frame": {
@@ -14,7 +14,7 @@ class Board(Component, ABC):
                 "padx": TrackerConstants.PAD__SMALL,
                 "pady": TrackerConstants.PAD__SMALL
             }
-        }, extensions=[GridHelper])
+        })
 
         self.parent = parent
 
